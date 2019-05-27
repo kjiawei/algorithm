@@ -1,0 +1,138 @@
+===============普通双向链表=======
+1.概念深化：所谓的链表就是将数据和指针进行打包（用结构体打包）---》利用了指针的特点在逻辑上将所有的数据串联在一起了
+ struct double_list    数据域   指针域
+{
+    struct student stu;  //有效数据  灵活的认识（我举例是用了结构体）
+    struct double_list *next;
+    struct double_list *prev;
+};
+struct double_list dlist;
+int a=(int)dlist;
+
+int a=10;  //占4个字节
+  
+int *p=&a;  替换成char *q=(char *)(&a);  //思考
+2.问题：
+    （1）分不清楚图上的箭头究竟是prev还是next？？？
+
+=============双向循环链表=============
+1.消化刚才的代码---》
+
+
+
+==============内核链表==============
+1.本质：实际上就是一个双向循环链表
+2.
+    struct  kernel_list
+    {
+        struct student stu;  // 真实有效的数据
+        struct list_head mylist; // 包含了两个指针的结构体
+
+    };
+3.内核链表的基本操作（linux已经帮我们将这些基本操作，初始化，插入，删除，反转全部都写好了）
+  内核链表中封装好的这些宏函数以及普通函数绝大部分都是在对小结构体指针进行操作（原因是linux将传统双向循环链表中的指针进行了统一，统一成了struct list_head）
+     （1）初始化INIT_LIST_HEAD(ptr)
+              带参数的宏定义，参数ptr的含义是大结构里面的那个小结构体指针
+  #define mul(a,b)   a*b
+
+#define INIT_LIST_HEAD(ptr) do { \
+	
+(ptr)->next = (ptr); 
+(ptr)->prev = (ptr); 
+\
+} while (0)
+     （2）插入
+static inline void __list_add(struct list_head *new,
+struct list_head *a,
+struct list_head *b)
+
+		{
+	
+                   b->prev = new;
+	
+                   new->next = b;
+	
+                   new->prev = a;
+	
+                   a->next = new;
+
+                }
+  static inline void list_add(struct list_head *new, struct list_head *head)
+{
+	__list_add(new, head, q);
+}  q=head->next
+ 
+
+     q->prev = new;
+	
+     new->next = q;
+	
+     new->prev = head;
+	
+     head->next = new;
+
+  static inline void list_add_tail(struct list_head *new, struct list_head *head)
+{
+	__list_add(new, p, head);
+}  // p ---》指向尾节点的指针
+     head->prev = new;
+	
+     new->next = head;
+	
+     new->prev = p;
+	
+     p->next = new;   最后一个有效节点的后面
+      （3）遍历内核链表
+    list_for_each(pos, head) 宏函数   本质是个for循环
+       
+    #define list_for_each(pos, head) \
+for (pos = (head)->next; pos != (head); \
+pos = pos->next)
+            功能：循环遍历小结构体组成的链表
+            pos---》小结构体指针  循环变量，类似于我们前面使用的p
+            head---》小结构体指针
+       list_entry(ptr, type, member) 
+    int *p=&a;  a在内存中地址的值就是0x00000000  辅助理解
+    #define list_entry(ptr, type, member) \
+((type *)((char *)(ptr)-(unsigned long)(&((type *)0)->member)))
+            功能：通过小结构指针得到对应大结构体
+            ptr ---》小结构体指针 
+            type ---》大结构体的名字
+            member ---》小结构体在大结构中的名字
+小结: list_entry跟list_for_each往往是配合在一起使用的，单独使用list_entry你要注意第一个参数pos必须有明确的指向   
+所有的内核链表的操作函数都是对小结构体进行操作的，不要错误理解成大结构体
+      (3)内核链表的遍历：
+             方法一：list_for_each()跟list_entry()相互配合实现遍历
+             方法二：list_for_each_entry(pos, head, member) 将方法一的二个宏函数合并了
+                       pos ---》大结构体指针
+                       head ---》小结构体指针
+                       member ---》小结构体在大结构体中的名字
+                    注意：第一个参数一定不要传参错误，是大结构体
+             方法三：list_for_each_entry_safe(pos, n, head, member)  往往在删除节点的时候使用
+                       pos ---》大结构体指针
+                       n ---》大结构体指针
+                       head ---》小结构体指针
+                       member ---》小结构体在大结构体中的名字
+      （4）删除
+             list_for_each_entry_safe(pos, n, head, member)
+             list_del(struct list_head *entry)
+                    entry ---》你想要删除的那个节点里面的小结构体指针 
+      （5）list_move(struct list_head *list,
+struct list_head *head)
+             list_move（） ---》将指定的节点移动到head的下一个位置
+             list_move_tail（）---》将指定的节点移动到最后面
+      （6）container_of(ptr, type, member) 求ptr对应的大结构体 
+虽然内核链表没有给我们封装指定位置插入的函数，但是你可以自己去写，注意使用的指针是小结构体里面的next和prev
+       总结：(1)经过反复使用内核链表，加上分析了源码，我们发现内核链表跟前面学的双向循环链表的操作模式是类似的，只是要注意内核链表是操作的小结构体指针，所有在指针的写法上变得很啰嗦（自己体会，查看我写的最终代码）
+             (2)内核链表中封装的那个小结构体一般都写成普通结构体，注意在使用的时候取地址
+
+
+
+
+
+
+
+
+
+
+
