@@ -1,0 +1,930 @@
+<html><head><meta http-equiv="Content-Type" content="text/html;	charset=gb2312"><style type=text/css>body {	font-size:13px;	padding:10 20px 10 10px;	background:#e0e0f0;	line-height:24px;}a:link    { color: #53A6b0; } </style><html><head><meta http-equiv="Content-Type" content="text/html; charset=gb2312"><title>_lt_算法导论_gt_学习笔记(2)--第2章 算法基础</title>
+<BODY bgcolor=e5e5f0  leftMargin=20  rightMargin=20><font color=#339933 size=5>_lt_算法导论_gt_学习笔记(2)--第2章 算法基础</font><br><font color=#993333 size=3>分类: 未分类<br>日期: 2014-01-28 20:36</font><br>原文地址: <a target=_blank href=http://blog.csdn.net/hitwhylz/article/details/18845473>http://blog.csdn.net/hitwhylz/article/details/18845473</a><hr size=1 color=#C0C0C0>
+
+<div style="font-family:Arial; font-size:14px; line-height:26px; text-align:center">
+<span style="color:rgb(255,0,0)"><strong><span style="font-size:24px">&lt;算法导论&gt;学习笔记(2)--第2章 算法基础</span></strong></span></div>
+<div style="text-align:center"><span style="font-family:Arial; font-size:14px; line-height:26px; color:rgb(255,0,0)"><span style="font-weight:bold"><span style="font-size:24px"></span></span></span>
+<p style="font-family:Verdana,Arial,Helvetica,sans-serif; font-size:14px; line-height:20px; margin:10px auto; padding-top:0px; padding-bottom:0px">
+<span style="margin:0px; padding:0px"><span style="margin:0px; padding:0px; color:rgb(255,0,255)">Having a solid base of algorithm knowledge and technique is one characteristic that separates the truly skilled programmers from the novices.</span></span></p>
+<p style="font-family:Verdana,Arial,Helvetica,sans-serif; font-size:14px; line-height:20px; margin:10px auto; padding-top:0px; padding-bottom:0px">
+　　<span style="margin:0px; padding:0px"><span style="margin:0px; padding:0px; color:rgb(255,0,255)">是否具有扎实的算法知识和技术基础，是区分真正熟练的程序员与新手的一项重要特征。</span></span></p>
+<p style="font-family:Verdana,Arial,Helvetica,sans-serif; font-size:14px; line-height:20px; margin:10px auto; padding-top:0px; padding-bottom:0px">
+<br>
+</p>
+<p style="font-family:Verdana,Arial,Helvetica,sans-serif; font-size:14px; line-height:20px; margin:10px auto; padding-top:0px; padding-bottom:0px">
+<br>
+</p>
+<p style="margin:10px auto; padding-top:0px; padding-bottom:0px"></p>
+<div style="text-align:left"><strong><span style="font-size:14px; color:#3366ff">1. 循环不变式的三个性质:(循环不变式通常用来证明递归的正确性)</span></strong></div>
+<div style="text-align:left"><strong><span style="font-size:14px; color:#3366ff"><span style="white-space:pre"></span>1. 初始化:它在循环的第一轮迭代开始之前,应该是正确的。</span></strong></div>
+<div style="text-align:left"><strong><span style="font-size:14px; color:#3366ff"><span style="white-space:pre"></span>2. 保持:如果在循环的某一次迭代开始之前它是正确的,那么,在下一次迭代开始之前,它也应该保持正确。</span></strong></div>
+<p></p>
+<p style="text-align:left; margin:10px auto; padding-top:0px; padding-bottom:0px">
+<strong><span style="font-size:14px; color:#3366ff">&nbsp;<span style="white-space:pre">
+</span>3. 终止:当循环结束时,不变式给了我们一个有用的性质,它有助于表明算法是正确的。</span></strong></p>
+<p style="margin:10px auto; padding-top:0px; padding-bottom:0px"></p>
+<div style="text-align:left"><strong><span style="font-size:14px; color:#3366ff">2. 伪代码中的约定:</span></strong></div>
+<div style="text-align:left"><strong><span style="font-size:14px; color:#3366ff"><span style="white-space:pre"></span>1. 书写上的“缩进”表示程序中的分程序(程序块)结构。</span></strong></div>
+<div style="text-align:left"><strong><span style="font-size:14px; color:#3366ff"><span style="white-space:pre"></span>2. while,for,repeat 等循环结构和 if,then,else 条件结构与 Pascal 中相同。</span></strong></div>
+<div style="text-align:left"><strong><span style="font-size:14px; color:#3366ff"><span style="white-space:pre"></span>3. 符号 &quot;?”表示后面部分是个注释。</span></strong></div>
+<div style="text-align:left"><strong><span style="font-size:14px; color:#3366ff"><span style="white-space:pre"></span>4. 多重赋&#20540; i←j←e 是将表达式 e 的&#20540;赋给变量 i 和 j;等价于 j←e,再进行赋&#20540; i←j。</span></strong></div>
+<div style="text-align:left"><strong><span style="font-size:14px; color:#3366ff"><span style="white-space:pre"></span>5. 变量(如 i,j 和 key 等)是局部给定过程的。</span></strong></div>
+<div style="text-align:left"><strong><span style="font-size:14px; color:#3366ff"><span style="white-space:pre"></span>6. 数组元素是通过“数组名[下标]”这样的形式来访问的。</span></strong></div>
+<div style="text-align:left"><strong><span style="font-size:14px; color:#3366ff"><span style="white-space:pre"></span>7. 复合数据一般组织成对象,它们是由属性(attribute)和域(field)所组成的。</span></strong></div>
+<div style="text-align:left"><strong><span style="font-size:14px; color:#3366ff"><span style="white-space:pre"></span>8. 参数采用按&#20540;传递方式:被调用的过程会收到参数的一份副本。</span></strong></div>
+<div style="text-align:left"><strong><span style="font-size:14px; color:#3366ff"><span style="white-space:pre"></span>9. 布尔运算符&quot;and”和&quot;or”都是具有短路能力。</span></strong></div>
+<div style="text-align:left"><strong><span style="font-size:14px; color:#3366ff"><br>
+</span></strong></div>
+<div style="text-align:left"><strong><span style="font-size:14px; color:#3366ff">3. 算法分析即指对一个算法所需要的资源进行预测。</span></strong></div>
+<div style="text-align:left"><strong><span style="font-size:14px; color:#3366ff"><br>
+</span></strong></div>
+<div style="text-align:left"><strong><span style="font-size:14px; color:#3366ff">4. 对于一个算法,一般只考察其最坏情况的运行时间,理由有三:</span></strong></div>
+<div style="text-align:left"><strong><span style="font-size:14px; color:#3366ff"><span style="white-space:pre"></span>1. 一个算法的最坏情况运行时间是在任何输入下运行时间的一个上界。&nbsp;</span></strong></div>
+<p></p>
+<p style="text-align:left; margin:10px auto; padding-top:0px; padding-bottom:0px">
+<strong><span style="font-size:14px; color:#3366ff"><span style="white-space:pre"></span>2. 对于某些算法来说,最坏情况出现得还是相当频繁的。</span></strong></p>
+<p style="margin:10px auto; padding-top:0px; padding-bottom:0px"></p>
+<div style="text-align:left"><strong><span style="font-size:14px; color:#3366ff"><span style="white-space:pre"></span>3. 大致上看来,“平均情况”通常和最坏情况一样差。</span></strong></div>
+<div style="text-align:left"><strong><span style="font-size:14px; color:#3366ff"><br>
+</span></strong></div>
+<div style="text-align:left"><strong><span style="font-size:14px; color:#3366ff">5. 分治策略:将原问题划分成n个规模较小而结构与原问题相&#20284;的子问题;递归地解决这些小问题,然后再合并其结 果,就得到原问题的解。</span></strong></div>
+<div style="text-align:left"><strong><span style="font-size:14px; color:#3366ff"><br>
+</span></strong></div>
+<div style="text-align:left"><strong><span style="font-size:14px; color:#3366ff">6. 分治模式在每一层递归上都有三个步骤:</span></strong></div>
+<div style="text-align:left"><strong><span style="font-size:14px; color:#3366ff"><span style="white-space:pre"></span>1. 分解(Divde):将原问题分解成一系列子问题;</span></strong></div>
+<div style="text-align:left"><strong><span style="font-size:14px; color:#3366ff"><span style="white-space:pre"></span>2. 解决(Conquer):递归地解答各子问题。若子问题足够小,则直接求解; 3. 合并(Combine):将子问题的结果合并成原问题的解。</span></strong></div>
+<p></p>
+<p style="margin:10px auto; padding-top:0px; padding-bottom:0px"><span style="margin:0px; padding:0px"><span style="margin:0px; padding:0px"><br>
+</span></span></p>
+<h1>下面具体介绍几个知识点：</h1>
+<p style="text-align:left; margin:10px auto; padding-top:0px; padding-bottom:0px">
+本章通过介绍插入排序和归并排序两种常见的排序算法来说明算法的过程及算法分析，在介绍归并排序算法过程中引入了分治（divide-and-conquer）算法策略。<br>
+<br>
+1、插入排序<br>
+<br>
+　　输入：n个数（a1,a2,a3,...,an）<br>
+<br>
+　　输出：输入序列的一个排列（a1',a2',a3',...an'）使得（a1'≤a2'≤a3'≤...≤an'）。<br>
+<br>
+　　插入排序的基本思想是：将第i个元素插入到前面i-1个已经有序的元素中。具体实现是从第2个元素开始（因为1个元素是有序的），将第2个元素插入到前面的1个元素中，构成两个有序的序列，然后从第3个元素开始，循环操作，直到把第n元素插入到前面n-1个元素中，最终使得n个元素是有序的。该算法设计的方法是增量方法。书中给出了插入排序的为代码，并采用循环不变式证明算法的正确性。我采用C语言实插入排序，完整程序如下：<br>
+</p>
+<p style="text-align:left; margin:10px auto; padding-top:0px; padding-bottom:0px">
+</p>
+<pre code_snippet_id="174242" snippet_file_name="blog_20140128_1_2361712"  code_snippet_id="174242" snippet_file_name="blog_20140128_1_2361712" name="code" class="cpp">void insert_sort(int *datas,int length)
+{
+    int i,j;
+    int key,tmp;
+    //判断参数是否合法
+    if(NULL == datas || 0==length)
+    {
+        printf(&quot;Check datas or length.\n&quot;);
+        exit(1);
+    }
+    //数组下标是从0开始的，从第二个元素（对应下标1）开始向前插入
+    for(j=1;j&lt;length;j++)
+    {
+        key = datas[j];  //记录当前要插入的元素
+        i = j-1;  //前面已经有序的元素
+      //寻找待插入元素的位置，从小到到排序，如果是从大到小改为datas[i]&lt;key
+        while(i&gt;=0 &amp;&amp; datas[i] &gt; key)
+        {
+            /×tmp = datas[i+1];
+            datas[i+1] = datas[i];
+            datas[i] = tmp;×/  这个过程不需要进行交换，因为要插入的值保存在key中，没有被覆盖掉，在此感谢”两生花“指出问题所在
+               datas[i+1] = datas[i];
+            i--;   //向前移动
+        }
+        datas[i+1] = key;  //最终确定待插入元素的位置
+    }
+}</pre><br>
+<br>
+<p></p>
+<p style="text-align:left; margin:10px auto; padding-top:0px; padding-bottom:0px">
+插入排序算法的分析<br>
+<br>
+　　算法分析是对一个算法所需的资源进行预测，资源是指希望测度的计算时间。插入排序过程的时间与输入相关的。插入排序的最好情况是输入数组开始时候就是满足要求的排好序的，时间代价为θ(n)，最坏情况下，输入数组是按逆序排序的，时间代价为θ(n^2)。<br>
+<br>
+2、归并排序<br>
+<br>
+　　归并排序采用了算法设计中的分治法，分治法的思想是将原问题分解成n个规模较小而结构与原问题相&#20284;的小问题，递归的解决这些子问题，然后再去合并其结果，得到原问题的解。分治模式在每一层递归上有三个步骤：<br>
+<br>
+分解（divide）：将原问题分解成一系列子问题。<br>
+<br>
+解决（conquer）：递归地解答各子问题，若子问题足够小，则直接求解。<br>
+<br>
+合并（combine）：将子问题的结果合并成原问题的解。<br>
+<br>
+归并排序（merge sort）算法按照分治模式，操作如下：<br>
+<br>
+分解：将n个元素分解成各含n/2个元素的子序列<br>
+<br>
+解决：用合并排序法对两个序列递归地排序<br>
+<br>
+合并：合并两个已排序的子序列以得到排序结果<br>
+<br>
+　　在对子序列排序时，长度为1时递归结束，单个元素被视为已排序好的。归并排序的关键步骤在于合并步骤中的合并两个已经有序的子序列，引入了一个辅助过程，merge(A,p,q,r)，将已经有序的子数组A[p...q]和A[q&#43;1...r]合并成为有序的A[p...r]。书中给出了采用哨兵实现merge的伪代码，课后习题要求不使用哨兵实现merge过程。在这个两种方法中都需要引入额外的辅助空间，用来存放即将合并的有序子数组，总的空间大小为n。现在用C语言完整实现这两种方法，程序如下：<br>
+</p>
+<p style="text-align:left; margin:10px auto; padding-top:0px; padding-bottom:0px">
+</p>
+<pre code_snippet_id="174242" snippet_file_name="blog_20140128_2_2393949"  code_snippet_id="174242" snippet_file_name="blog_20140128_2_2393949" name="code" class="cpp">//采用哨兵实现merge
+#define MAXLIMIT    65535
+void merge(int *datas,int p,int q,int r)
+{
+    int n1 = q-p+1;  //第一个有序子数组元素个数
+    int n2 = r-q;      //第二个有序子数组元素个数
+    int *left = (int*)malloc(sizeof(int)*(n1+1));
+    int *right = (int*)malloc(sizeof(int)*(n2+1));
+    int i,j,k;
+    //将子数组复制到临时辅助空间
+    for(i=0;i&lt;n1;++i)
+        left[i] = datas[p+i];
+    for(j=0;j&lt;n2;++j)
+        right[j] = datas[q+j+1];
+    //添加哨兵
+    left[n1] = MAXLIMIT;
+    right[n2] = MAXLIMIT;
+    //从第一个元素开始合并
+    i = 0;
+    j = 0;
+    //开始合并
+    for(k=p;k&lt;=r;k++)
+    {
+        if(left[i] &lt; right[j])
+        {
+            datas[k] = left[i];
+            i++;
+        }
+        else
+        {
+            datas[k] = right[j];
+            j++;
+        }
+    }
+    free(left);
+    free(right);
+}</pre>不采用哨兵实现，需要考虑两个子数组在合并的过程中哪一个先合并结束，剩下的那个子数组剩下部分复制到数组中，程序实现如下：<br>
+<p></p>
+<p style="text-align:left; margin:10px auto; padding-top:0px; padding-bottom:0px">
+</p>
+<pre code_snippet_id="174242" snippet_file_name="blog_20140128_3_5109164"  code_snippet_id="174242" snippet_file_name="blog_20140128_3_5109164" name="code" class="cpp">int merge(int *datas,int p,int q,int r)
+{
+    int n1 = q-p+1;
+    int n2 = r-q;
+    int *left = (int*)malloc(sizeof(int)*(n1+1));
+    int *right = (int*)malloc(sizeof(int)*(n2+1));
+    int i,j,k;
+    memcpy(left,datas+p,n1*sizeof(int));
+    memcpy(right,datas+q+1,n2*sizeof(int));
+    i = 0;
+    j = 0;
+    for(k=p;k&lt;=r;++k)
+    {
+        if(i &lt;n1 &amp;&amp; j&lt; n2)  //归并两个子数组
+        {
+            if(left[i] &lt; right[j])
+            {
+                datas[k] = left[i];
+                i++;
+            }
+            else
+            {
+                datas[k] = right[j];
+                j++;
+            }
+        }
+        else
+         break;
+    }
+    //将剩下的合并到数组中
+    while(i != n1)
+        datas[k++] = left[i++];
+    while(j != n2)
+        datas[k++] = right[j++];
+    free(left);
+    free(right);
+}</pre><br>
+<p></p>
+<p style="text-align:left; margin:10px auto; padding-top:0px; padding-bottom:0px">
+merge过程的运行时间是θ(n)，现将merge过程作为归并排序中的一个子程序使用，merge_sort(A,p,r),对数组A[p...r]进行排序，实例分析如下图所示：<br>
+</p>
+<p style="text-align:left; margin:10px auto; padding-top:0px; padding-bottom:0px">
+<img src="http://img.blog.csdn.net/20140128200001750?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaGl0d2h5bHo=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""><br>
+</p>
+<p style="text-align:left; margin:10px auto; padding-top:0px; padding-bottom:0px">
+<br>
+</p>
+<p style="text-align:left; margin:10px auto; padding-top:0px; padding-bottom:0px">
+C语言实现如下：<br>
+</p>
+<p style="text-align:left; margin:10px auto; padding-top:0px; padding-bottom:0px">
+</p>
+<pre code_snippet_id="174242" snippet_file_name="blog_20140128_4_5000480"  code_snippet_id="174242" snippet_file_name="blog_20140128_4_5000480" name="code" class="cpp">void merge_sort(int *datas,int p,int r)
+{
+    int q;
+    if(p &lt; r)
+    {
+        q = (p+r)/2;   //分解，计算出子数组的中间位置 7         merge_sort(datas,p,q);  //对第一个子数组排序;
+        merge_sort(datas,q+1,r);  //对第二个子数组排序
+        merge(datas,p,q,r);  //合并;
+    }
+}</pre><br>
+归并排序算法分析：<br>
+<br>
+　　算法中含有对其自身的递归调用，其运行时间可以用一个递归方程（或递归式）来表示。归并排序算法分析采用递归树进行，递归树的层数为lgn&#43;1，每一层的时间代价是cn，整棵树的代价是cn(lgn&#43;1)=cnlgn&#43;cn，忽略低阶和常量c，得到结果为θ(nlg n)。<br>
+<p></p>
+<p style="text-align:left; margin:10px auto; padding-top:0px; padding-bottom:0px">
+<br>
+</p>
+<p style="text-align:left; margin:10px auto; padding-top:0px; padding-bottom:0px">
+<br>
+</p>
+<p style="text-align:left; margin:10px auto; padding-top:0px; padding-bottom:0px">
+</p>
+<p style="color:rgb(51,51,51)"><strong><em>练习</em></strong></p>
+<p style="color:rgb(51,51,51)"><strong>2.1-1：以图2-2为模型，说明INSERTION-SORT在数组A=&lt;31,41,59,26,41,58&gt;上的执行过程。</strong></p>
+<div align="center" style="color:rgb(51,51,51)">
+<table cellspacing="0" cellpadding="0" width="195" border="1">
+<tbody>
+<tr>
+<td>
+<p align="center"><strong>31</strong></p>
+</td>
+<td>
+<p align="center"><strong>41</strong></p>
+</td>
+<td>
+<p align="center"><strong>59</strong></p>
+</td>
+<td>
+<p align="center"><strong>26</strong></p>
+</td>
+<td>
+<p align="center"><strong>41</strong></p>
+</td>
+<td>
+<p align="center"><strong>58</strong></p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p style="color:rgb(51,51,51)"><strong>&nbsp;</strong></p>
+<div align="center" style="color:rgb(51,51,51)">
+<table cellspacing="0" cellpadding="0" width="195" border="1">
+<tbody>
+<tr>
+<td>
+<p align="center"><strong>31</strong></p>
+</td>
+<td>
+<p align="center"><strong>41</strong></p>
+</td>
+<td>
+<p align="center"><strong>59</strong></p>
+</td>
+<td>
+<p align="center"><strong>26</strong></p>
+</td>
+<td>
+<p align="center"><strong>41</strong></p>
+</td>
+<td>
+<p align="center"><strong>58</strong></p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p style="color:rgb(51,51,51)"><strong></strong></p>
+<div align="center" style="color:rgb(51,51,51)">
+<table cellspacing="0" cellpadding="0" width="195" border="1">
+<tbody>
+<tr>
+<td>
+<p align="center"><strong>31</strong></p>
+</td>
+<td>
+<p align="center"><strong>41</strong></p>
+</td>
+<td>
+<p align="center"><strong>59</strong></p>
+</td>
+<td>
+<p align="center"><strong>26</strong></p>
+</td>
+<td>
+<p align="center"><strong>41</strong></p>
+</td>
+<td>
+<p align="center"><strong>58</strong></p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p style="color:rgb(51,51,51)"><strong>&nbsp;</strong></p>
+<div align="center" style="color:rgb(51,51,51)">
+<table cellspacing="0" cellpadding="0" width="195" border="1">
+<tbody>
+<tr>
+<td>
+<p align="center"><strong>26</strong></p>
+</td>
+<td>
+<p align="center"><strong>31</strong></p>
+</td>
+<td>
+<p align="center"><strong>41</strong></p>
+</td>
+<td>
+<p align="center"><strong>59</strong></p>
+</td>
+<td>
+<p align="center"><strong>41</strong></p>
+</td>
+<td>
+<p align="center"><strong>58</strong></p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p style="color:rgb(51,51,51)"><strong>&nbsp;</strong></p>
+<div align="center" style="color:rgb(51,51,51)">
+<table cellspacing="0" cellpadding="0" width="195" border="1">
+<tbody>
+<tr>
+<td>
+<p align="center"><strong>26</strong></p>
+</td>
+<td>
+<p align="center"><strong>31</strong></p>
+</td>
+<td>
+<p align="center"><strong>41</strong></p>
+</td>
+<td>
+<p align="center"><strong>41</strong></p>
+</td>
+<td>
+<p align="center"><strong>59</strong></p>
+</td>
+<td>
+<p align="center"><strong>58</strong></p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p style="color:rgb(51,51,51)"><strong>&nbsp;</strong></p>
+<div align="center" style="color:rgb(51,51,51)">
+<table cellspacing="0" cellpadding="0" width="195" border="1">
+<tbody>
+<tr>
+<td>
+<p align="center"><strong>26</strong></p>
+</td>
+<td>
+<p align="center"><strong>31</strong></p>
+</td>
+<td>
+<p align="center"><strong>41</strong></p>
+</td>
+<td>
+<p align="center"><strong>41</strong></p>
+</td>
+<td>
+<p align="center"><strong>58</strong></p>
+</td>
+<td>
+<p align="center"><strong>59</strong></p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p style="color:rgb(51,51,51)"><strong>2.1-2：重写过程INSERTION-SORT，使之按非升序（而不是按非降序）排序。</strong></p>
+<p style="color:rgb(51,51,51)"><span style="font-family:Calibri">INSERTION-SORT(A)</span></p>
+<p style="color:rgb(51,51,51)"><span style="font-family:Calibri">1</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-family:Calibri"><strong>for</strong>&nbsp;j</span>←<span style="font-family:Calibri">2&nbsp;<strong>to</strong>&nbsp;length[A]</span></p>
+<p style="color:rgb(51,51,51)"><span style="font-family:Calibri">2</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-family:Calibri"><strong>&nbsp;&nbsp;&nbsp;do</strong>&nbsp;key</span>←<span style="font-family:Calibri">A[j]</span></p>
+<p style="color:rgb(51,51,51)"><span style="font-family:Calibri">3</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-family:Calibri">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size:14px">//Insert A[j] into the sorted sequence A[1..j-1]</span></span></p>
+<p style="color:rgb(51,51,51)"><span style="font-family:Calibri">4</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-family:Calibri">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i</span>←<span style="font-family:Calibri">j-1</span></p>
+<p style="color:rgb(51,51,51)"><span style="font-family:Calibri">5</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-family:Calibri">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>while</strong>&nbsp;&nbsp;and A[i]&lt;key</span></p>
+<p style="color:rgb(51,51,51)"><strong><span style="font-family:Calibri">6</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong><span style="font-family:Calibri">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>do&nbsp;</strong>A[i&#43;1]&nbsp;</span>←<span style="font-family:Calibri">&nbsp;A[i]</span></p>
+<p style="color:rgb(51,51,51)"><span style="font-family:Calibri">7&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i</span>←<span style="font-family:Calibri">i-1</span></p>
+<p style="color:rgb(51,51,51)"><strong><span style="font-family:Calibri">7</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong><span style="font-family:Calibri">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A[i&#43;1]&nbsp;</span>←<span style="font-family:Calibri">&nbsp;key</span></p>
+<p style="color:rgb(51,51,51)"><strong>2.1-3：考虑下面的查找问题：</strong></p>
+<p style="color:rgb(51,51,51)"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;输入：</strong>一列数A=&lt;a1,a2,…,an &gt;和一个&#20540;v</p>
+<p style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>输出：</strong>下标i，使得v=A[i]，或者当v不在A中出现时为NIL。</p>
+<p style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>写出针对这个问题的现行查找的伪代码，它顺序地扫描整个序列以查找v。利用循环不变式证明算法的正确性。确保所给出的循环不变式满足三个必要的性质。</strong></p>
+<p style="color:rgb(51,51,51)">LINEAR-SEARCH(A,v)</p>
+<p style="color:rgb(51,51,51)"><strong>1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for&nbsp;</strong>i←<span style="font-family:Calibri">1&nbsp;</span><strong>to</strong>&nbsp;length[A]</p>
+<p style="color:rgb(51,51,51)"><strong>2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;</strong>v=A[i]</p>
+<p style="color:rgb(51,51,51)"><strong>3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;</strong>i</p>
+<p style="color:rgb(51,51,51)"><strong>4&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return NIL</strong></p>
+<p style="color:rgb(51,51,51)">现行查找算法正确性的证明。</p>
+<p style="color:rgb(51,51,51)"><strong>初始化：&nbsp;</strong>i=1，子数组为A[1..i]，只有一个元素A[1],如果v=A[1]就返回1,否则返回NIL，算法显然是正确的。</p>
+<p style="color:rgb(51,51,51)"><strong>保持：</strong>若算法对数组A[1..i]正确，则在数组增加一个元素A[i&#43;1]时，只需要多作一次比较，因此显然对A[1..i&#43;1]也正确。</p>
+<p style="color:rgb(51,51,51)"><strong>终止：</strong>算法如果在非最坏情况下定能返回一个&#20540;此时查找成功，如果n次查找（遍历了所有的数）都没有成功，则返回NIL。算法在有限次查找后肯定能够给出一个返回&#20540;，要么说明查找成功并给出下标，要么说明无此&#20540;。因此算法正确。</p>
+<p style="color:rgb(51,51,51)">该算法用C#实现的代码：</p>
+<p align="left" style="color:rgb(51,51,51)"><span style="font-size:14px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue">public</span>&nbsp;<span style="color:blue">static</span>&nbsp;<span style="color:blue">int</span>&nbsp;LinearSearch&lt;T&gt;(T[] Input, T v)&nbsp;<span style="color:blue">where</span>&nbsp;T:<span style="color:rgb(43,145,175)">IComparable</span>&lt;T&gt;</span></p>
+<p align="left" style="color:rgb(51,51,51)"><span style="font-size:14px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{</span></p>
+<p align="left" style="color:rgb(51,51,51)"><span style="font-size:14px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue">for</span>&nbsp;(<span style="color:blue">int</span>&nbsp;i = 0; i &lt; Input.Length;i&#43;&#43; )</span></p>
+<p align="left" style="color:rgb(51,51,51)"><span style="font-size:14px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue">if</span>&nbsp;(Input[i].Equals(v))</span></p>
+<p align="left" style="color:rgb(51,51,51)"><span style="font-size:14px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue">return</span>&nbsp;i;</span></p>
+<p align="left" style="color:rgb(51,51,51)"><span style="font-size:14px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue">return</span>&nbsp;-1;</span></p>
+<p style="color:rgb(51,51,51)"><span style="font-size:14px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</span></p>
+<p style="color:rgb(51,51,51)"><strong>2.1-4：有两个各存放在数组A和B中的n位二进制整数，考虑它们的相加问题。两个整数的和以二进制形式存放在具有(n&#43;1)个元素的数组C中。请给出这个问题的形式化描述，并写出伪代码。</strong></p>
+<p style="color:rgb(51,51,51)">A存放了一个二进制n位整数的各位数&#20540;，B存放了另一个同样是二进制n位整数的各位上的数&#20540;，现在通过二进制的加法对这两个数进行计算，结果以二进制形式把各位上的数&#20540;存放在数组C（n&#43;1位）中。</p>
+<p style="color:rgb(51,51,51)">BINARY-ADD(A,B,C)</p>
+<p style="color:rgb(51,51,51)"><strong>1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong>flag←&nbsp;0</p>
+<p style="color:rgb(51,51,51)"><strong>2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for j</strong>←<span style="font-family:Calibri">1&nbsp;</span><strong>to</strong>&nbsp;n</p>
+<p style="color:rgb(51,51,51)"><strong>3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;do&nbsp;</strong>key←A[j]&#43;B[j]&#43;flag</p>
+<p style="color:rgb(51,51,51)">4&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>&nbsp;&nbsp;&nbsp;&nbsp;</strong>C[j]<span style="font-family:Calibri">&nbsp;</span>←&nbsp;key&nbsp;<strong>mod</strong>&nbsp;2</p>
+<p style="color:rgb(51,51,51)"><strong>5&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;</strong>key←1</p>
+<p style="color:rgb(51,51,51)"><strong>6&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;flag←1</p>
+<p style="color:rgb(51,51,51)"><strong>7&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;</strong>flag=1</p>
+<div style="color:rgb(51,51,51)">
+<p>8&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>&nbsp;&nbsp;&nbsp;</strong>C[n&#43;1]<span style="font-family:Calibri">&nbsp;</span>←&nbsp;1</p>
+</div>
+<p style="color:rgb(51,51,51)">1.<strong>RAM</strong>(Random-Access Machine)模型分析通常能够很好地预测实际计算机上的性能，RAM计算模型中，指令一条接一条地执行，没有并发操作。RAM模型中包含了真实计算机中常见的指令：算术指令（加法、剑法、乘法、出发、取余、向下取整、向上取整指令）、数据移动指令（装入、存储、复制指令）和控制指令（条件和非条件转移、子程序调用和返回指令）。其中每天指令所需时间都为常量。</p>
+<p style="color:rgb(51,51,51)">RAM模型中的数据类型有整数类型和浮点实数类型。</p>
+<p style="color:rgb(51,51,51)">2.算法的运行时间是指在特定输入时，所执行的基本操作数（或步数）。</p>
+<p style="color:rgb(51,51,51)">插入算法的分析比较简单，但是不是很有用，所以略过。（在解思考题2-1时有具体的实例分析，请参看）</p>
+<p style="color:rgb(51,51,51)">3.一般考察算法的最坏情况运行时间。这样做的理由有三点：</p>
+<p style="color:rgb(51,51,51)">A．一个算法的最坏情况运行时间是在任何输入下运行时间的一个上界。</p>
+<p style="color:rgb(51,51,51)">B．对于某些算法，最坏情况出现的是相当频繁的。</p>
+<p style="color:rgb(51,51,51)">C．大致上来看，“平均情况“通常与最坏情况一样差。</p>
+<div style="color:rgb(51,51,51)">
+<p>4.如果一个算法的最坏情况运行时间要比另一个算法的低，我们常常就认为它的效率更高。</p>
+</div>
+<p style="color:rgb(51,51,51)"><strong><em>练习</em></strong></p>
+<p style="color:rgb(51,51,51)"><strong>2.2-1：用Θ形式表示表示函数&nbsp;/1000-&nbsp;-100n&#43;3</strong></p>
+<p align="center" style="color:rgb(51,51,51)"><strong>Θ(n^3)</strong></p>
+<p style="color:rgb(51,51,51)"><strong>2.2-2:考虑对数组A中的n个数进行排序的问题：首先找出A中的最小元素，并将其与A[1]中的元素进行交换。接着，找出A中的次最小元素，并将其与A[2]中的元素进行交换。对A中头n-1个元素继续这一过程。写出这个算法的伪代码，该算法称为选择排序（selection sort）。对这个算法来说，循环不变式是什么?为什么它仅需要在头n-1个元素上运行，而不是在所有n个元素上运行？以&nbsp;形式写出选择排序的最佳和最坏情况下的运行时间。</strong></p>
+<p style="color:rgb(51,51,51)">假设函数MIN(A,i,n)从子数组A[i..n]中找出最小&#20540;并返回最小&#20540;的下标。</p>
+<p style="color:rgb(51,51,51)">SELECTION-SORT(A)</p>
+<p style="color:rgb(51,51,51)"><strong>1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for&nbsp;</strong>i<strong>←</strong>1&nbsp;<strong>to</strong>&nbsp;n-1</p>
+<p style="color:rgb(51,51,51)"><strong>2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong>j<strong>←</strong>MIN(A,i,n)</p>
+<p style="color:rgb(51,51,51)"><strong>3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong>&nbsp;&nbsp;&nbsp;&nbsp;exchange A[i]←→&nbsp;A[j]</p>
+<p style="color:rgb(51,51,51)">选择排序算法正确性的证明</p>
+<p style="color:rgb(51,51,51)"><strong>初始化：</strong>i=1，从子数组A[1..n]里找到最小&#20540;A[j]，并与A[i]互换，此时子数组A[1..i]只有一个元素A[1]，显然是已排序的。</p>
+<p style="color:rgb(51,51,51)"><strong>保持：</strong>若A[1..i]是已排序子数组。这里显然A[1]&nbsp;A[2]&nbsp;A[3]&nbsp;…&nbsp;A[i]，而A[i&#43;1..n]里最小&#20540;也必大于A[i]，找出此最小&#20540;与A[i&#43;1]互换并将A[i&#43;1]插入A[1..i]得到子数组A[1..i&#43;1]。A[1..i&#43;1]显然也是已排序的。</p>
+<p style="color:rgb(51,51,51)"><strong>终止：</strong>当i=n时终止，此时已得到已排序数组A[1..n-1]，而A[n]是经过n-1次比较后剩下的元素，因此A[n]大于A[1..n-1]中任意元素，故数组A[1..n]也即是原数组此时已是已排序的。所以，算法正确。</p>
+<p style="color:rgb(51,51,51)">仅需要在头n-1个元素上运行是因为经过n-1次比较后剩下的是最大元素，其理应排在最后一个位置上，因此可以不必对此元素进行交换位置操作。</p>
+<p align="left" style="color:rgb(51,51,51)">由于MIN()函数和SWAP()函数对于任意情况运行时间都相等，故这里最佳和最坏情况下运行时间是一样的。<span style="font-family:Calibri; font-size:14px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><strong>Θ(n^2)</strong></p>
+<p style="color:rgb(51,51,51)"><span style="font-family:Calibri; font-size:14px">&nbsp;</span></p>
+<p style="color:rgb(51,51,51)">选择算法的的C#实现：</p>
+<p align="left" style="color:rgb(51,51,51)"><span style="color:blue">private</span>&nbsp;<span style="color:blue">static</span>&nbsp;<span style="color:blue">int</span>&nbsp;Min&lt;T&gt;(T[] Input,<span style="color:blue">int</span>&nbsp;start,<span style="color:blue">int</span>&nbsp;end)&nbsp;<span style="color:blue">where</span>&nbsp;T:<span style="color:rgb(43,145,175)">IComparable</span>&lt;T&gt;</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue">int</span>&nbsp;flag=start;</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue">for</span>&nbsp;(<span style="color:blue">int</span>&nbsp;i = start; i &lt; end; i&#43;&#43;)</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue">if</span>&nbsp;(Input[flag].CompareTo(Input[i]) &gt; 0)</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;flag = i;</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue">return</span>&nbsp;flag;</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue">private</span>&nbsp;<span style="color:blue">static</span>&nbsp;<span style="color:blue">void</span>&nbsp;Swap&lt;T&gt;(<span style="color:blue">ref</span>&nbsp;T a,<span style="color:blue">ref</span>&nbsp;T b)&nbsp;<span style="color:blue">where</span>&nbsp;T
+ :&nbsp;<span style="color:rgb(43,145,175)">IComparable</span>&lt;T&gt;</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;T temp;</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;temp = a;</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a = b;</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;b = temp;</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue">public</span>&nbsp;<span style="color:blue">static</span>&nbsp;T[] SelectionSort&lt;T&gt;(T[] Input)&nbsp;<span style="color:blue">where</span>&nbsp;T:<span style="color:rgb(43,145,175)">IComparable</span>&lt;T&gt;</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue">for</span>&nbsp;(<span style="color:blue">int</span>&nbsp;i = 0; i &lt; Input.Length - 1; i&#43;&#43;)</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Swap(<span style="color:blue">ref</span>&nbsp;Input[Min(Input, i, Input.Length)],<span style="color:blue">ref</span>&nbsp;Input[i]);</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue">return</span>&nbsp;Input;</p>
+<p style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</p>
+<p style="color:rgb(51,51,51)"><strong>2.2-3：再次考虑线性查找问题（见练习2.1-3）。在平均情况下，需要检查输入序列中的多少个元素？假定查找的元素是数组中任何一个元素的可能性都是相等的。在最坏情况下又怎么样呢？用Θ相&#20284;表示的话，线性查找的平均情况和最坏情况运行时间怎么样？对你的答案加以说明。</strong></p>
+<p style="color:rgb(51,51,51)">平均：n/2次。因为任意一个元素大于、小于查找数的概率一样。</p>
+<p style="color:rgb(51,51,51)">最坏：n次。最后一个元素才是要查找的元素。</p>
+<p style="color:rgb(51,51,51)">用<strong>Θ</strong>表示都是：<strong>Θ(n)</strong></p>
+<p style="color:rgb(51,51,51)"><strong>2.2-4：应如何修改一个算法，才能使之具有较好的最佳情况运行时间？</strong></p>
+<div style="color:rgb(51,51,51)">
+<p>要使算法具有较好的最佳情况运行时间就一定要对输入进行控制，使之偏向能够使得算法具有最佳运行情况的排列。</p>
+</div>
+<p style="color:rgb(51,51,51)">5.分治法（divide-and-conquer）:有很多算法在结构上是递归的：为了解决一个给定的问题，算法要一次或多次地递归调用其自身来解决相关的问题。这些算法通常采用分治策略：将原问题划分成n个规模较小而结构与原问题相&#20284;的子问题；递归地解决这些子问题，然后再合并其结果，就得到原问题的解。</p>
+<p style="color:rgb(51,51,51)">容易确定运行时间，是分治算法的有点之一。</p>
+<p style="color:rgb(51,51,51)">6.分治模式在每一层递归上都有三个步骤：</p>
+<p style="color:rgb(51,51,51)"><strong>分解（Divide）：</strong>将原问题分解成一系列子问题；</p>
+<p style="color:rgb(51,51,51)"><strong>解决（Conquer）：</strong>递归地解各子问题。若子问题足够小，则直接求解；</p>
+<p style="color:rgb(51,51,51)"><strong>合并（Combine）：</strong>将子问题的结果合并成原问题的解。</p>
+<p style="color:rgb(51,51,51)">7.合并排序（Merge Sort）算法完全依照了分治模式。</p>
+<p style="color:rgb(51,51,51)"><strong>分解：</strong>将n个元素分成各含n/2个元素的子序列；</p>
+<p style="color:rgb(51,51,51)"><strong>解决：</strong>用合并排序法对两个子序列递归地排序；</p>
+<p style="color:rgb(51,51,51)"><strong>合并：</strong>合并两个已排序的子序列以得到排序结果。</p>
+<p style="color:rgb(51,51,51)">在对子序列排序时，其长度为1时递归结束。单个元素被视为是已排好序的。</p>
+<p style="color:rgb(51,51,51)">合并排序的关键步骤在于合并步骤中的合并两个已排序子序列。为做合并，引入一个辅助过程MERGE(A,p,q,r)，其中A是个数组，p、q和r是下标，满足&nbsp;。该过程假设子数组A[p..q]和A[q&#43;1..r]都已排好序，并将他们合并成一个已排好序的子数组代替当前子数组A[p..r]。</p>
+<p style="color:rgb(51,51,51)">MERGE过程的时间代价为<strong>Θ(n)，</strong>其中n=r-p&#43;1是待合并的元素个数。</p>
+<p style="color:rgb(51,51,51)">MERGE过程:</p>
+<p style="color:rgb(51,51,51)">MERGE(A,p,q,r)</p>
+<p style="color:rgb(51,51,51)">1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;n1←q-p&#43;n</p>
+<p style="color:rgb(51,51,51)">2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;n2←r-p</p>
+<p style="color:rgb(51,51,51)">3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//create arrays L[1..n1&#43;1] and R[1..n2&#43;1]</p>
+<p style="color:rgb(51,51,51)">4&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>for</strong>&nbsp;i←1&nbsp;<strong>to</strong>&nbsp;n1</p>
+<p style="color:rgb(51,51,51)">5&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>&nbsp;&nbsp;&nbsp;&nbsp;do&nbsp;</strong>L[i]&nbsp;←&nbsp;A[p&#43;i-1]</p>
+<p style="color:rgb(51,51,51)">6&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>for&nbsp;</strong>j←1&nbsp;<strong>to n2</strong></p>
+<p style="color:rgb(51,51,51)">7&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>&nbsp;&nbsp;&nbsp;&nbsp;do&nbsp;</strong>R[j]&nbsp;←&nbsp;A[q&#43;j]</p>
+<p style="color:rgb(51,51,51)">8&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;L[&nbsp;]&nbsp;←无穷</p>
+<p style="color:rgb(51,51,51)">9&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;R[&nbsp;]&nbsp;←无穷</p>
+<p style="color:rgb(51,51,51)">10&nbsp;&nbsp;&nbsp;&nbsp;i←1</p>
+<p style="color:rgb(51,51,51)">11&nbsp;&nbsp;&nbsp;&nbsp;j←1</p>
+<p style="color:rgb(51,51,51)"><strong><span style="color:red">12&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color:red">for k</span></strong><span style="color:red">←p&nbsp;<strong>to&nbsp;</strong>r</span></p>
+<p style="color:rgb(51,51,51)"><strong><span style="color:red">13&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color:red">&nbsp;&nbsp;&nbsp;&nbsp;do if&nbsp;</span></strong><span style="color:red">L[i]&lt;= R[j]</span></p>
+<p style="color:rgb(51,51,51)"><strong><span style="color:red">14&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color:red">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;then&nbsp;</span></strong><span style="color:red">A[k]&nbsp;</span><span style="color:red">←&nbsp;L[i]</span></p>
+<p style="color:rgb(51,51,51)"><span style="color:red">15&nbsp;&nbsp;&nbsp;&nbsp;</span><strong><span style="color:red">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i</span></strong><span style="color:red">←i&#43;1</span></p>
+<p style="color:rgb(51,51,51)"><strong><span style="color:red">16&nbsp;&nbsp;&nbsp;&nbsp;</span></strong><span style="color:red">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>else&nbsp;</strong>A[k]</span>&nbsp;<span style="color:red">←&nbsp;R[j]</span></p>
+<p style="color:rgb(51,51,51)"><span style="color:red">17&nbsp;&nbsp;&nbsp;&nbsp;</span><strong><span style="color:red">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;j</span></strong><span style="color:red">←j&#43;1</span></p>
+<p style="color:rgb(51,51,51)">MERGE过程正确性的证明</p>
+<p style="color:rgb(51,51,51)"><strong>初始化：</strong>第一轮循环，k=p，i=1，j=1，已排序数组L、R，比较两数组中最小元素L[i]、R[j]，取较小的置于A[p]，此时子数组A[p..p]不仅是已排序的（仅有一个元素），而且是所有待排序元素中最小的。若最小元素是L[i]，取i=i&#43;1，即i指向L中未排入A的所有元素中最小的一个；同理，j之于R数组也是如此。</p>
+<p style="color:rgb(51,51,51)"><strong>保持：</strong>若A[p..k]是已排序的，由计算方法知，L中i所指、R中j所指及其后任意元素均大于等于A[p..k]中最大元素A[k],当k=k&#43;1，A[k&#43;1]中存入的是L[i]、R[j]中较小的一个，但是仍有A[k] &lt;= A[k&#43;1]，而此时，子数组A[p..k&#43;1]也必是有序的，i、j仍是分别指向L、R中未排入A的所有元素中最小的一个。</p>
+<p style="color:rgb(51,51,51)"><strong>终止：&nbsp;</strong>k=r&#43;1时终止跳出循环，此时，A[p..r]是已排序的，且显有A[p]&nbsp;A[p&#43;1]&nbsp;..&nbsp;A[r]。此即原待排序子数组，故算法正确。</p>
+<p style="color:rgb(51,51,51)">MERGE-SORT(A,p,r)</p>
+<p style="color:rgb(51,51,51)">1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>if&nbsp;</strong>p&lt;r</p>
+<p style="color:rgb(51,51,51)"><strong>2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;then&nbsp;</strong>q←&nbsp;[(p&#43;r)/2]</p>
+<p style="color:rgb(51,51,51)">3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>&nbsp;&nbsp;&nbsp;&nbsp;</strong>MERGE-SORT(A,p,r)</p>
+<p style="color:rgb(51,51,51)">4&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MERGE-SORT(A,q&#43;1,r)</p>
+<p style="color:rgb(51,51,51)">5&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MERGE-SORT(A,p,q,r)</p>
+<p style="color:rgb(51,51,51)">算法与二叉树的后序遍历算法（先左子树，然后右子树，最后根）相&#20284;。</p>
+<p style="color:rgb(51,51,51)">（第三行、第四行顺序可以互换）</p>
+<p style="color:rgb(51,51,51)">合并排序算法的C#实现代码：</p>
+<p align="left" style="color:rgb(51,51,51)"><span style="color:blue">public</span>&nbsp;<span style="color:blue">static</span>&nbsp;<span style="color:blue">void</span>&nbsp;MergeSort&lt;T&gt;(T[] Input,<span style="color:blue">int</span>&nbsp;p,<span style="color:blue">int</span>&nbsp;r)&nbsp;<span style="color:blue">where</span>&nbsp;T:<span style="color:rgb(43,145,175)">IComparable</span>&lt;T&gt;</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue">int</span>&nbsp;q;</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue">if</span>&nbsp;(p &lt; r)</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;q = (p &#43; r) / 2;</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MergeSort(Input, p, q);</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MergeSort(Input, q &#43; 1, r);</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Merge(Input,p,q,r);</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue">private</span>&nbsp;<span style="color:blue">static</span>&nbsp;<span style="color:blue">void</span>&nbsp;Merge&lt;T&gt;(T[] Input,<span style="color:blue">int</span>&nbsp;p,<span style="color:blue">int</span>&nbsp;q,<span style="color:blue">int</span>&nbsp;r)&nbsp;<span style="color:blue">where</span>&nbsp;T:<span style="color:rgb(43,145,175)">IComparable</span>&lt;T&gt;</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue">int</span>&nbsp;n1 = q - p &#43; 1;</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue">int</span>&nbsp;n2 = r - q;</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;T[] L =&nbsp;<span style="color:blue">new</span>&nbsp;T[n1];</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;T[] R =&nbsp;<span style="color:blue">new</span>&nbsp;T[n2];</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue">for</span>&nbsp;(<span style="color:blue">int</span>&nbsp;i = 0; i &lt; n1; i&#43;&#43;)</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;L[i] = Input[p &#43; i];</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue">for</span>&nbsp;(<span style="color:blue">int</span>&nbsp;j = 0; j &lt; n2; j&#43;&#43;)</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;R[j] = Input[q &#43; 1 &#43; j];</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue">for</span>&nbsp;(<span style="color:blue">int</span>&nbsp;i = 0, j = 0, k = p; k &lt;= r; k&#43;&#43;)</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue">if</span>(i&lt;n1&amp;&amp;j&lt;n2)</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue">if</span>&nbsp;(L[i].CompareTo(R[j]) &lt; 0||L[i].Equals(R[j]))</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Input[k] = L[i];</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#43;&#43;i;</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue">continue</span>;</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue">else</span></p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Input[k] = R[j];</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#43;&#43;j;</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue">continue</span>;</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue">if</span>&nbsp;(i &gt;= n1 &amp;&amp; j &lt; n2)</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Input[k] = R[j];</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#43;&#43;j;</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue">continue</span>;</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue">if</span>&nbsp;(i &lt; n1 &amp;&amp; j &gt;= n2)</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Input[k] = L[i];</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#43;&#43;i;</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue">continue</span>;</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</p>
+<p style="color:rgb(51,51,51)">8.当一个算法中含有对其自身的递归调用时，其运行时间可以用一个递归方程（或递归式）来表示。</p>
+<p style="color:rgb(51,51,51)">合并算法的递归式：</p>
+<p style="color:rgb(51,51,51)">n&lt;=c时,T(n)=Θ(1),否则T(n)=aT(n/b)&#43;D(n)&#43;C(n)<span style="font-family:Calibri; font-size:14px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></p>
+<p align="left" style="color:rgb(51,51,51)"><span style="font-family:微软雅黑; font-size:14px">D(n)是分解该问题所用时间，C(n)是合并解的时间；对于合并排序算法，a和b都是2</span></p>
+<p style="color:rgb(51,51,51)">T(n)在最坏的情况下合并排序n个数的运行时间分析:</p>
+<p style="color:rgb(51,51,51)">当n&gt;1时，将运行时间如下分解：</p>
+<p style="color:rgb(51,51,51)"><strong>分解：</strong>这一步仅仅算出子数组的中间位置，需要常量时间，因而D(n)=Θ(1)</p>
+<p style="color:rgb(51,51,51)"><strong>解决：</strong>递归地解为两个规模为n/2的子问题，时间为T(n/2)</p>
+<p style="color:rgb(51,51,51)"><strong>合并：</strong>含有n个元素的子数组上，MERGE过程的运行时间为C(n) =Θ(n)</p>
+<p style="color:rgb(51,51,51)">n=1时,T(n)=Θ(1),n&gt;1时T(n)=2T(n/2)&#43;&nbsp;Θ(n)<span style="font-family:Calibri; font-size:14px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></p>
+<p style="color:rgb(51,51,51)"><span style="font-family:微软雅黑; font-size:14px">将上式改写：</span></p>
+<p style="color:rgb(51,51,51)"><span style="font-family:微软雅黑; font-size:14px">n=1时,T(n)=c,n&gt;1时T(n)=2T(n/2)&#43; cn</span></p>
+<p style="color:rgb(51,51,51)">在所构造的递归树中，顶层总代价为cn（n个点的集合）。往下<span style="color:red">每层总代价不变</span>，第i层的任一节点代价为c(n/2^i)（共2^i个节点总代价仍然是cn）。最底层有n个节点（n*1），每个点代价为c。此树共有lgn&#43;1层，深度为lgn。</p>
+<p style="color:rgb(51,51,51)">因此n层的总代价为：cn*(lgn&#43;1)=cnlgn&#43;cn=Θ(nlgn)</p>
+<div style="color:rgb(51,51,51)">
+<p align="center">&nbsp;</p>
+</div>
+<p style="color:rgb(51,51,51)"><strong><em>练习</em></strong></p>
+<p style="color:rgb(51,51,51)"><strong>2.3-1：2-4为模型，说明合并排序在输入数组A=&lt;3,41,52,26,38,57,9,49&gt;上的执行过程。</strong></p>
+<p style="color:rgb(51,51,51)">以文字代替图示</p>
+<p style="color:rgb(51,51,51)">1.(3)(41)→(3,41);(52)(26)&nbsp;→(26,52);(38)(57)&nbsp;→(38,57);(9)(49)&nbsp;→(9,49)</p>
+<p style="color:rgb(51,51,51)">2.(3,41)(26,52)&nbsp;→(3,26,41,52);(38,57)(9,49)&nbsp;→(9,38,49,57)</p>
+<p style="color:rgb(51,51,51)">3.(3,26,41,52)(9,38,49,57)&nbsp;→(3,9,26,38,41,49,52,57)</p>
+<p style="color:rgb(51,51,51)"><strong>2.3-2：MERGE过程，使之不适用哨兵元素，而是在一旦数组L或R中的所有元素都被复制回数组A后，就立即停止，再将另一个数组中余下的元素复制回数组A中</strong></p>
+<p style="color:rgb(51,51,51)">MERGE(A,p,q,r)</p>
+<p style="color:rgb(51,51,51)">1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;n1←q-p&#43;n</p>
+<p style="color:rgb(51,51,51)">2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;n2←r-p</p>
+<p style="color:rgb(51,51,51)">3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//create arrays L[1..n1] and R[1..n2]</p>
+<p style="color:rgb(51,51,51)">4&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>for</strong>&nbsp;i←1&nbsp;<strong>to</strong>&nbsp;n1</p>
+<p style="color:rgb(51,51,51)">5&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>&nbsp;&nbsp;&nbsp;&nbsp;do&nbsp;</strong>L[i]&nbsp;←A[p&#43;i-1]</p>
+<p style="color:rgb(51,51,51)">6&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>for&nbsp;</strong>j←1&nbsp;<strong>to n2</strong></p>
+<p style="color:rgb(51,51,51)">7&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>&nbsp;&nbsp;&nbsp;&nbsp;do&nbsp;</strong>R[j]&nbsp;←&nbsp;A[q&#43;j]</p>
+<p style="color:rgb(51,51,51)">8&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i←1</p>
+<p style="color:rgb(51,51,51)">9&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;j←1</p>
+<p style="color:rgb(51,51,51)"><strong><span style="color:black">10&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color:black">for k</span></strong>←<span style="color:black">p&nbsp;<strong>to&nbsp;</strong>r</span></p>
+<p style="color:rgb(51,51,51)"><strong>11&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;do if&nbsp;</strong>i&lt;n1<strong>&nbsp;and&nbsp;</strong>j&lt;n2</p>
+<p style="color:rgb(51,51,51)"><strong>12&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;</strong>L[i]&lt;= R[j]</p>
+<p style="color:rgb(51,51,51)"><strong>13&nbsp;&nbsp;&nbsp;&nbsp;</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A[k]&nbsp;←&nbsp;L[i]</p>
+<p style="color:rgb(51,51,51)"><strong>14&nbsp;&nbsp;&nbsp;&nbsp;</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i←i&#43;1</p>
+<p style="color:rgb(51,51,51)"><strong>15&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;continue</strong></p>
+<p style="color:rgb(51,51,51)"><strong>16&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else&nbsp;</strong>A[k]&nbsp;←&nbsp;R[j]</p>
+<p style="color:rgb(51,51,51)">17&nbsp;&nbsp;&nbsp;&nbsp;<strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong>j←j&#43;1</p>
+<p style="color:rgb(51,51,51)"><strong>18&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;continue</strong></p>
+<p style="color:rgb(51,51,51)"><strong>19&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;do if&nbsp;</strong>i&gt;=n1&nbsp;<strong>and&nbsp;</strong>j&lt;n2</p>
+<p style="color:rgb(51,51,51)">20&nbsp;&nbsp;&nbsp;&nbsp;<strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong>A[k]&nbsp;←&nbsp;R[j]</p>
+<p style="color:rgb(51,51,51)">21&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;j←j&#43;1</p>
+<p style="color:rgb(51,51,51)">22&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>continue</strong></p>
+<p style="color:rgb(51,51,51)"><strong>23&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;do&nbsp;if&nbsp;</strong>i&lt;n1&nbsp;<strong>and&nbsp;</strong>j&gt;n2</p>
+<p style="color:rgb(51,51,51)"><strong>24&nbsp;&nbsp;&nbsp;&nbsp;</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A[k]&nbsp;←&nbsp;L[i]</p>
+<p style="color:rgb(51,51,51)"><strong>25&nbsp;&nbsp;&nbsp;&nbsp;</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i←i&#43;1</p>
+<p style="color:rgb(51,51,51)"><strong>26&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;continue</strong></p>
+<p style="color:rgb(51,51,51)"><strong>2.3-3：利用数学归纳法证明：当n是2的整数次幂时，递归式</strong></p>
+<p style="color:rgb(51,51,51)"><strong>这个公式比较难贴上来，请大家看PDF。</strong></p>
+<p style="color:rgb(51,51,51)"><strong>2.3-4：插入排序可以如下改写成一个递归过程：为排序A[1..n]，先递归地排序A[1..n-1]，然后再将A[n]插入到已排序的数组A[1..n-1]中去。对于插入排序的这一递归版本，为它的运行时间写一个递归式。</strong></p>
+<p style="color:rgb(51,51,51)">首先是INSERTION过程</p>
+<p style="color:rgb(51,51,51)"><span style="font-family:Calibri">INSERTION (A,p,r)</span></p>
+<p style="color:rgb(51,51,51)"><strong><span style="font-family:Calibri">1</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong><span style="font-family:Calibri"><strong>&nbsp;for</strong>&nbsp;j</span>←<span style="font-family:Calibri">p&nbsp;<strong>to&nbsp;</strong>r</span></p>
+<p style="color:rgb(51,51,51)"><strong><span style="font-family:Calibri">2</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong><span style="font-family:Calibri">&nbsp;&nbsp;&nbsp;<strong>do</strong>&nbsp;key</span>←<span style="font-family:Calibri">A[j]</span></p>
+<p style="color:rgb(51,51,51)"><strong><span style="font-family:Calibri">3</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong><span style="font-family:Calibri">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i</span>←<span style="font-family:Calibri">j-1</span></p>
+<p style="color:rgb(51,51,51)"><strong><span style="font-family:Calibri">4</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong><span style="font-family:Calibri">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>while</strong>&nbsp;i&gt;0 and A[i]&gt;key</span></p>
+<p style="color:rgb(51,51,51)"><strong><span style="font-family:Calibri">5</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong><span style="font-family:Calibri">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>do&nbsp;</strong>A[i&#43;1]&nbsp;</span>←<span style="font-family:Calibri">&nbsp;A[i]</span></p>
+<p style="color:rgb(51,51,51)"><strong><span style="font-family:Calibri">6</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong><span style="font-family:Calibri">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i</span>←<span style="font-family:Calibri">i-1</span></p>
+<p style="color:rgb(51,51,51)"><strong><span style="font-family:Calibri">7</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong><span style="font-family:Calibri">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A[i&#43;1]&nbsp;</span>←<span style="font-family:Calibri">&nbsp;key</span></p>
+<p style="color:rgb(51,51,51)">插入排序的递归调用算法：</p>
+<p style="color:rgb(51,51,51)">RECURSION-INSERTION-SORT(A,p,r)</p>
+<p style="color:rgb(51,51,51)">1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>if&nbsp;</strong>p&lt;r</p>
+<p style="color:rgb(51,51,51)">2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>&nbsp;&nbsp;&nbsp;&nbsp;</strong>r←r-1</p>
+<p style="color:rgb(51,51,51)">3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RECURSION-INSERTION-SORT(A,p,r)</p>
+<p style="color:rgb(51,51,51)">4&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;INSERTION(A,p,r)</p>
+<p style="color:rgb(51,51,51)">该算法的C#实现代码：</p>
+<p align="left" style="color:rgb(51,51,51)"><span style="color:blue">public</span>&nbsp;<span style="color:blue">static</span>&nbsp;<span style="color:blue">void</span>&nbsp;RecursionInsertionSort&lt;T&gt;(T[] Input,<span style="color:blue">int</span>&nbsp;p,<span style="color:blue">int</span>&nbsp;r)&nbsp;<span style="color:blue">where</span>&nbsp;T:<span style="color:rgb(43,145,175)">IComparable</span>&lt;T&gt;</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue">if</span>&nbsp;(p &lt; r)</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--r;</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RecursionInsertionSort(Input, p, r);</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Insertion(Input,p,r);</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue">private</span>&nbsp;<span style="color:blue">static</span>&nbsp;<span style="color:blue">void</span>&nbsp;Insertion&lt;T&gt;(T[] Input,&nbsp;<span style="color:blue">int</span>&nbsp;p,&nbsp;<span style="color:blue">int</span>&nbsp;r)&nbsp;<span style="color:blue">where</span>&nbsp;T
+ :&nbsp;<span style="color:rgb(43,145,175)">IComparable</span>&lt;T&gt;</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;T key;</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue">int</span>&nbsp;i;</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue">for</span>&nbsp;(<span style="color:blue">int</span>&nbsp;j = 1; j &lt; r; j&#43;&#43;)</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;key = Input[j];</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i = j - 1;</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue">for</span>&nbsp;(; i &gt;= 0 &amp;&amp; Input[i].CompareTo(key) &gt; 0; i--)</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Input[i &#43; 1] = Input[i];</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Input[i &#43; 1] = key;</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</p>
+<p style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</p>
+<p style="color:rgb(51,51,51)">n&lt;=C时，T(n)=Θ(1),否则T(n)=(n-1)/n*T(n-1)&#43;&nbsp;Θ(n^2)</p>
+<p style="color:rgb(51,51,51)"><span style="font-family:微软雅黑; font-size:14px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></p>
+<p style="color:rgb(51,51,51)"><strong>2.3-5：回顾一下练习2.1-3中提出的查找问题，注意如果序列A是已排序的，就可以将该序列的中点与v进行比较。根据比较的结果，原序列中有一半就可以不用再做进一步的考虑了。二分查找（binary search）就是一个不断重复这一查找过程的算法，它每次都将序列余下的部分分成两半，并只对其中的一半做进一步的查找。写出二分查找算法的伪代码，可以是迭代的，也可以是递归的。说明二分查找的最坏情况运行时间为什么是Θ(lgn)。</strong></p>
+<p style="color:rgb(51,51,51)">使用递归，先确定一个过程BINARY(A,p,r,v)</p>
+<p style="color:rgb(51,51,51)">BINARY(A,p,r,v)</p>
+<p style="color:rgb(51,51,51)">1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>for</strong>&nbsp;j←&nbsp;p&nbsp;<strong>to</strong>&nbsp;r</p>
+<p style="color:rgb(51,51,51)"><strong>2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;</strong>A[j]=v</p>
+<p style="color:rgb(51,51,51)"><strong>3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return</strong>&nbsp;j</p>
+<p style="color:rgb(51,51,51)"><strong>4&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return NIL</strong></p>
+<p style="color:rgb(51,51,51)"><strong>然后是二分查找的递归过程</strong></p>
+<p style="color:rgb(51,51,51)">BINARY-SEARCH(A,p,r,v)</p>
+<p style="color:rgb(51,51,51)"><strong>1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;</strong>p=0 and r=0 and A[0]=v</p>
+<p style="color:rgb(51,51,51)"><strong>2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong>&nbsp;&nbsp;return 0</p>
+<p style="color:rgb(51,51,51)">3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>&nbsp;&nbsp;if</strong>&nbsp;p&lt;r</p>
+<p style="color:rgb(51,51,51)"><strong>4&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong>q←[(p&#43;r)/2]</p>
+<p style="color:rgb(51,51,51)"><strong>5&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;</strong>A[q]&gt; v</p>
+<p style="color:rgb(51,51,51)"><strong>6&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BINARY-SEARCH(A,p,q,v)</p>
+<p style="color:rgb(51,51,51)"><strong>7&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;</strong>BINARY(A,p,q,v)</p>
+<p style="color:rgb(51,51,51)"><strong>8&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else&nbsp;</strong>BINARY-SEARCH(A,q&#43;1,r,v)</p>
+<p style="color:rgb(51,51,51)"><strong>9&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;</strong>BINARY(A,q&#43;1,r,v)</p>
+<p style="color:rgb(51,51,51)"><strong>10&nbsp;&nbsp;&nbsp;&nbsp;return NIL</strong></p>
+<p style="color:rgb(51,51,51)"><strong>该算法的C#实现代码：</strong></p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue">public</span>&nbsp;<span style="color:blue">static</span>&nbsp;<span style="color:blue">int</span>&nbsp;BinarySearch&lt;T&gt;(T[] Input,<span style="color:blue">int</span>&nbsp;p,<span style="color:blue">int</span>&nbsp;r,T
+ v)&nbsp;<span style="color:blue">where</span>&nbsp;T:<span style="color:rgb(43,145,175)">IComparable</span>&lt;T&gt;</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue">int</span>&nbsp;q;</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue">if</span>&nbsp;(p == 0 &amp;&amp; r == 0 &amp;&amp; Input[0].Equals(v))</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue">return</span>&nbsp;0;</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue">if</span>&nbsp;(p &lt; r)</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;q = (p &#43; r) / 2;</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue">if</span>&nbsp;(Input[q].CompareTo(v) &gt; 0 )</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BinarySearch(Input, p, q, v);</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue">return</span>&nbsp;Binary(Input, p, q, v);</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue">else</span></p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BinarySearch(Input, q &#43; 1, r, v);</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue">return</span>&nbsp;Binary(Input, q&#43;1, r, v);</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue">return</span>&nbsp;-1;</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue">private</span>&nbsp;<span style="color:blue">static</span>&nbsp;<span style="color:blue">int</span>&nbsp;Binary&lt;T&gt;(T[] Input,&nbsp;<span style="color:blue">int</span>&nbsp;p,&nbsp;<span style="color:blue">int</span>&nbsp;r,
+ T v)&nbsp;<span style="color:blue">where</span>&nbsp;T:<span style="color:rgb(43,145,175)">IComparable</span>&lt;T&gt;</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue">for</span>&nbsp;(<span style="color:blue">int</span>&nbsp;j = p; j &lt;= r; j&#43;&#43;)</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue">if</span>&nbsp;(Input[j].Equals(v))</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue">return</span>&nbsp;j;</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue">return</span>&nbsp;-1;</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</p>
+<p align="left" style="color:rgb(51,51,51)"><span style="font-size:14px">由公式<span style="font-family:Calibri">N=a^(log a N)</span>得：<span style="font-family:Calibri">n*1/(2^(lgn))=1</span></span></p>
+<p style="color:rgb(51,51,51)">因经过n次的与中点比较后肯定能找到最后一个点（最坏情况了），如果是返回下标，否则返回NIL，故最坏情况下时间复杂度为</p>
+<p style="color:rgb(51,51,51)"><strong>2.3-6：观察一下2.1节中给出的INSERTION-SORT过程，在第5~7行的while循环中，采用了一种线性查找策略，在已排序的子数组A[1..j-1]中（反向）扫描。是否可以改为二分查找策略（见练习2.3-5），来将插入排序的总体最坏情况运行时间改善至</strong>Θ(nlgn)<strong>？</strong></p>
+<p style="color:rgb(51,51,51)">首先引入一个二分查找策略（与2.3-5的Binary Search略有不同）</p>
+<p style="color:rgb(51,51,51)">BINARY(A,p,r,v)</p>
+<p style="color:rgb(51,51,51)">5&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>for</strong>&nbsp;j←p&nbsp;<strong>to</strong>&nbsp;r</p>
+<p style="color:rgb(51,51,51)"><strong><span style="color:red">6&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></strong><span style="color:red">&nbsp;&nbsp;&nbsp;&nbsp;<strong>if&nbsp;</strong>A[j]&gt; v</span></p>
+<p style="color:rgb(51,51,51)"><strong>7&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return</strong>&nbsp;j</p>
+<p style="color:rgb(51,51,51)"><strong>8&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return NIL</strong></p>
+<p style="color:rgb(51,51,51)"><strong>然后是二分查找的递归过程</strong></p>
+<p style="color:rgb(51,51,51)">BINARY-SEARCH(A,p,r,v)</p>
+<p style="color:rgb(51,51,51)"><strong><span style="color:red">10&nbsp;&nbsp;</span></strong><span style="color:red">&nbsp;&nbsp;<strong>if&nbsp;</strong>p=0 and r=0 and A[0]</span>&nbsp;<span style="color:red">v</span></p>
+<p style="color:rgb(51,51,51)"><strong>11&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return</strong>&nbsp;0</p>
+<p style="color:rgb(51,51,51)">12&nbsp;&nbsp;<strong>&nbsp;&nbsp;if</strong>&nbsp;p&lt;r</p>
+<p style="color:rgb(51,51,51)"><strong>13&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong><span style="font-family:Calibri; font-size:14px"><strong></strong></span></p>
+<p style="color:rgb(51,51,51)"><strong>14&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;</strong>A[q]&nbsp;v</p>
+<p style="color:rgb(51,51,51)"><strong>15&nbsp;&nbsp;</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BINARY-SEARCH(A,p,q,v)</p>
+<p style="color:rgb(51,51,51)"><strong>16&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;</strong>BINARY(A,p,q,v)</p>
+<p style="color:rgb(51,51,51)"><strong>17&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else&nbsp;</strong>BINARY-SEARCH(A,q&#43;1,r,v)</p>
+<p style="color:rgb(51,51,51)"><strong>18&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;</strong>BINARY(A,q&#43;1,r,v)</p>
+<p style="color:rgb(51,51,51)"><strong>10&nbsp;&nbsp;&nbsp;&nbsp;return NIL</strong></p>
+<p style="color:rgb(51,51,51)">利用了二分查找策略的插入排序：</p>
+<p style="color:rgb(51,51,51)">BINARYINSERTION-SORT(A)</p>
+<p style="color:rgb(51,51,51)">1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>for&nbsp;</strong>j&nbsp;2&nbsp;<strong>to&nbsp;</strong>length[A]</p>
+<p style="color:rgb(51,51,51)">2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>&nbsp;&nbsp;&nbsp;&nbsp;do&nbsp;</strong>key&nbsp;A[j]</p>
+<p style="color:rgb(51,51,51)">3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>&nbsp;&nbsp;&nbsp;&nbsp;</strong>i&nbsp;j-1</p>
+<p style="color:rgb(51,51,51)">4&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;k&nbsp;BINARY-SEARCH(A,0,i,key)</p>
+<p style="color:rgb(51,51,51)">5&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if k!= NIL</p>
+<p style="color:rgb(51,51,51)"><strong>6&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for&nbsp;</strong>s&nbsp;i downto k</p>
+<p style="color:rgb(51,51,51)"><strong>7&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A[s&#43;1]&nbsp;A[s]</p>
+<p style="color:rgb(51,51,51)"><strong>8&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A[k]&nbsp;key</p>
+<p style="color:rgb(51,51,51)">此算法的在最坏情况下的运行时间是</p>
+<p style="color:rgb(51,51,51)">该算法的C#实现代码：</p>
+<p align="left" style="color:rgb(51,51,51)"><span style="color:blue">private</span>&nbsp;<span style="color:blue">static</span>&nbsp;<span style="color:blue">int</span>&nbsp;BinarySearchForInsertionSort&lt;T&gt;(T[] Input,&nbsp;<span style="color:blue">int</span>&nbsp;p,&nbsp;<span style="color:blue">int</span>&nbsp;r,
+ T v)&nbsp;<span style="color:blue">where</span>&nbsp;T :&nbsp;<span style="color:rgb(43,145,175)">IComparable</span>&lt;T&gt;</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue">int</span>&nbsp;q;</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue">if</span>&nbsp;(p == 0 &amp;&amp; r == 0 &amp;&amp; Input[0].CompareTo(v)&gt;0)</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue">return</span>&nbsp;0;</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue">if</span>&nbsp;(p &lt; r)</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;q = (p &#43; r) / 2;</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue">if</span>&nbsp;(Input[q].CompareTo(v) &gt; 0)</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BinarySearchForInsertionSort(Input, p, q, v);</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue">return</span>&nbsp;BinaryForInsertionSort(Input, p, q, v);</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue">else</span></p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BinarySearchForInsertionSort(Input, q&#43;1, r, v);</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue">return</span>&nbsp;BinaryForInsertionSort(Input, q&#43;1, r, v);</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue">return</span>&nbsp;-1;</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue">private</span>&nbsp;<span style="color:blue">static</span>&nbsp;<span style="color:blue">int</span>&nbsp;BinaryForInsertionSort&lt;T&gt;(T[] Input,&nbsp;<span style="color:blue">int</span>&nbsp;p,&nbsp;<span style="color:blue">int</span>&nbsp;r,
+ T v)&nbsp;<span style="color:blue">where</span>&nbsp;T :&nbsp;<span style="color:rgb(43,145,175)">IComparable</span>&lt;T&gt;</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue">for</span>&nbsp;(<span style="color:blue">int</span>&nbsp;j = p; j &lt;= r; j&#43;&#43;)</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue">if</span>&nbsp;(Input[j].CompareTo(v) &gt; 0)</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue">return</span>&nbsp;j;</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue">return</span>&nbsp;-1;</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue">public</span>&nbsp;<span style="color:blue">static</span>&nbsp;<span style="color:blue">void</span>&nbsp;BinaryInsertionSort&lt;T&gt;(T[] Input)&nbsp;<span style="color:blue">where</span>&nbsp;T :&nbsp;<span style="color:rgb(43,145,175)">IComparable</span>&lt;T&gt;</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;T key;</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue">int</span>&nbsp;i, k;</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue">for</span>&nbsp;(<span style="color:blue">int</span>&nbsp;j = 1; j &lt; Input.Length; j&#43;&#43;)</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;key = Input[j];</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i = j - 1;</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;k = BinarySearchForInsertionSort(Input, 0, i, key);</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue">if</span>&nbsp;(k != -1)</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue">for</span>&nbsp;(<span style="color:blue">int</span>&nbsp;s = i; s&gt;=k ; s--)</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Input[s &#43; 1] = Input[s];</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Input[k] = key;</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</p>
+<p align="left" style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</p>
+<p style="color:rgb(51,51,51)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</p>
+<p style="color:rgb(51,51,51)"><strong>*2.3-7：请给出一个运行时间为</strong>Θ(nlgn)<strong>的算法，使之能在给定一个由n个整数构成的集合&nbsp;和另一个整数&nbsp;时，判断出&nbsp;中是否存在有两个其和等于&nbsp;的元素。</strong></p>
+<p style="color:rgb(51,51,51)">利用2.3-5中的BINARY-SEARCH(A,v)和2.3-6中的BINARYINSERTION-SORT(S)算法</p>
+<p style="color:rgb(51,51,51)">ISEXISTSUM(S,x)</p>
+<p style="color:rgb(51,51,51)">1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BINARYINSERTION-SORT(S)</p>
+<p style="color:rgb(51,51,51)"><strong>2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for&nbsp;</strong>j←)1 to n</p>
+<p style="color:rgb(51,51,51)">3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>&nbsp;&nbsp;&nbsp;&nbsp;</strong>k&nbsp;BINARY-SEARCH(S,x-S[j])</p>
+<p style="color:rgb(51,51,51)">4&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>if</strong>&nbsp;k!=<strong>NIL</strong></p>
+<p style="color:rgb(51,51,51)">5&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return TRUE</strong></p>
+<p style="color:rgb(51,51,51)">6&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>&nbsp;&nbsp;&nbsp;&nbsp;else return FALSE</strong></p>
+<div style="color:rgb(51,51,51)">
+<p>该算法的运行时间为:&nbsp;Θ(nlgn)</p>
+</div>
+<p style="color:rgb(51,51,51)"><strong><em>思考题</em></strong></p>
+<p style="color:rgb(51,51,51)"><strong>2-1：在合并排序中对小数组采用插入排序</strong></p>
+<p style="color:rgb(51,51,51)"><strong>尽管合并排序的最坏情况运行时间为</strong>Θ(nlgn)<strong>，插入排序的最坏情况运行时间为</strong>Θ(n^2)<strong>，但插入排序中的常数因子使得它在n较小时，运行得要更快一些。因此，在合并排序算法中，当子问题足够小时，采用插入排序就比较合适了。考虑对合并排序做这样的修改，即采用插入排序策略，对n/k个长度为k的子列表进行排序，然后，再用标准的合并机制将它们合并起来，此处k是一个特定的&#20540;。</strong></p>
+<p style="color:rgb(51,51,51)"><strong>a)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;证明最坏情况下，n/k个子列表（每一个子列表的长度为k）可以用插入排序在</strong>Θ(nk)<strong>时间内完成排序。</strong></p>
+<p style="color:rgb(51,51,51)"><strong>b)&nbsp;&nbsp;&nbsp;&nbsp;证明这些子列表可以在</strong>Θ(nlg(n/k))<strong>最坏情况时间内完成合并。</strong></p>
+<p style="color:rgb(51,51,51)"><strong>c)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如果已知修改后的合并排序算法的最坏情况运行时间为</strong>Θ(nk&#43;nlg(n/k))<strong>，要使修改后的算法具有与标准合并排序算法一样的渐进运行时间，k的最大渐进&#20540;（即&nbsp;形式）是什么（以n的函数形式表示）？</strong></p>
+<p style="color:rgb(51,51,51)"><strong>d)&nbsp;&nbsp;&nbsp;&nbsp;在实践中，k的&#20540;应该如何选取？</strong></p>
+<p style="color:rgb(51,51,51)">a.<span style="font-family:Calibri; font-size:14px">&nbsp;</span>Θ(k^2*n/k)=&nbsp;Θ(nk)</p>
+<p style="color:rgb(51,51,51)">b.每一层代价都是Θ(n)，共lg(n/k)&#43;1层，因此相乘得Θ(nlg(n/k))</p>
+<p style="color:rgb(51,51,51)">c.k=lgn&nbsp;</p>
+<p style="color:rgb(51,51,51)">d.在满足插入排序比合并排序更快的情况下，k取最大&#20540;。<strong></strong></p>
+<p style="color:rgb(51,51,51)"><strong>2-2：冒泡排序算法的正确性</strong></p>
+<p style="color:rgb(51,51,51)"><strong>冒泡排序(bubblesort)算法是一种流行的排序算法，它重复地交换相邻两个反序元素。</strong></p>
+<p style="color:rgb(51,51,51)"><strong>BUBBLESORT(A)</strong></p>
+<p style="color:rgb(51,51,51)"><strong>1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for&nbsp;</strong>i←1&nbsp;<strong>to</strong>&nbsp;length[A]</p>
+<p style="color:rgb(51,51,51)"><strong>2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;do for&nbsp;</strong>j←length[A]&nbsp;<strong>downto&nbsp;</strong>i&#43;1</p>
+<p style="color:rgb(51,51,51)"><strong>3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;do if&nbsp;</strong>A[j]&lt; A[j-1]</p>
+<p style="color:rgb(51,51,51)"><strong>4&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;then&nbsp;</strong>exchange A[j]←→&nbsp;A[j-1]</p>
+<p align="center" style="color:rgb(51,51,51)"><strong>a)&nbsp;&nbsp;&nbsp;设A’表示BULLESORT(A)的输出，为了证明BUBBLESORT是正确的，需要证明它能够终止，并且有：A’[1]&lt;=A’[2]&lt;=..&lt;=A’[n]</strong></p>
+<p style="color:rgb(51,51,51)"><strong>其中n=length[A]。为了证明BUBBLESORT的确能实现排序的效果，还需要证明什么？</strong></p>
+<p style="color:rgb(51,51,51)"><strong>下面两个部分将证明不等式（2.3）。</strong></p>
+<p style="color:rgb(51,51,51)"><strong>b)&nbsp;&nbsp;&nbsp;对第2~4行中的for循环，给出一个准确的循环不变式，并证明该循环不变式是成立的。在证明中采用本章中给出的循环不变式证明结构。</strong></p>
+<p style="color:rgb(51,51,51)"><strong>c)&nbsp;&nbsp;&nbsp;&nbsp;利用在b）部分证明的循环不变式的终止条件，为第1~4行中的for循环给出一个循环不变式，它可以用来证明不等式（2.3）。你的证明因采用本章中给出的循环不变式的证明结构。</strong></p>
+<p style="color:rgb(51,51,51)"><strong>d)&nbsp;&nbsp;&nbsp;冒泡排序算法的最坏情况运行时间是什么？比较它与插入排序的运行时间。</strong></p>
+<p style="color:rgb(51,51,51)">a.&nbsp;&nbsp;&nbsp;&nbsp;A’中的元素全部来自于A中变换后的元素。</p>
+<p style="color:rgb(51,51,51)">b.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
+<p style="color:rgb(51,51,51)"><strong>初始化：</strong>j=n,子数组为A[j..n]即A[n..n]，此中仅有一个元素因此是已排序的。</p>
+<p style="color:rgb(51,51,51)"><strong>保持：</strong>如果A[j..n]是已排序的，按计算过程知A[j]&nbsp;A[j&#43;1]&nbsp;…&nbsp;A[n]，当插入元素A[j-1]时，如果A[j]&nbsp;A[j-1]则互换A[j]、A[j-1]，否则A[j-1]直接插入A[j..n]的最前，因此A[j-1..n]也是已排序的。</p>
+<p style="color:rgb(51,51,51)"><strong>终止：</strong>j=i时循环结束，此时A[i..n]是已排序的。与外层循环条件一直，所以算法正确。</p>
+<p style="color:rgb(51,51,51)">c.</p>
+<p style="color:rgb(51,51,51)"><strong>初始化：</strong>i=1时，子数组A[1..i-1]是空的，因此在第一轮迭代前成立。</p>
+<p style="color:rgb(51,51,51)"><strong>保持：</strong>假设子数组A[1..i-1]已排序，则之中元素是A[1..n]中最小的i-1个元素，按b证明的循环不变式，知插入A[i]元素后的子数组A[1..i]是A[1..n]中最小的i个元素，并且A[1..i]亦是已排序的。</p>
+<p style="color:rgb(51,51,51)"><strong>终止：</strong>当i=n&#43;1时循环终止，此时已处理的子数组是A[1..n]，A[1..n]是已排序的，这个数组就是要排序的数组。因此算法正确。</p>
+<p style="color:rgb(51,51,51)">d.Σ（n-i）&#43;Σ（n-i-1）=Θ（n^2）,与插入排序相同</p>
+<p style="color:rgb(51,51,51)"><strong>2-3：霍纳规则的正确性</strong></p>
+<p style="color:rgb(51,51,51)"><strong>以下的代码片段实现了用于计算多项式</strong></p>
+<p style="color:rgb(51,51,51)"><strong>代码片段见PDF</strong></p>
+<p style="color:rgb(51,51,51)"><strong>的霍纳规则（Horner’s Rule）。</strong></p>
+<p style="color:rgb(51,51,51)"><strong>给定系数a0,a1,…an以及x的&#20540;，有</strong></p>
+<p style="color:rgb(51,51,51)">1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;y←0</p>
+<p style="color:rgb(51,51,51)">2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i←n</p>
+<p style="color:rgb(51,51,51)"><strong>3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;while&nbsp;</strong>i&gt;=0</p>
+<p style="color:rgb(51,51,51)"><strong>4&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;do&nbsp;</strong>y←i&#43;x*y</p>
+<p style="color:rgb(51,51,51)"><strong>5&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong>i←i-1</p>
+<p style="color:rgb(51,51,51)"><strong><span style="font-family:微软雅黑; font-size:14px">a)</span>&nbsp;&nbsp;&nbsp;<span style="font-family:微软雅黑; font-size:14px">这一段实现霍纳规则的代码的渐进运行时间是什么？</span></strong></p>
+<p style="color:rgb(51,51,51)"><strong><span style="font-family:微软雅黑; font-size:14px">b)</span>&nbsp;&nbsp;&nbsp;<span style="font-family:微软雅黑; font-size:14px">写出伪代码以实现朴素多项式求&#20540;（native polynomial-evaluation）算法，它从头开始计算多项式的每一个项。这个算法的运行时间是多少？它与实现霍纳规则的代码段的运行时间相比怎样？</span></strong></p>
+<p style="color:rgb(51,51,51)"><strong><span style="font-family:微软雅黑; font-size:14px">c)</span>&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-family:微软雅黑; font-size:14px">证明一下给出的是针对第3~5行中while循环的一个循环不变式：</span></strong></p>
+<p style="color:rgb(51,51,51)"><strong><span style="font-family:微软雅黑; font-size:14px">在第3~5行中while循环每一轮迭代的开始，有：公式略</span></strong></p>
+<p style="color:rgb(51,51,51)"><strong><span style="font-family:微软雅黑; font-size:14px">不包含任何项的和视为等于0。你的证明应遵循本章中给出的循环不变式的证明结构，并应证明在终止时，有：公式略（请见PDF）</span></strong></p>
+<p style="color:rgb(51,51,51)"><strong><span style="font-family:微软雅黑; font-size:14px">d)</span>&nbsp;&nbsp;&nbsp;<span style="font-family:微软雅黑; font-size:14px">最后证明以上给出的代码片段能够正确的计算由系数a0,a1,…,an</span></strong></p>
+<p style="color:rgb(51,51,51)"><strong><span style="font-family:微软雅黑; font-size:14px">2-4：逆序对</span></strong></p>
+<p style="color:rgb(51,51,51)"><strong><span style="font-family:微软雅黑; font-size:14px">设A[1..n]是一个包含n个不同数的数组。如果在i&lt;j的情况下，有A[i]&gt;A[j]，则(i,j)就称为A中的一个逆序对（inversion）。</span></strong></p>
+<p style="color:rgb(51,51,51)"><strong><span style="font-family:微软雅黑; font-size:14px">a)</span>&nbsp;&nbsp;&nbsp;<span style="font-family:微软雅黑; font-size:14px">列出数组&lt;2,3,8,6,1&gt;的5个逆序。</span></strong></p>
+<p style="color:rgb(51,51,51)"><strong><span style="font-family:微软雅黑; font-size:14px">b)</span>&nbsp;&nbsp;&nbsp;<span style="font-family:微软雅黑; font-size:14px">如果数组的元素取自集合{1,2,…,n},那么，怎样的数组含有最多的逆序对？它包含多少个逆序对？</span></strong></p>
+<p style="color:rgb(51,51,51)"><strong><span style="font-family:微软雅黑; font-size:14px">c)</span>&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-family:微软雅黑; font-size:14px">插入排序的运行时间与输入数组中逆序对的数量之间有怎样的关系？说明你的理由。</span></strong></p>
+<div>
+<p style="color:rgb(51,51,51)"><strong><span style="font-family:微软雅黑; font-size:14px">d)</span>&nbsp;&nbsp;&nbsp;<span style="font-family:微软雅黑; font-size:14px">给出一个算法，它能用Θ(lgn)间，确定n个元素的任何排列中逆序对的数目。（提示：修改合并排序）</span></strong></p>
+<p style="color:rgb(51,51,51)"><span style="font-family:微软雅黑; font-size:14px">a.(2,1),(3,1),(8,6),(8,1),(6,1)</span></p>
+<p style="color:rgb(51,51,51)"><span style="font-family:微软雅黑; font-size:14px">b.{n,n-1,n-2,…,1}有最多的逆序对。共n*(n-1)/2</span></p>
+<p style="color:rgb(51,51,51)"><span style="font-family:微软雅黑; font-size:14px">c.逆序对越多，说明运行情况越坏，所以逆序对的数量与插入排序的运行效率成反比。</span></p>
+<p style="color:rgb(51,51,51)"><span style="font-family:微软雅黑; font-size:14px">d.修改MERGE过程的最后一个FOR循环即可。</span></p>
+<p style="color:rgb(51,51,51)"><span style="font-family:微软雅黑; font-size:14px"><br>
+</span></p>
+<p style="color:rgb(51,51,51)"><span style="font-family:微软雅黑; font-size:14px"><br>
+</span></p>
+<p style="text-align:center"><strong><span style="font-size:48px; color:#ff0000">学习的路上，与君共勉。</span></strong></p>
+</div>
+<br>
+</div>
+</div>
+
+
+
+
+<!-- Baidu Button BEGIN -->
+
+<div class="bdsharebuttonbox" style="float: right;">
+<a href="#" class="bds_more" data-cmd="more" style="background-position:0 0 !important; background-image: url(http://bdimg.share.baidu.com/static/api/img/share/icons_0_16.png?v=d754dcc0.png) !important"></a>
+<a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"  style="background-position:0 -52px !important"></a>
+<a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"style="background-position:0 -104px !important"></a>
+<a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"style="background-position:0 -260px !important"></a>
+<a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"style="background-position:0 -208px !important"></a>
+<a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"style="background-position:0 -1612px !important" ></a>
+</div>
+<script>window._bd_share_config = { "common": { "bdSnsKey": {}, "bdText": "", "bdMini": "1", "bdMiniList": false, "bdPic": "", "bdStyle": "0", "bdSize": "16" }, "share": {} }; with (document) 0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion=' + ~(-new Date() / 36e5)];</script>
+<!-- Baidu Button END -->
+
+<!--192.168.100.35-->
+<ul 

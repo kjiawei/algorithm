@@ -1,0 +1,148 @@
+<html><head><meta http-equiv="Content-Type" content="text/html;	charset=gb2312"><style type=text/css>body {	font-size:13px;	padding:10 20px 10 10px;	background:#e0e0f0;	line-height:24px;}a:link    { color: #53A6b0; } </style><html><head><meta http-equiv="Content-Type" content="text/html; charset=gb2312"><title>排序算法c语言描述---直接插入排序</title>
+<BODY bgcolor=e5e5f0  leftMargin=20  rightMargin=20><font color=#339933 size=5>排序算法c语言描述---直接插入排序</font><br><font color=#993333 size=3>分类: 未分类<br>日期: 2013-08-10 17:59</font><br>原文地址: <a target=_blank href=http://blog.csdn.net/hitwhylz/article/details/9880941>http://blog.csdn.net/hitwhylz/article/details/9880941</a><hr size=1 color=#C0C0C0>
+
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; font-family:Arial; font-size:14px; line-height:26px; text-align:left">
+<span style="color:rgb(102,51,255)"><strong>排序算法系列学习，主要描述冒泡排序，选择排序，直接插入排序，希尔排序，堆排序，归并排序，快速排序等排序进行分析。</strong></span></p>
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; font-family:Arial; font-size:14px; line-height:26px; text-align:left">
+<span style="color:rgb(102,51,255)"><strong>文章规划：</strong></span></p>
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; font-family:Arial; font-size:14px; line-height:26px; text-align:left">
+<span style="color:rgb(102,51,255)"><strong>一。通过自己对排序算法本身的理解，对每个方法写个小测试程序。 具体思路分析不展开描述。</strong></span></p>
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; font-family:Arial; font-size:14px; line-height:26px; text-align:left">
+<span style="color:rgb(102,51,255)"><strong>二。通过《大话数据结构》一书的截图，详细分析该算法&nbsp;。&nbsp;</strong></span></p>
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; font-family:Arial; font-size:14px; line-height:26px; text-align:left">
+<span style="color:rgb(102,51,255)"><strong>在此，推荐下程杰老师的《大话数据结构》一书，当然不是打广告，只是以一名读者的身份来客观的看待这本书，确实是通俗易懂，&#20540;得一看。</strong></span></p>
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; font-family:Arial; font-size:14px; line-height:26px; text-align:left">
+<span style="color:rgb(0,153,0)"><strong>ps：一个较为详细的学习链接&nbsp;&nbsp;&nbsp;</strong></span><span style="color:rgb(0,153,0); text-decoration:none"><strong><a target="_blank" target="_blank" href="http://blog.csdn.net/MoreWindows/article/category/859207" style="color:rgb(202,0,0); text-decoration:none">http://blog.csdn.net/MoreWindows/article/category/859207</a></strong></span></p>
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; font-family:Arial; font-size:14px; line-height:26px; text-align:left">
+<span style="color:rgb(0,153,0); text-decoration:none"><br>
+</span></p>
+<h1><span style="text-decoration:none"><span style="color:#cc33cc">三。直接插入排序</span></span></h1>
+<h2><span style="text-decoration:none"><span style="color:#ff0000">一。个人理解</span></span></h2>
+<div><span style="color:#330033">直接插入排序的操作是将一个纪录插入到已经排序好的有序表中的适当位置，直到全部纪录插入为止。</span></div>
+<div><strong><span style="font-size:18px; color:#3366ff">（直接插入的原理：把一个标记插入到已经排好序的有序表中。如： &nbsp;把arr[i]插入arr[0]---arr[i-1]中的某个位置，其中，arr[0]---arr[i-1]是排好序的。这时候从后往前，在arr[i-1]到arr[0]中找到第一次满足比arr[i]小的那个数，则把arr[i]插入这数字后面，相应的把后面的大于arr[i]的元素都往后移，则此时arr[0]----arr[i]就是有序的，如此反复，直到全部元素都找好自己的位置）</span></strong><br>
+</div>
+<div><span style="color:#330033">代码如下：</span></div>
+<div><span style="color:#330033"></span><pre name="code" class="cpp">#include&lt;stdio.h&gt;
+// 打印结果
+void Show(int  arr[], int n)
+{
+    int i;
+    for ( i=0; i&lt;n; i++ )
+        printf(&quot;%d  &quot;, arr[i]);
+    printf(&quot;\n&quot;);
+}
+
+//直接插入排序  按从小到大排序
+void Insertsort(int arr[], int n)
+{
+    int i, j, k;
+    int temp;
+    for (i = 1; i &lt; n; i++)
+    {
+        //为a[i]在前面的a[0...i-1]有序区间中找一个合适的位置，插入a[i]
+        for (j = i - 1; j &gt;= 0; j--)
+            if (arr[j] &lt; arr[i])  //寻找合适位置
+                break;
+        
+        //如找到了一个合适的位置
+        if (j != i - 1)
+        {
+            //将比a[i]大的数据向后移
+            temp = arr[i];
+            for (k = i - 1; k &gt; j; k--)
+                arr[k + 1] = arr[k];
+            //将a[i]放到正确位置上
+            arr[k + 1] = temp;
+        }
+    }
+}
+
+int main()
+{   //测试数据
+    int arr_test[10] = { 8, 4, 2, 3, 5, 1, 6, 9, 0, 7 };
+    //排序前数组序列
+    Show( arr_test, 10 );
+    Insertsort( arr_test, 10 );
+    //排序后数组序列
+    Show( arr_test, 10 );
+    return 0;
+}
+</pre>
+<div><span style="color:#330033"><br>
+</span></div>
+<div><span style="color:#330033"><br>
+</span></div>
+这个直接插入算法比较常规，照着算法本身的思路一步步来的，后来看了其他人的博客以及书中的写法，发现其实是可以进一步优化的。</div>
+<div><span style="color:#330033">可以把搜索arri]合适的位置和比arr[i]大的数据后移这两个步骤合并。也就是说，每次arr[i]与其前面一个数据arr[i－1]比较的时候，如果arr[i] &gt; arr[i-1]，则说明a[0]----a[i]之间都是有序的,无需调整。否则就令j＝i－1，temp＝arr[i]。然后一边将数据arr[j]往后移动一边向前继续搜索，直到有数据arr[j]&lt;arr[i]时候停止，然后将temp(arr[i])放在arr[j&#43;1]处。</span></div>
+<div><span style="color:rgb(51,0,51)">&nbsp;</span></div>
+<div><span style="color:#330033"><br>
+</span></div>
+<div><span style="color:#330033">下面是优化后的代码。其实本质思想还是没变的。</span></div>
+<div><span style="color:#330033"></span><pre name="code" class="cpp">#include&lt;stdio.h&gt;
+// 打印结果
+void Show(int  arr[], int n)
+{
+    int i;
+    for ( i=0; i&lt;n; i++ )
+        printf(&quot;%d  &quot;, arr[i]);
+    printf(&quot;\n&quot;);
+}
+
+//直接插入排序  按从小到大排序
+void Insertsort2(int arr[], int n)
+{
+    int i, j;
+    int temp;
+    for (i = 1; i &lt; n; i++)
+        if (arr[i] &lt; arr[i-1])
+        {
+            temp = arr[i];
+            for (j = i - 1; j &gt;= 0 &amp;&amp; arr[j] &gt; temp; j--)
+                arr[j + 1] = arr[j];
+            arr[j + 1] = temp;
+        }
+}
+
+int main()
+{   //测试数据
+    int arr_test[10] = { 8, 4, 2, 3, 5, 1, 6, 9, 0, 7 };
+    //排序前数组序列
+    Show( arr_test, 10 );
+    Insertsort2( arr_test, 10 );
+    //排序后数组序列
+    Show( arr_test, 10 );
+    return 0;
+}</pre>
+<div><span style="color:#330033"><br>
+</span></div>
+<h2 style="margin:0px; padding:0px; font-family:Arial; line-height:26px; text-align:left">
+<span style="color:rgb(255,0,0)">二。 《大话数据结构》一书截图分析</span></h2>
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; font-family:Arial; font-size:14px; line-height:26px; text-align:left">
+<span style="font-size:24px; color:rgb(153,0,0)"><strong>注：本文仅为分享知识，绝无商业用途。</strong></span></p>
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; font-family:Arial; font-size:14px; line-height:26px; text-align:left">
+<span style="font-size:24px; color:rgb(153,0,0)"><strong>如果以该种形式分享知识造成不必要的纠纷，还请第一时间告知。</strong></span></p>
+<div><span style="color:#330033"><img src="http://img.blog.csdn.net/20130810175616687?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaGl0d2h5bHo=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""><br>
+</span></div>
+<img src="http://img.blog.csdn.net/20130810175729062?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaGl0d2h5bHo=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""><img src="http://img.blog.csdn.net/20130810175736859?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaGl0d2h5bHo=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""><img src="http://img.blog.csdn.net/20130810175743531?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaGl0d2h5bHo=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""><img src="http://img.blog.csdn.net/20130810175749750?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaGl0d2h5bHo=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""><img src="http://img.blog.csdn.net/20130810175623640?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaGl0d2h5bHo=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""><br>
+<br>
+</div>
+</div>
+
+
+
+
+<!-- Baidu Button BEGIN -->
+
+<div class="bdsharebuttonbox" style="float: right;">
+<a href="#" class="bds_more" data-cmd="more" style="background-position:0 0 !important; background-image: url(http://bdimg.share.baidu.com/static/api/img/share/icons_0_16.png?v=d754dcc0.png) !important"></a>
+<a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"  style="background-position:0 -52px !important"></a>
+<a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"style="background-position:0 -104px !important"></a>
+<a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"style="background-position:0 -260px !important"></a>
+<a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"style="background-position:0 -208px !important"></a>
+<a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"style="background-position:0 -1612px !important" ></a>
+</div>
+<script>window._bd_share_config = { "common": { "bdSnsKey": {}, "bdText": "", "bdMini": "1", "bdMiniList": false, "bdPic": "", "bdStyle": "0", "bdSize": "16" }, "share": {} }; with (document) 0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion=' + ~(-new Date() / 36e5)];</script>
+<!-- Baidu Button END -->
+
+<!--192.168.100.35-->
+<ul 

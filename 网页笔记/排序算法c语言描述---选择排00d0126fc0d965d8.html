@@ -1,0 +1,103 @@
+<html><head><meta http-equiv="Content-Type" content="text/html;	charset=gb2312"><style type=text/css>body {	font-size:13px;	padding:10 20px 10 10px;	background:#e0e0f0;	line-height:24px;}a:link    { color: #53A6b0; } </style><html><head><meta http-equiv="Content-Type" content="text/html; charset=gb2312"><title>排序算法c语言描述---选择排序</title>
+<BODY bgcolor=e5e5f0  leftMargin=20  rightMargin=20><font color=#339933 size=5>排序算法c语言描述---选择排序</font><br><font color=#993333 size=3>分类: 未分类<br>日期: 2013-08-05 23:32</font><br>原文地址: <a target=_blank href=http://blog.csdn.net/hitwhylz/article/details/9774827>http://blog.csdn.net/hitwhylz/article/details/9774827</a><hr size=1 color=#C0C0C0>
+
+<p><span style="color:#6633ff"><strong>排序算法系列学习，主要描述冒泡排序，选择排序，直接插入排序，希尔排序，堆排序，归并排序，快速排序等排序进行分析。</strong></span></p>
+<p><span style="color:#6633ff"><strong>文章规划：</strong></span></p>
+<p><span style="color:#6633ff"><strong>一。通过自己对排序算法本身的理解，对每个方法写个小测试程序。 具体思路分析不展开描述。</strong></span></p>
+<p><span style="color:#6633ff"><strong>二。通过《大话数据结构》一书的截图，详细分析该算法&nbsp;。&nbsp;</strong></span></p>
+<p><span style="color:#6633ff"><strong>在此，推荐下程杰老师的《大话数据结构》一书，当然不是打广告，只是以一名读者的身份来客观的看待这本书，确实是通俗易懂，&#20540;得一看。</strong></span></p>
+<p>&nbsp;</p>
+<p></p>
+<h1><span style="color:#cc33cc">②选择排序</span></h1>
+<div><span style="color:#cc33cc"></span>
+<div>&nbsp;</div>
+</div>
+<h2><span style="color:#ff0000">一。个人理解</span></h2>
+选择排序思路：
+<p></p>
+<p>首先在未排序序列中找到最小元素，存放到排序序列的起始位置，然后，再从剩余未排序元素中继续寻找最小元素，然后放到排序序列的起始位置。以此类推，直到所有元素均排序完毕。</p>
+<p>具体做法是：</p>
+<p>选择最小的元素与未排序部分的首部交换，使得序列的前面为有序。&nbsp;</p>
+<p>通俗的说，就是每次循环找到未排序序列中的最小元素放到起始位置。直至循环n-1次遍历全部的。</p>
+<p>选择排序也比较简单易懂，下面直接上代码。</p>
+<p></p>
+<pre class="cpp" name="code">#include&lt;stdio.h&gt;
+// 打印结果
+void Show(int  arr[] , int n)
+{
+    int i;
+    for ( i=0; i&lt;n; i++ )
+        printf(&quot;%d  &quot;, arr[i]);
+    printf(&quot;\n&quot;);
+}
+// 交换数组元素位置
+void Swap( int *num_a, int *num_b )
+{
+    int temp = *num_b;
+    *num_b = *num_a;
+    *num_a = temp;
+}
+// 选择排序
+void SelectSort( int *arr, int n )
+{
+    int i, j, min_;   //min_ 为最小值下标
+    for ( i=0; i&lt;n-1; i++ )  //控制n-1趟的选择步骤
+    {
+        min_ = i;              //将当前下标定义为最小值下标
+        for ( j=i+1; j&lt;n; j++ )    //在arr[i],arr[i+1],...,arr[n-1]中选键值最小的结点
+        {
+            if ( arr[min_] &gt; arr[j] )
+                min_ = j;     //如果有小于当前最小值的，把下标赋值给min_
+        }
+        if ( i != min_ )
+            Swap( &amp;arr[i], &amp;arr[min_]);   //如果min_不等于初始值，说明找到最小值，交换。
+    }
+}
+
+int main()
+{   //测试数据
+    int arr_test[10] = { 8, 4, 2, 3, 5, 1, 6, 9, 0, 7 };
+    //排序前数组序列
+    Show( arr_test, 10 );
+    SelectSort( arr_test, 10 );
+    //排序后数组序列
+    Show( arr_test, 10 );
+    return 0;
+}
+</pre>
+<p></p>
+<p></p>
+<p></p>
+<h2></h2>
+<h2><span style="color:#ff0000"><br>
+</span></h2>
+<h2><span style="color:#ff0000">二。 《大话数据结构》一书截图分析</span></h2>
+<span style="color:#ff0000"></span>
+<p></p>
+<p><span style="font-size:24px; color:#990000"><strong>注：本文仅为分享知识，绝无商业用途。</strong></span></p>
+<p><span style="font-size:24px; color:#990000"><strong>如果以该种形式分享知识造成不必要的纠纷，还请第一时间告知。</strong></span></p>
+<p><img alt="" src="file:///C:/Users/lenovo/AppData/Roaming/Tencent/Users/648654371/QQ/WinTemp/RichOle/_D]WRW41%7B38]OL3LY(7$G]4.jpg"></p>
+<p><img alt="" src="file:///C:/Users/lenovo/AppData/Roaming/Tencent/Users/648654371/QQ/WinTemp/RichOle/8VJ8N95W$Z8GE~H$AR$1BGI.jpg"><img src="http://img.blog.csdn.net/20130810170850203?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaGl0d2h5bHo=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""><img src="http://img.blog.csdn.net/20130810170900218?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaGl0d2h5bHo=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""><img src="http://img.blog.csdn.net/20130810170907203?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaGl0d2h5bHo=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""><img src="http://img.blog.csdn.net/20130810170913578?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaGl0d2h5bHo=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""><img src="http://img.blog.csdn.net/20130810170920218?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaGl0d2h5bHo=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""></p>
+<div><img alt="" src="file:///C:/Users/lenovo/AppData/Roaming/Tencent/Users/648654371/QQ/WinTemp/RichOle/T4MW$ODD9OABYAI19NE)8DV.jpg"></div>
+<div><img alt="" src="file:///C:/Users/lenovo/AppData/Roaming/Tencent/Users/648654371/QQ/WinTemp/RichOle/XK0$7$WFBJ%60_UNS7QBY7)2M.jpg"></div>
+<p>&nbsp;</p>
+</div>
+
+
+
+
+<!-- Baidu Button BEGIN -->
+
+<div class="bdsharebuttonbox" style="float: right;">
+<a href="#" class="bds_more" data-cmd="more" style="background-position:0 0 !important; background-image: url(http://bdimg.share.baidu.com/static/api/img/share/icons_0_16.png?v=d754dcc0.png) !important"></a>
+<a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"  style="background-position:0 -52px !important"></a>
+<a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"style="background-position:0 -104px !important"></a>
+<a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"style="background-position:0 -260px !important"></a>
+<a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"style="background-position:0 -208px !important"></a>
+<a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"style="background-position:0 -1612px !important" ></a>
+</div>
+<script>window._bd_share_config = { "common": { "bdSnsKey": {}, "bdText": "", "bdMini": "1", "bdMiniList": false, "bdPic": "", "bdStyle": "0", "bdSize": "16" }, "share": {} }; with (document) 0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion=' + ~(-new Date() / 36e5)];</script>
+<!-- Baidu Button END -->
+
+<!--192.168.100.35-->
+<ul 

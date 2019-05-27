@@ -1,0 +1,210 @@
+<html><head><meta http-equiv="Content-Type" content="text/html;	charset=gb2312"><style type=text/css>body {	font-size:13px;	padding:10 20px 10 10px;	background:#e0e0f0;	line-height:24px;}a:link    { color: #53A6b0; } </style><html><head><meta http-equiv="Content-Type" content="text/html; charset=gb2312"><title>排序算法c语言描述---堆排序</title>
+<BODY bgcolor=e5e5f0  leftMargin=20  rightMargin=20><font color=#339933 size=5>排序算法c语言描述---堆排序</font><br><font color=#993333 size=3>分类: 未分类<br>日期: 2013-08-13 21:36</font><br>原文地址: <a target=_blank href=http://blog.csdn.net/hitwhylz/article/details/9955417>http://blog.csdn.net/hitwhylz/article/details/9955417</a><hr size=1 color=#C0C0C0>
+
+<p style="margin-top:0px; margin-bottom:0px; font-size:11px; font-family:'Heiti SC Light'">
+<span style="color:#cc33cc"><strong>排序算法系列学习，主要描述冒泡排序，选择排序，直接插入排序，希尔排序，堆排序，归并排序，快速排序等排序进行分析。</strong></span></p>
+<p style="margin-top:0px; margin-bottom:0px; font-size:11px; font-family:'Heiti SC Light'">
+<span style="color:#cc33cc"><strong>文章规划：</strong></span></p>
+<p style="margin-top:0px; margin-bottom:0px; font-size:11px; font-family:'Heiti SC Light'">
+<span style="color:#cc33cc"><strong>一。通过自己对排序算法本身的理解，对每个方法写个小测试程序。<span style="font-family:Menlo"></span>具体思路分析不展开描述。</strong></span></p>
+<p style="margin-top:0px; margin-bottom:0px; font-size:11px; font-family:'Heiti SC Light'">
+<span style="color:#cc33cc"><strong>二。通过《大话数据结构》一书的截图，详细分析该算法<span style="font-family:Menlo"></span>。</strong></span></p>
+<p style="margin-top:0px; margin-bottom:0px; font-size:11px; font-family:'Heiti SC Light'">
+<span style="color:#cc33cc"><strong>在此，推荐下程杰老师的《大话数据结构》一书，当然不是打广告，只是以一名读者的身份来客观的看待这本书，确实是通俗易懂，&#20540;得一看。</strong></span></p>
+<p style="margin-top:0px; margin-bottom:0px; font-size:11px; font-family:Menlo"><span style="color:#009900"><strong>ps<span style="font-family:'Heiti SC Light'">：一个较为详细的学习链接</span> &nbsp; http://blog.csdn.net/guo_hongjun1611/article/details/7632047</strong></span></p>
+<p style="margin-top:0px; margin-bottom:0px; font-size:11px; font-family:Menlo; min-height:13px">
+<br>
+</p>
+<h1><span style="color:#ff0000">五。堆排序</span></h1>
+<h2><span style="color:#ff0000">一。个人理解</span></h2>
+<p style="margin-top:0px; margin-bottom:0px; font-size:11px; font-family:Menlo; min-height:13px">
+<br>
+</p>
+<p style="margin-top:0px; margin-bottom:0px; font-size:11px; font-family:'Heiti SC Light'">
+<strong>学习堆排序，要了解以下两方面内容。</strong></p>
+<p style="margin-top:0px; margin-bottom:0px; font-size:11px; font-family:'Heiti SC Light'">
+<strong><span style="font-family:Menlo; color:rgb(39,42,216)">1.</span>堆的定义</strong></p>
+<p style="margin-top:0px; margin-bottom:0px; font-size:11px; font-family:'Heiti SC Light'">
+<strong><span style="font-family:Menlo; color:rgb(39,42,216)">2.</span>堆排序的实现。</strong></p>
+<p style="margin-top:0px; margin-bottom:0px; font-size:11px; font-family:Menlo; min-height:13px">
+<br>
+</p>
+<h3><span style="color:#3333ff"><span style="font-family:Menlo">1.</span>堆的定义</span></h3>
+<p style="margin-top:0px; margin-bottom:0px; font-size:11px; font-family:'Heiti SC Light'">
+<strong>堆实际上是一棵完全二叉树，其任何一非叶节点满足性质：</strong></p>
+<p style="margin-top:0px; margin-bottom:0px; font-size:11px; font-family:Menlo"><strong><span style="font-family:'Heiti SC Light'">一。</span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Key[i]&lt;=key[<span style="color:#272ad8">2</span>i&#43;<span style="color:#272ad8">1</span>]&amp;&amp;Key[i]&lt;=key[<span style="color:#272ad8">2</span>i&#43;<span style="color:#272ad8">2</span>]
+ &nbsp; <span style="font-family:'Heiti SC Light'">小顶堆</span></strong></p>
+<p style="margin-top:0px; margin-bottom:0px; font-size:11px; font-family:Menlo"><strong><span style="font-family:'Heiti SC Light'">或者</span> &nbsp; &nbsp; Key[i]&gt;=Key[<span style="color:#272ad8">2</span>i&#43;<span style="color:#272ad8">1</span>]&amp;&amp;key[i]&gt;=key[<span style="color:#272ad8">2</span>i&#43;<span style="color:#272ad8">2</span>]
+ &nbsp; <span style="font-family:'Heiti SC Light'">大顶堆</span></strong></p>
+<p style="margin-top:0px; margin-bottom:0px; font-size:11px; font-family:'Heiti SC Light'">
+<strong><span style="color:#ff6600">即任何一非叶节点的关键字不大于或者不小于其左右孩子节点的关键字。</span></strong></p>
+<p style="margin-top:0px; margin-bottom:0px; font-size:11px; font-family:'Heiti SC Light'">
+<strong>由上述性质可知大顶堆的堆顶的关键字肯定是所有关键字中最大的，小顶堆的堆顶的关键字是所有关键字中最小的。</strong></p>
+<p style="margin-top:0px; margin-bottom:0px; font-size:11px; font-family:'Heiti SC Light'">
+<strong>二。<span style="font-family:Menlo"> &nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#ff6600">&nbsp; </span>
+</span><span style="color:#ff6600">每个结点的左子树和右子树都是一个二叉堆（都是小顶堆或大顶堆）。</span></strong></p>
+<p style="margin-top:0px; margin-bottom:0px; font-size:11px; font-family:Menlo; min-height:13px">
+<strong><br>
+</strong></p>
+<p style="margin-top:0px; margin-bottom:0px; font-size:11px; font-family:'Heiti SC Light'">
+<strong>满足以上条件的二叉树就是一个堆。</strong></p>
+<p style="margin-top:0px; margin-bottom:0px; font-size:11px; font-family:'Heiti SC Light'">
+<strong>如下图所示，就是一个小顶堆。</strong></p>
+<p style="margin-top:0px; margin-bottom:0px; font-size:11px; font-family:'Heiti SC Light'">
+<img src="http://img.blog.csdn.net/20130813212650140?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaGl0d2h5bHo=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""><br>
+</p>
+<p style="margin-top:0px; margin-bottom:0px; font-size:11px; font-family:Menlo; min-height:13px">
+<br>
+</p>
+<h3><span style="color:#3333ff"><span style="font-family:Menlo">2.</span>堆排序的实现。</span></h3>
+<p style="margin-top:0px; margin-bottom:0px; font-size:11px; font-family:'Heiti SC Light'">
+<span style="color:#ff0000"><strong>堆排序是利用堆的性质进行的一种选择排序。</strong></span></p>
+<p style="margin-top:0px; margin-bottom:0px; font-size:11px; font-family:'Heiti SC Light'">
+<span style="color:#ff0000"><strong>其基本思想为<span style="font-family:Menlo">(</span>大顶堆<span style="font-family:Menlo">)</span>：</strong></span></p>
+<p style="margin-top:0px; margin-bottom:0px; font-size:11px; font-family:'Heiti SC Light'">
+<span style="color:#ff0000"><strong><span style="font-family:Menlo">1</span><span style="font-family:Menlo">)</span>将初始待排序关键字序列<span style="font-family:Menlo">(R1,R2....Rn)</span>构建成大顶堆，此堆为初始的无序区；</strong></span></p>
+<p style="margin-top:0px; margin-bottom:0px; font-size:11px; font-family:Menlo"><span style="color:#ff0000"><strong>2)<span style="font-family:'Heiti SC Light'">将堆顶元素</span>R[1]<span style="font-family:'Heiti SC Light'">与最后一个元素</span>R[n]<span style="font-family:'Heiti SC Light'">交换，此时得到新的无序区</span>(R1,R2,......Rn-1)<span style="font-family:'Heiti SC Light'">和新的有序区</span>(Rn),<span style="font-family:'Heiti SC Light'">且满足</span>R[1,2...n-1]&lt;=R[n];</strong></span></p>
+<p style="margin-top:0px; margin-bottom:0px; font-size:11px; font-family:'Heiti SC Light'">
+<span style="color:#ff0000"><strong><span style="font-family:Menlo">3</span><span style="font-family:Menlo">)</span>由于交换后新的堆顶<span style="font-family:Menlo">R[</span><span style="font-family:Menlo">1</span><span style="font-family:Menlo">]</span>可能违反堆的性质，因此需要对当前无序区<span style="font-family:Menlo">(R1,R2,......Rn-</span><span style="font-family:Menlo">1</span><span style="font-family:Menlo">)</span>调整为新堆，然后再次将<span style="font-family:Menlo">R[</span><span style="font-family:Menlo">1</span><span style="font-family:Menlo">]</span>与无序区最后一个元素交换，得到新的无序区<span style="font-family:Menlo">(R1,R2....Rn-</span><span style="font-family:Menlo">2</span><span style="font-family:Menlo">)</span>和新的有序区<span style="font-family:Menlo">(Rn-</span><span style="font-family:Menlo">1</span><span style="font-family:Menlo">,Rn)</span>。</strong></span></p>
+<p style="margin-top:0px; margin-bottom:0px; font-size:11px; font-family:'Heiti SC Light'">
+<span style="color:#ff0000"><strong>不断重复此过程直到有序区的元素个数为<span style="font-family:Menlo">n-</span><span style="font-family:Menlo">1</span>，则整个排序过程完成。</strong></span></p>
+<p style="margin-top:0px; margin-bottom:0px; font-size:11px; font-family:Menlo; min-height:13px">
+<br>
+</p>
+<p style="margin-top:0px; margin-bottom:0px; min-height:13px"><br>
+</p>
+<p style="margin-top:0px; margin-bottom:0px">具体的演示过程我就不详细介绍了。可以通过阅读下面的《大话数据结构》一书截图系统的学习。</p>
+<p style="margin-top:0px; margin-bottom:0px">下面直接上代码</p>
+<p style="margin-top:0px; margin-bottom:0px"><br>
+</p>
+<p style="margin-top:0px; margin-bottom:0px"></p>
+<pre name="code" class="cpp">#include&lt;stdio.h&gt;
+// 打印结果
+void Show(int  arr[], int n)
+{
+    int i;
+    for ( i=0; i&lt;n; i++ )
+        printf(&quot;%d  &quot;, arr[i]);
+    printf(&quot;\n&quot;);
+}
+
+// 交换数组元素位置
+void Swap( int *num_a, int *num_b )
+{
+    int temp = *num_b;
+    *num_b = *num_a;
+    *num_a = temp;
+}
+
+// array是待调整的堆数组,i是待调整的数组元素的位置,nlength是数组的长度
+void HeapAdjust(int array[], int i, int nLength)
+{
+    int nChild, nTemp;
+    for (nTemp = array[i]; 2 * i + 1 &lt; nLength; i = nChild)
+    {
+        // nChild:左子结点的位置是 父结点位置 * 2 + 1  nChild + 1： 右子结点 
+        nChild = 2 * i + 1;
+        // 得到子结点中较大的结点
+        if (nChild != nLength - 1 &amp;&amp; array[nChild + 1] &gt; array[nChild])
+            ++nChild;
+        // 如果较大的子结点大于父结点那么把较大的子结点往上移动,替换它的父结点
+        if (nTemp &lt; array[nChild])
+        {
+            array[i] = array[nChild];
+        }
+        else  // 否则退出循环
+        {
+            break;
+        }
+    }
+    // 最后把需要调整的元素值放到合适的位置
+    array[i] = nTemp;
+}
+// 堆排序算法
+void HeapSort(int array[], int length)
+{
+    // 调整序列的前半部分元素,（即每个有孩子的节点）调整完之后是一个大顶堆，第一个元素是序列的最大的元素
+    for (int i = length / 2 - 1; i &gt;= 0; --i)
+    {
+        HeapAdjust(array, i, length);
+    }
+    // 从最后一个元素开始对序列进行调整,不断的缩小调整的范围直到第一个元素
+    for (int i = length - 1; i &gt; 0; --i)
+    {
+        // 把第一个元素和当前的最后一个元素交换,
+        // 保证当前的最后一个位置的元素都是在现在的这个序列之中最大的
+        Swap(&amp;array[0], &amp;array[i]);
+        // 不断缩小调整heap的范围,每一次调整完毕保证第一个元素是当前序列的最大值
+        HeapAdjust(array, 0, i);
+    }
+}
+
+int main()
+{   //测试数据
+    int arr_test[10] = { 8, 4, 2, 3, 5, 1, 6, 9, 0, 7 };
+    //排序前数组序列
+    Show( arr_test, 10 );
+    HeapSort( arr_test, 10 );
+    //排序后数组序列
+    Show( arr_test, 10 );
+    return 0;
+}</pre>
+<p><br>
+</p>
+<p>可以看下这组测试数据的过程加深理解</p>
+<p></p>
+<pre name="code" class="cpp">一个测试及输出的结果，在每次HeapAdjust之后显示出来当前数组的情况
+before Heap sort:
+71 18 151 138 160 63 174 169 79 78
+// 开始调整前半段数组元素
+71 18 151 138 160 63 174 169 79 78
+71 18 151 169 160 63 174 138 79 78
+71 18 174 169 160 63 151 138 79 78
+71 169 174 138 160 63 151 18 79 78
+174 169 151 138 160 63 71 18 79 78
+// 开始进行全局的调整
+169 160 151 138 78 63 71 18 79 174
+160 138 151 79 78 63 71 18 169 174
+151 138 71 79 78 63 18 160 169 174
+138 79 71 18 78 63 151 160 169 174
+79 78 71 18 63 138 151 160 169 174
+78 63 71 18 79 138 151 160 169 174
+71 63 18 78 79 138 151 160 169 174
+63 18 71 78 79 138 151 160 169 174
+18 63 71 78 79 138 151 160 169 174
+</pre><br>
+<br>
+<p></p>
+<p></p>
+<h2 style="margin:0px; padding:0px; font-family:Arial; line-height:26px; text-align:left">
+<span style="color:rgb(255,0,0)">二。 《大话数据结构》一书截图分析</span></h2>
+<p></p>
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; font-family:Arial; font-size:14px; line-height:26px; text-align:left">
+<span style="font-size:24px; color:rgb(153,0,0)"><strong>注：本文仅为分享知识，绝无商业用途。</strong></span></p>
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; font-family:Arial; font-size:14px; line-height:26px; text-align:left">
+<span style="font-size:24px; color:rgb(153,0,0)"><strong>如果以该种形式分享知识造成不必要的纠纷，还请第一时间告知。</strong></span></p>
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; font-family:Arial; font-size:14px; line-height:26px; text-align:left">
+<span style="font-size:24px; color:rgb(153,0,0)"><strong><img src="http://img.blog.csdn.net/20130813212944875" alt=""><img src="http://img.blog.csdn.net/20130813213009484" alt=""><img src="http://img.blog.csdn.net/20130813213030750" alt=""><img src="http://img.blog.csdn.net/20130813213108687" alt=""><img src="http://img.blog.csdn.net/20130813213130593" alt=""><img src="http://img.blog.csdn.net/20130813213153750" alt=""><img src="http://img.blog.csdn.net/20130813213219750" alt=""><img src="http://img.blog.csdn.net/20130813213302640" alt=""><img src="http://img.blog.csdn.net/20130813213327531" alt=""><img src="http://img.blog.csdn.net/20130813213400953" alt=""><img src="http://img.blog.csdn.net/20130813213423906" alt=""><img src="http://img.blog.csdn.net/20130813213452171" alt=""><br>
+</strong></span></p>
+<div><br>
+</div>
+</div>
+
+
+
+
+<!-- Baidu Button BEGIN -->
+
+<div class="bdsharebuttonbox" style="float: right;">
+<a href="#" class="bds_more" data-cmd="more" style="background-position:0 0 !important; background-image: url(http://bdimg.share.baidu.com/static/api/img/share/icons_0_16.png?v=d754dcc0.png) !important"></a>
+<a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"  style="background-position:0 -52px !important"></a>
+<a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"style="background-position:0 -104px !important"></a>
+<a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"style="background-position:0 -260px !important"></a>
+<a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"style="background-position:0 -208px !important"></a>
+<a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"style="background-position:0 -1612px !important" ></a>
+</div>
+<script>window._bd_share_config = { "common": { "bdSnsKey": {}, "bdText": "", "bdMini": "1", "bdMiniList": false, "bdPic": "", "bdStyle": "0", "bdSize": "16" }, "share": {} }; with (document) 0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion=' + ~(-new Date() / 36e5)];</script>
+<!-- Baidu Button END -->
+
+<!--192.168.100.35-->
+<ul 

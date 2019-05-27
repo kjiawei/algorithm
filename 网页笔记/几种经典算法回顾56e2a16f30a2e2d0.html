@@ -1,0 +1,117 @@
+<html><head><meta http-equiv="Content-Type" content="text/html;	charset=gb2312"><style type=text/css>body {	font-size:13px;	padding:10 20px 10 10px;	background:#e0e0f0;	line-height:24px;}a:link    { color: #53A6b0; } </style><html><head><meta http-equiv="Content-Type" content="text/html; charset=gb2312"><title>几种经典算法回顾</title>
+<BODY bgcolor=e5e5f0  leftMargin=20  rightMargin=20><font color=#339933 size=5>几种经典算法回顾</font><br><font color=#993333 size=3>分类: 未分类<br>日期: 2010-08-13 16:36</font><br>原文地址: <a target=_blank href=http://blog.csdn.net/cutesource/article/details/5810171>http://blog.csdn.net/cutesource/article/details/5810171</a><hr size=1 color=#C0C0C0>
+<p>今天无意中从箱子里发现了大学时学算法的教材《算法设计与分析》，虽然工作这么几年没在什么地方用过算法，但算法的思想还是影响深刻的，可以在系统设计时提供一些思路。大致翻了翻，重温了一下几种几种经典的算法，做一下小结。</p>
+<ul>
+<li>分治法</li>
+<li>动态规划</li>
+<li>贪心算法</li>
+<li>回溯法</li>
+<li>分支限界法</li>
+</ul>
+<p><strong>分治法</strong>
+</p>
+<p>1）基本思想</p>
+<p>将一个问题分解为多个规模较小的子问题，这些子问题互相独立并与原问题解决方法相同。递归解这些子问题，然后将这各子问题的解合并得到原问题的解。</p>
+<p>2）适用问题的特征</p>
+<ul>
+<li>该问题的规模缩小到一定的程度就可以容易地解决</li>
+<li>该问题可以分解为若干个规模较小的相同问题，即该问题具有最优子结构性质</li>
+<li>该问题所分解出的各个子问题是相互独立的，即子问题之间不包含公共的子问题</li>
+</ul>
+<p>3）关键</p>
+<ul>
+<li>如何将问题分解为规模较小并且解决方法相同的问题</li>
+<li>分解的粒度</li>
+</ul>
+<p>4）步骤</p>
+<p>分解-&gt;递归求解-&gt;合并 </p>
+<p><textarea cols="50" rows="15" name="code" class="java:nogutter:nocontrols">divide-and-conquer(P)
+  {
+    if ( | P | &lt;= n0) adhoc(P);   //解决小规模的问题
+    divide P into smaller subinstances P1,P2,...,Pk；//分解问题
+    for (i=1,i&lt;=k,i++)
+      yi=divide-and-conquer(Pi);  //递归的解各子问题
+    return merge(y1,...,yk);  //将各子问题的解合并为原问题的解
+  }</textarea>
+ </p>
+<p>google的核心算法MapReduce其实就是分治法的衍生</p>
+<p>5）分治法例子：合并排序</p>
+<p>规约过程：</p>
+<p><img src="http://hi.csdn.net/attachment/201008/13/0_1281687867eAaM.gif" alt="" width="601" height="315" />
+</p>
+<p><strong>动态规划</strong>
+</p>
+<p>1）基本思想</p>
+<p>将待求解问题分解成若干个子问题，但是经分解得到的子问题往往不是互相独立的，如果能够保存已解决的子问题的答案，而在需要时再找出已求得的答案，就可以避免大量重复计算</p>
+<p>2）适用问题的特征</p>
+<ul>
+<li>最优子结构</li>
+<li>在递归计算中，许多子问题被重复计算多次</li>
+</ul>
+<p>3）步骤</p>
+<ul>
+<li>找出最优解的性质，并刻划其结构特征。</li>
+<li>递归地定义最优值。</li>
+<li>以自底向上的方式计算出最优值。</li>
+<li>根据计算最优值时得到的信息，构造最优解。</li>
+</ul>
+<p><strong>贪心算法</strong>
+</p>
+<p>1）基本思想</p>
+<p>贪心算法总是作出在当前看来最好的选择。也就是说贪心算法并不从整体最优考虑，它所作出的选择只是在某种意义上的局部最优选择</p>
+<p>2）适用问题的特征</p>
+<ul>
+<li>贪心选择性质，即所求问题的整体最优解可以通过一系列局部最优的选择，即贪心选择来达到。</li>
+<li>最优子结构性质</li>
+</ul>
+<p>3）步骤：不断寻找局部最优解</p>
+<p>4）例子：找硬币，哈夫曼编码，单源最短路径，最小生成树（Prim和Kruskal） </p>
+<p>最小生成树图示：</p>
+<p><img src="http://hi.csdn.net/attachment/201008/13/0_1281688267N7N9.gif" alt="" />
+</p>
+<p><strong>回溯法</strong>
+</p>
+<p>1）基本思想</p>
+<p>在问题的解空间树中，按深度优先策略，从根结点出发搜索解空间树。算法搜索至解空间树的任意一点时，先判断该结点是否包含问题的解。如果肯定不包含，则跳过对该结点为根的子树的搜索，逐层向其祖先结点回溯；否则，进入该子树，继续按深度优先策略搜索</p>
+<p>2）适用问题的特征：容易构建所解问题的解空间</p>
+<p>3）步骤</p>
+<ul>
+<li>定义问题的解空间&nbsp;</li>
+<li>确定易于搜索的解空间结构</li>
+<li>以深度优先方式搜索解空间，并在搜索过程中用剪枝函数避免无效搜索 </li>
+</ul>
+<p>4）回溯法例子：N皇后问题</p>
+<p><img src="http://hi.csdn.net/attachment/201008/13/0_1281688400w1W2.gif" alt="" />
+</p>
+<p><strong>分支限界法</strong>
+</p>
+<p>1）基本思想</p>
+<p>分支限界法常以广度优先或以最小耗费（最大效益）优先的方式搜索问题的解空间树。 
+在分支限界法中，每一个活结点只有一次机会成为扩展结点。活结点一旦成为扩展结点，就一次性产生其所有儿子结点。在这些儿子结点中，导致不可行解或导致非
+最优解的儿子结点被舍弃，其余儿子结点被加入活结点表中。此后，从活结点表中取下一结点成为当前扩展结点，并重复上述结点扩展过程。这个过程一直持续到找
+到所需的解或活结点表为空时为止。</p>
+<p>2）分支限界法例子：单源最短路径问题</p>
+<p>问题描述：在下图所给的有向图G中，每一边都有一个非负边权。要求图G的从源顶点s到目标顶点t之间的最短路径。</p>
+<p><img src="http://hi.csdn.net/attachment/201008/13/0_12816884935hkA.gif" alt="" />
+</p>
+<p><img src="http://hi.csdn.net/attachment/201008/13/0_12816885036G68.gif" alt="" />
+</p></div>
+
+
+
+
+<!-- Baidu Button BEGIN -->
+
+<div class="bdsharebuttonbox" style="float: right;">
+<a href="#" class="bds_more" data-cmd="more" style="background-position:0 0 !important; background-image: url(http://bdimg.share.baidu.com/static/api/img/share/icons_0_16.png?v=d754dcc0.png) !important"></a>
+<a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"  style="background-position:0 -52px !important"></a>
+<a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"style="background-position:0 -104px !important"></a>
+<a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"style="background-position:0 -260px !important"></a>
+<a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"style="background-position:0 -208px !important"></a>
+<a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"style="background-position:0 -1612px !important" ></a>
+</div>
+<script>window._bd_share_config = { "common": { "bdSnsKey": {}, "bdText": "", "bdMini": "1", "bdMiniList": false, "bdPic": "", "bdStyle": "0", "bdSize": "16" }, "share": {} }; with (document) 0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion=' + ~(-new Date() / 36e5)];</script>
+<!-- Baidu Button END -->
+
+<!--192.168.100.36-->
+<ul 

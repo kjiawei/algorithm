@@ -1,0 +1,141 @@
+<html><head><meta http-equiv="Content-Type" content="text/html;	charset=gb2312"><style type=text/css>body {	font-size:13px;	padding:10 20px 10 10px;	background:#e0e0f0;	line-height:24px;}a:link    { color: #53A6b0; } </style><html><head><meta http-equiv="Content-Type" content="text/html; charset=gb2312"><title>排序算法c语言描述---归并排序</title>
+<BODY bgcolor=e5e5f0  leftMargin=20  rightMargin=20><font color=#339933 size=5>排序算法c语言描述---归并排序</font><br><font color=#993333 size=3>分类: 未分类<br>日期: 2013-08-14 00:39</font><br>原文地址: <a target=_blank href=http://blog.csdn.net/hitwhylz/article/details/9957251>http://blog.csdn.net/hitwhylz/article/details/9957251</a><hr size=1 color=#C0C0C0>
+
+<p><strong><span style="color:#cc33cc">排序算法系列学习，主要描述冒泡排序，选择排序，直接插入排序，希尔排序，堆排序，归并排序，快速排序等排序进行分析。</span></strong></p>
+<p><strong><span style="color:#cc33cc">文章规划：</span></strong></p>
+<p><strong><span style="color:#cc33cc">一。通过自己对排序算法本身的理解，对每个方法写个小测试程序。 具体思路分析不展开描述。</span></strong></p>
+<p><strong><span style="color:#cc33cc">二。通过《大话数据结构》一书的截图，详细分析该算法 。</span></strong></p>
+<p><strong><span style="color:#cc33cc">&nbsp;在此，推荐下程杰老师的《大话数据结构》一书，当然不是打广告，只是以一名读者的身份来客观的看待这本书，确实是通俗易懂，&#20540;得一看。</span></strong></p>
+<p><strong><span style="color:#009900">ps：一个较为详细的学习链接 http://blog.csdn.net/MoreWindows/article/category/859207</span></strong></p>
+<p><strong><span style="color:#009900"><br>
+</span></strong></p>
+<h1><span style="color:#ff0000">六。归并排序</span></h1>
+<h2><span style="color:#ff0000">一。个人理解</span></h2>
+<p>归并（Merge）排序法是将两个（或两个以上）有序表合并成一个新的有序表，即把待排序序列分为若干个子序列，每个<span style="color:#ff0000"><strong>子序列是有序</strong></span>的。然后再把有序子序列合并为整体有序序列。</p>
+<p>所以归并排序的<span style="color:#ff0000"><strong>核心在于先分解，再合并。</strong></span></p>
+<p><strong><span style="color:#3333ff">其基本思路就是将数组分成二组A，B，如果这二组组内的数据都是有序的，那么就可以很方便的将这二组数据进行排序。</span></strong></p>
+<p><strong><span style="color:#3333ff">那么如何让这二个数组组内数据有序呢？</span></strong></p>
+<p><strong><span style="color:#3333ff">可以将A，B组各自再分成二组。依次类推，当分出来的小组只有一个数据时，可以认为这个小组组内已经达到了有序，然后再合并相邻的二个小组就可以了。这样通过先递归的分解数列，再合并数列就完成了归并排序。</span></strong></p>
+<p>好了，下面就是具体操作过程：</p>
+<p></p>
+<p style="border:0px none; font:inherit; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; vertical-align:middle; line-height:20px; font-family:'Microsoft Yahei',微软雅黑,Tahoma,Arial,Helvetica,STHeiti">
+<span style="color:#ff0000"><strong>1) 将n个元素分成各含n/2个元素的子序列</strong></span></p>
+<p style="border:0px none; font:inherit; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; vertical-align:middle; line-height:20px; font-family:'Microsoft Yahei',微软雅黑,Tahoma,Arial,Helvetica,STHeiti">
+<span style="color:#ff0000"><strong>2)用归并排序法对这两个子序列递归地排序</strong></span></p>
+<p style="border:0px none; font:inherit; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; vertical-align:middle; line-height:20px; font-family:'Microsoft Yahei',微软雅黑,Tahoma,Arial,Helvetica,STHeiti">
+<span style="color:#ff0000"><strong>3)合并这两个已经排序好的子序列得到排序结果</strong></span></p>
+<br>
+<p>归并排序的大致内容就是这样，如果有什么不理解，可以具体看下面的《大话数据结构》一书截图，具体不再重复。</p>
+<p>直接上代码。</p>
+<p><pre name="code" class="cpp">#include&lt;stdio.h&gt;
+
+#define Max_ 10
+// 打印结果
+void Show(int  arr[], int n)
+{
+    int i;
+    for ( i=0; i&lt;n; i++ )
+        printf(&quot;%d  &quot;, arr[i]);
+    printf(&quot;\n&quot;);
+}
+
+// 归并排序中的合并算法
+void Merge(int array[], int left, int m, int right)
+{
+    int aux[Max_] = {0};  // 临时数组 （若不使用临时数组，将两个有序数组合并为一个有序数组比较麻烦）
+    int i; //第一个数组索引
+    int j; //第二个数组索引
+    int k; //临时数组索引
+    
+    for (i = left, j = m+1, k = 0; k &lt;= right-left; k++) // 分别将 i, j, k 指向各自数组的首部。
+    {
+        //若 i 到达第一个数组的尾部，将第二个数组余下元素复制到 临时数组中
+        if (i == m+1)
+        {
+            aux[k] = array[j++];
+            continue;
+        }
+        //若 j 到达第二个数组的尾部，将第一个数组余下元素复制到 临时数组中
+        if (j == right+1)
+        {
+            aux[k] = array[i++];
+            continue;
+        }
+        //如果第一个数组的当前元素 比 第二个数组的当前元素小，将 第一个数组的当前元素复制到 临时数组中
+        if (array[i] &lt; array[j])
+        {
+            aux[k] = array[i++];
+        }
+        //如果第二个数组的当前元素 比 第一个数组的当前元素小，将 第二个数组的当前元素复制到 临时数组中
+        else
+        {
+            aux[k] = array[j++];
+        }
+    }
+    
+    //将有序的临时数组 元素 刷回 被排序的数组 array 中，
+    //i = left , 被排序的数组array 的起始位置
+    //j = 0， 临时数组的起始位置
+    for (i = left, j = 0; i &lt;= right; i++, j++)
+    {
+        array[i] = aux[j];
+    }
+}
+
+// 归并排序
+void MergeSort(int array[], int start, int end)
+{
+    if (start &lt; end)
+    {
+        int i;
+        i = (end + start) / 2;
+        // 对前半部分进行排序
+        MergeSort(array, start, i);
+        // 对后半部分进行排序
+        MergeSort(array, i + 1, end);
+        // 合并前后两部分
+        Merge(array, start, i, end);
+    }
+}
+
+int main()
+{   //测试数据
+    int arr_test[Max_] = { 8, 4, 2, 3, 5, 1, 6, 9, 0, 7 };
+    //排序前数组序列
+    Show( arr_test, Max_ );
+    MergeSort( arr_test, 0, Max_-1 );
+    //排序后数组序列
+    Show( arr_test, Max_ );
+    return 0;
+}</pre><br>
+</p>
+<h2 style="margin:0px; padding:0px; font-family:Arial; line-height:26px; text-align:left">
+<span style="color:rgb(255,0,0)">二。 《大话数据结构》一书截图分析</span></h2>
+<p></p>
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; font-family:Arial; font-size:14px; line-height:26px; text-align:left">
+<span style="font-size:24px; color:rgb(153,0,0)"><strong>注：本文仅为分享知识，绝无商业用途。</strong></span></p>
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; font-family:Arial; font-size:14px; line-height:26px; text-align:left">
+<span style="font-size:24px; color:rgb(153,0,0)"><strong>如果以该种形式分享知识造成不必要的纠纷，还请第一时间告知。</strong></span></p>
+<br>
+<p><img src="http://img.blog.csdn.net/20130814003340546?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaGl0d2h5bHo=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""><img src="http://img.blog.csdn.net/20130814003353390?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaGl0d2h5bHo=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""><img src="http://img.blog.csdn.net/20130814003412734?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaGl0d2h5bHo=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""><img src="http://img.blog.csdn.net/20130814003423218?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaGl0d2h5bHo=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""><img src="http://img.blog.csdn.net/20130814003433468?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaGl0d2h5bHo=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""><img src="http://img.blog.csdn.net/20130814003442984?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaGl0d2h5bHo=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""><img src="http://img.blog.csdn.net/20130814003450406?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaGl0d2h5bHo=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""><img src="http://img.blog.csdn.net/20130814003503890?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaGl0d2h5bHo=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""><img src="http://img.blog.csdn.net/20130814003512250?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaGl0d2h5bHo=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""><img src="http://img.blog.csdn.net/20130814003523437?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaGl0d2h5bHo=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""><img src="http://img.blog.csdn.net/20130814003533328?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaGl0d2h5bHo=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""><img src="http://img.blog.csdn.net/20130814003540437?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaGl0d2h5bHo=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""><img src="http://img.blog.csdn.net/20130814003548265?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaGl0d2h5bHo=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""><img src="http://img.blog.csdn.net/20130814003559390?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaGl0d2h5bHo=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""><img src="http://img.blog.csdn.net/20130814003609984?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaGl0d2h5bHo=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""><br>
+</p>
+</div>
+
+
+
+
+<!-- Baidu Button BEGIN -->
+
+<div class="bdsharebuttonbox" style="float: right;">
+<a href="#" class="bds_more" data-cmd="more" style="background-position:0 0 !important; background-image: url(http://bdimg.share.baidu.com/static/api/img/share/icons_0_16.png?v=d754dcc0.png) !important"></a>
+<a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"  style="background-position:0 -52px !important"></a>
+<a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"style="background-position:0 -104px !important"></a>
+<a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"style="background-position:0 -260px !important"></a>
+<a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"style="background-position:0 -208px !important"></a>
+<a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"style="background-position:0 -1612px !important" ></a>
+</div>
+<script>window._bd_share_config = { "common": { "bdSnsKey": {}, "bdText": "", "bdMini": "1", "bdMiniList": false, "bdPic": "", "bdStyle": "0", "bdSize": "16" }, "share": {} }; with (document) 0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion=' + ~(-new Date() / 36e5)];</script>
+<!-- Baidu Button END -->
+
+<!--192.168.100.35-->
+<ul 

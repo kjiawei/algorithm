@@ -1,0 +1,90 @@
+<html><head><meta http-equiv="Content-Type" content="text/html;	charset=gb2312"><style type=text/css>body {	font-size:13px;	padding:10 20px 10 10px;	background:#e0e0f0;	line-height:24px;}a:link    { color: #53A6b0; } </style><html><head><meta http-equiv="Content-Type" content="text/html; charset=gb2312"><title>检查一个二叉树是否平衡的算法分析与C++实现</title>
+<BODY bgcolor=e5e5f0  leftMargin=20  rightMargin=20><font color=#339933 size=5>检查一个二叉树是否平衡的算法分析与C++实现</font><br><font color=#993333 size=3>分类: 未分类<br>日期: 2013-12-28 14:50</font><br>原文地址: <a target=_blank href=http://blog.csdn.net/anzhsoft/article/details/17630715>http://blog.csdn.net/anzhsoft/article/details/17630715</a><hr size=1 color=#C0C0C0>
+
+<p>今天面试一个实习生，就想既然是未出校园，那就出一个比较基础的题吧，没想到答的并不如人意，对于树的操作完全不熟悉，因此此题算是未作答。原来我想看一下他分析问题的思路，优化代码的能力。接下来会把最近半年我出的面试题整理出来，以来share给其它同事，而来算是自己校园记忆的一个总结，毕竟自己在项目中已经很久未用到这些知识。其实很多题目都是来源于CareerCup.com。这上面汇集了许多IT名企的面试笔试题目，非常&#20540;得找工作的人学习。</p>
+<p>言归正传，什么是二叉树是否平衡的定义，如果面试者不知道，那肯定要提出来，而不是简简单单说我对树不熟悉，或者找其他更多更多的理由。</p>
+<p>其实可以根据平衡的定义，直接递归访问整棵树，计算子树的高度。</p>
+<p></p>
+<pre code_snippet_id="131845" snippet_file_name="blog_20131228_1_1350891"  code_snippet_id="131845" snippet_file_name="blog_20131228_1_1350891" name="code" class="cpp">struct TreeNode{
+	TreeNode *leftChild;
+	TreeNode *rightChild;
+	int data;
+};
+
+int getHeight(const TreeNode* root){
+	if( root == nullptr){
+		return 0;
+	}
+	
+	return max(getHeight(root-&gt;leftChild), getHeight(root-&gt;rightChild)) + 1;
+}
+
+bool isBalanced(const TreeNode* root){
+	if( root == nullptr){
+		return true;
+	}
+	
+	int heightDiff = abs(getHeight(root-&gt;leftChild) - getHeight(root-&gt;rightChild));
+	if( heightDiff &gt; 1){
+		return false;
+	}
+	else{
+		return isBalanced(root-&gt;leftChild) &amp;&amp; isBalanced(root-&gt;rightChild);
+	}
+}</pre>如果开始能给出这个解法那是可以接受的。但是，由于同一个node的高度会被重复计算，因此效率不高。算法复杂度是O(n*logn)。接下来，我们要改进这个算法，使得子树的高度不再重复计算：我们通过删减重复的getHeight(const TreeNode*)调用。其实getHeight不单可以计算子树的高度，其实还可以判断子树是否的平衡的，如果不平衡怎么办？直接返回-1。那该递归调用就可以结束了。
+<p></p>
+<p>因此，改进的算法就是从root开始递归检查每个子树的高度，如果子树是平衡的，那么就返回子树的高度，否则返回-1：递归结束，树是不平衡的。</p>
+<p></p>
+<pre code_snippet_id="131845" snippet_file_name="blog_20131228_2_8985122"  code_snippet_id="131845" snippet_file_name="blog_20131228_2_8985122" name="code" class="cpp">int checkHeight(const TreeNode* root){
+	if( root == nullptr){
+		return 0;
+	}
+	// check the left subtree is balanced or not.
+	int leftHeight = checkHeight(root-&gt;leftChild);
+	if( leftHeight == -1 ){
+		return -1;
+	}
+	
+	// check the right subtree is balanced or not.
+	int rightHeight = checkHeight(root-&gt;rightChild);
+	if( rightHeight == -1){
+		return -1;
+	}
+	
+	// check the current tree is balanced or not.
+	int diff = leftHeight - rightHeight;
+	if( abs(diff) &gt; 1){
+		return -1;
+	}
+	else{
+		// return the tree height.
+		return max(leftHeight, rightHeight) + 1;
+	}
+}
+bool isBalanced(const TreeNode* root){
+    return ( checkHeight(root) == -1 )? false:true;
+}
+</pre>
+<p></p>
+<p>由于每个node只会访问一次，因此算法时间复杂度为O(n)。但是需要额外的O(logn)的空间。<br>
+</p>
+</div>
+
+
+
+
+<!-- Baidu Button BEGIN -->
+
+<div class="bdsharebuttonbox" style="float: right;">
+<a href="#" class="bds_more" data-cmd="more" style="background-position:0 0 !important; background-image: url(http://bdimg.share.baidu.com/static/api/img/share/icons_0_16.png?v=d754dcc0.png) !important"></a>
+<a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"  style="background-position:0 -52px !important"></a>
+<a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"style="background-position:0 -104px !important"></a>
+<a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"style="background-position:0 -260px !important"></a>
+<a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"style="background-position:0 -208px !important"></a>
+<a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"style="background-position:0 -1612px !important" ></a>
+</div>
+<script>window._bd_share_config = { "common": { "bdSnsKey": {}, "bdText": "", "bdMini": "1", "bdMiniList": false, "bdPic": "", "bdStyle": "0", "bdSize": "16" }, "share": {} }; with (document) 0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion=' + ~(-new Date() / 36e5)];</script>
+<!-- Baidu Button END -->
+
+<!--192.168.100.35-->
+<ul 

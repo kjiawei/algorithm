@@ -1,0 +1,42 @@
+<html><head><meta http-equiv="Content-Type" content="text/html;	charset=gb2312"><style type=text/css>body {	font-size:13px;	padding:10 20px 10 10px;	background:#e0e0f0;	line-height:24px;}a:link    { color: #53A6b0; } </style><html><head><meta http-equiv="Content-Type" content="text/html; charset=gb2312"><title>LIRe提供的图像检索算法的速度</title>
+<BODY bgcolor=e5e5f0  leftMargin=20  rightMargin=20><font color=#339933 size=5>LIRe提供的图像检索算法的速度</font><br><font color=#993333 size=3>分类: 未分类<br>日期: 2013-11-22 23:19</font><br>原文地址: <a target=_blank href=http://blog.csdn.net/leixiaohua1020/article/details/16884121>http://blog.csdn.net/leixiaohua1020/article/details/16884121</a><hr size=1 color=#C0C0C0>
+
+<p>本文翻译了LIRe的作者Mathias Lux发表的论文《LIRe: Lucene Image Retrieval - An Extensible Java CBIR Library》。主要介绍了LIRe的功能。节选了算法性能部分的内容。</p>
+<p><br>
+</p>
+<p>在LIRe中主要实现的图像特征有：<br>
+&nbsp; &nbsp; &nbsp; &nbsp;1. &nbsp; &nbsp; &nbsp; RGB和HSV空间的颜色直方图；<br>
+&nbsp; &nbsp; &nbsp; &nbsp;2. &nbsp; &nbsp; &nbsp; MPEG-7的颜色特征，包括Scalable color，Color layout和Edge Histogram；<br>
+&nbsp; &nbsp; &nbsp; &nbsp;3. &nbsp; &nbsp; &nbsp; Tamura纹理特征，包括粗糙度（Coarseness），对比度（Contrast）和方向度（Directionality）；<br>
+&nbsp; &nbsp; &nbsp; &nbsp;4. &nbsp; &nbsp; &nbsp; 颜色和边缘的方向性描述符（Color and edge directivity descriptor, CEDD）；<br>
+&nbsp; &nbsp; &nbsp; &nbsp;5. &nbsp; &nbsp; &nbsp; 模糊颜色和纹理直方图（Fuzzy color and texture histogram, FCTH）；<br>
+&nbsp; &nbsp; &nbsp; &nbsp;6. &nbsp; &nbsp; &nbsp; 颜色关联图（Auto color correlation）；<br>
+&nbsp; &nbsp; &nbsp; &nbsp;7. &nbsp; &nbsp; &nbsp; 尺度不变特征变换（Scale-invariant feature transform , SIFT）。<br>
+</p>
+<p><br>
+</p>
+<p>这些算法的性能表如下图所示。测试使用的计算机配置是：IntelCore 2 Quad 4核 CPU &nbsp;2.4 GHz，2 GB RAM内存，<br>
+Windows XP ， Java 1.6 u6 。使用单线程的方式。</p>
+<p style="text-align:center"><img src="http://img.blog.csdn.net/20131122142620328?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvbGVpeGlhb2h1YTEwMjA=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt=""><br>
+</p>
+<p>可以看出Auto color correlation以及Tamura还是比较耗时的。其次是FCTH以及CEDD。剩下的几种算法还是比较节约时间的。</p>
+</div>
+
+
+
+
+<!-- Baidu Button BEGIN -->
+
+<div class="bdsharebuttonbox" style="float: right;">
+<a href="#" class="bds_more" data-cmd="more" style="background-position:0 0 !important; background-image: url(http://bdimg.share.baidu.com/static/api/img/share/icons_0_16.png?v=d754dcc0.png) !important"></a>
+<a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"  style="background-position:0 -52px !important"></a>
+<a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"style="background-position:0 -104px !important"></a>
+<a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"style="background-position:0 -260px !important"></a>
+<a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"style="background-position:0 -208px !important"></a>
+<a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"style="background-position:0 -1612px !important" ></a>
+</div>
+<script>window._bd_share_config = { "common": { "bdSnsKey": {}, "bdText": "", "bdMini": "1", "bdMiniList": false, "bdPic": "", "bdStyle": "0", "bdSize": "16" }, "share": {} }; with (document) 0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion=' + ~(-new Date() / 36e5)];</script>
+<!-- Baidu Button END -->
+
+<!--192.168.100.35-->
+<ul 

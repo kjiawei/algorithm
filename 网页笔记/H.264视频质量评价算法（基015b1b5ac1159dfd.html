@@ -1,0 +1,45 @@
+<html><head><meta http-equiv="Content-Type" content="text/html;	charset=gb2312"><style type=text/css>body {	font-size:13px;	padding:10 20px 10 10px;	background:#e0e0f0;	line-height:24px;}a:link    { color: #53A6b0; } </style><html><head><meta http-equiv="Content-Type" content="text/html; charset=gb2312"><title>H.264视频质量评价算法（基于偏最小二乘法回归）</title>
+<BODY bgcolor=e5e5f0  leftMargin=20  rightMargin=20><font color=#339933 size=5>H.264视频质量评价算法（基于偏最小二乘法回归）</font><br><font color=#993333 size=3>分类: 未分类<br>日期: 2013-10-19 16:16</font><br>原文地址: <a target=_blank href=http://blog.csdn.net/leixiaohua1020/article/details/12871691>http://blog.csdn.net/leixiaohua1020/article/details/12871691</a><hr size=1 color=#C0C0C0>
+
+<p>Zhiyuan Shi等人（这是中国人写的，但是我没看见中文论文，厦门大学的）在论文《Research on Quality Assessment Metric&nbsp;Based on H.264/AVC Bitstream》中，提出了一种使用偏最小二乘法回归（PLSR）计算得出的视频质量评价模型。模型还是挺有参考价&#20540;的，在此记录一下。</p>
+<p>该论文提出的模型完全依赖于从码流中提取出来的参数，是一个无参考视频质量评价算法。H.264码流结构如下图所示：</p>
+<p align="center"><img alt="" src="http://img.blog.csdn.net/20131019155854859?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvbGVpeGlhb2h1YTEwMjA=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast"><br>
+</p>
+<p>该算法选择了以下数&#20540;作为视频质量评价参数：</p>
+<p>（1）QP。包括：平均&#20540;-- QPavg， 中&#20540;--QPme，标准差-- QPsd， 最小&#20540;-- QPmin，最大&#20540;-- QPmax， 10%位-- QP10% ， 90%-- QP90%。</p>
+<p>（2）帧内预测宏块（Intra predicted block）。包括：I4×4所占百分比，&nbsp;I16×16所占百分比。</p>
+<p>（3）跳过宏块（Skipped macroblocks）。跳过（Skipped）宏块所占百分比。</p>
+<p>（4）I-slice所占百分比。</p>
+<p>模型建立过程还没有研究透，先不记录，直接给出结果公式：</p>
+<p align="center"><img alt="" src="http://img.blog.csdn.net/20131019160751843?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvbGVpeGlhb2h1YTEwMjA=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast"><br>
+</p>
+<p>一共有11个参数，每个参数的系数如下表所示：</p>
+<p align="center"><img alt="" src="http://img.blog.csdn.net/20131019160801156?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvbGVpeGlhb2h1YTEwMjA=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast"><br>
+</p>
+<p>验证一下该模型的准确性，使用了crownrun，parkjoy，intotree，oldtown四个序列作为测试序列，得到的预测&#20540;和主观&#20540;之间的关系如下图所示。</p>
+<p align="center"><img alt="" src="http://img.blog.csdn.net/20131019160808531?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvbGVpeGlhb2h1YTEwMjA=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast"><br>
+</p>
+<p>经计算，新提出的模型的皮尔逊相关系数为0.95，高于C. Keimel等人提出的模型（在这里先不细说该模型了）</p>
+<p align="center"><img alt="" src="http://img.blog.csdn.net/20131019160812234?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvbGVpeGlhb2h1YTEwMjA=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast"><br>
+</p>
+<p>论文地址：<a target="_blank" href="http://ieeexplore.ieee.org/xpl/articleDetails.jsp?tp=&amp;arnumber=6325335&amp;queryText%3DResearch&#43;on&#43;Quality&#43;Assessment&#43;Metric&#43;Based&#43;on&#43;H.264%2FAVC&#43;Bitstream" target="_blank">http://ieeexplore.ieee.org/xpl/articleDetails.jsp?tp=&amp;arnumber=6325335&amp;queryText%3DResearch&#43;on&#43;Quality&#43;Assessment&#43;Metric&#43;Based&#43;on&#43;H.264%2FAVC&#43;Bitstream</a></p>
+</div>
+
+
+
+
+<!-- Baidu Button BEGIN -->
+
+<div class="bdsharebuttonbox" style="float: right;">
+<a href="#" class="bds_more" data-cmd="more" style="background-position:0 0 !important; background-image: url(http://bdimg.share.baidu.com/static/api/img/share/icons_0_16.png?v=d754dcc0.png) !important"></a>
+<a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"  style="background-position:0 -52px !important"></a>
+<a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"style="background-position:0 -104px !important"></a>
+<a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"style="background-position:0 -260px !important"></a>
+<a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"style="background-position:0 -208px !important"></a>
+<a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"style="background-position:0 -1612px !important" ></a>
+</div>
+<script>window._bd_share_config = { "common": { "bdSnsKey": {}, "bdText": "", "bdMini": "1", "bdMiniList": false, "bdPic": "", "bdStyle": "0", "bdSize": "16" }, "share": {} }; with (document) 0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion=' + ~(-new Date() / 36e5)];</script>
+<!-- Baidu Button END -->
+
+<!--192.168.100.35-->
+<ul 

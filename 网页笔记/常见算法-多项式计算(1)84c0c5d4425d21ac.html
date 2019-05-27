@@ -1,0 +1,317 @@
+<html><head><meta http-equiv="Content-Type" content="text/html;	charset=gb2312"><style type=text/css>body {	font-size:13px;	padding:10 20px 10 10px;	background:#e0e0f0;	line-height:24px;}a:link    { color: #53A6b0; } </style><html><head><meta http-equiv="Content-Type" content="text/html; charset=gb2312"><title>常见算法-多项式计算(1)</title>
+<BODY bgcolor=e5e5f0  leftMargin=20  rightMargin=20><font color=#339933 size=5>常见算法-多项式计算(1)</font><br><font color=#993333 size=3>分类: 未分类<br>日期: 2013-09-02 21:21</font><br>原文地址: <a target=_blank href=http://blog.csdn.net/hitwhylz/article/details/10947257>http://blog.csdn.net/hitwhylz/article/details/10947257</a><hr size=1 color=#C0C0C0>
+
+<p><strong><span style="font-size:14px; color:#009900">最近在学算法，做做笔记，便于以后温习。</span></strong></p>
+<p><strong><span style="font-size:14px; color:#009900">学习资源：《常用算法程序集》</span></strong></p>
+<p><br>
+</p>
+<h1><span style="color:#ff0000">一。多项式求&#20540;</span></h1>
+<h2><span style="color:#3366ff">1.一维多项式</span></h2>
+<p>问题描述：计算形如<img src="http://img.blog.csdn.net/20130902210110156?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaGl0d2h5bHo=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""></p>
+<p><span style="white-space:pre"></span>的多项式在指定点x处的函数&#20540;。</p>
+<p>问题分析：首先，将多项式表述成如下嵌套形式：</p>
+<p><img src="http://img.blog.csdn.net/20130902210726375?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaGl0d2h5bHo=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""><br>
+</p>
+<p>然后从里往外一层一层地进行计算。其递推计算公式如下：</p>
+<p><img src="http://img.blog.csdn.net/20130902210725203?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaGl0d2h5bHo=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""><br>
+</p>
+<p><img src="http://img.blog.csdn.net/20130902210847625?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaGl0d2h5bHo=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""><br>
+</p>
+<p>最后得到的u即多项式&#20540;。</p>
+<p><br>
+</p>
+<p>下面，通过代码计算此多项式：<img src="http://img.blog.csdn.net/20130902211508140?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaGl0d2h5bHo=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""></p>
+<pre name="code" class="cpp">#include &lt;stdio.h&gt;
+
+/*  polynome_one函数介绍
+ 功能：计算并返回一维多项式在指定点x处的函数值
+ 参数：           int n:多项式的项数
+              double x:指定的自变量的值
+ double *modulus_array:存放n－1次多项式的n个系数的数组
+ */
+double polynome_one(int n, double x, double *modulus_array)
+{
+    int i;
+    double result_;     //利用推导出的递推公式进行计算
+    result_ = modulus_array[n-1];
+    
+    for (i=n-2; i&gt;=0; i--)
+    {
+        result_ = result_ * x + modulus_array[i];
+    }
+    
+    return result_;  //返回多项式值
+}
+int main()
+{
+    int i;
+    double modulus_array[7] = {-20.0, 7.0, -7.0, 1.0, 3.0, -5.0, 2.0}; //初始化系数数组
+    double x[6] = {0.9, -0.9, 1.1, -1.1, 1.3, -1.3};  //初始化自变量x数组
+    
+    for (i=0; i&lt;=5; i++) //打印每次x对应的结果。 
+    {
+        printf(&quot;x(%d) = %5.2lf   p(x(%d)) = %13.7e\n&quot;, i, x[i], i, polynome_one(7, x[i], modulus_array));
+    }
+    return 0;
+}
+
+//注：%e 是表示输出的数字以科学计数显示      如：7.234568e+003(即 7.234568*10^(+003) )
+
+/* 
+ ****************结果*******************
+ x(0) =  0.90   p(x(0)) = -1.8562268e+01
+ x(1) = -0.90   p(x(1)) = -2.6715368e+01
+ x(2) =  1.10   p(x(2)) = -1.9556128e+01
+ x(3) = -1.10   p(x(3)) = -2.1513028e+01
+ x(4) =  1.30   p(x(4)) = -2.0875732e+01
+ x(5) = -1.30   p(x(5)) = -6.3404320e+00
+*/</pre>
+<p><br>
+</p>
+<p><br>
+</p>
+<p><br>
+</p>
+<h2><span style="color:#3366ff">2.二维多项式</span></h2>
+<p>问题描述： 计算形如<img src="http://img.blog.csdn.net/20130902211011343?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaGl0d2h5bHo=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="">的二维多项式在给定点（x，y）处的函数&#20540;</p>
+<p><br>
+</p>
+<p>问题分析： 将二维多项式变形如下：</p>
+<p><img src="http://img.blog.csdn.net/20130902211146468?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaGl0d2h5bHo=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""><br>
+</p>
+<p>令：<img src="http://img.blog.csdn.net/20130902211105187?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaGl0d2h5bHo=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""></p>
+<p>则计算si的递推公式如下：</p>
+<p><img src="http://img.blog.csdn.net/20130902211130296?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaGl0d2h5bHo=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""><br>
+</p>
+<p><img src="http://img.blog.csdn.net/20130902211148671?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaGl0d2h5bHo=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""><br>
+</p>
+<p>最后计算得到的u即si</p>
+<p>最后再将所有的si累加，即可得到最后的解。</p>
+<p><br>
+</p>
+<p>下面通过代码计算此多项式<img src="http://img.blog.csdn.net/20130902211413640?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaGl0d2h5bHo=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""></p>
+<p>其中，系数矩阵为：<img src="http://img.blog.csdn.net/20130902211436140?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaGl0d2h5bHo=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""></p>
+<p></p>
+<pre name="code" class="cpp">#include &lt;stdio.h&gt;
+
+/*  polynome_two函数介绍
+ 功能：计算并返回二维多项式在指定点x处的函数值
+ 参数：           int n:自变量y的最高次数为n－1
+                 int m:自变量x的最高次数为m－1
+              double x:指定的自变量x的值
+              double y:指定的自变量y的值
+ double *modulus_array:存放二维多项式的系数
+ */
+double polynome_two(double *modulus_array, int m, int n, double x, double y)
+{
+    int i, j;
+    double result_, each_si, now_xi;
+    result_ = 0.0;
+    now_xi = 1.0;
+    
+    for (i=0; i&lt;=m-1; i++)
+    {
+        each_si = modulus_array[i*n+n-1] * now_xi;
+        for (j=n-2; j&gt;=0; j--)
+        {
+            each_si = each_si * y + modulus_array[i*n+j] * now_xi;
+        }
+        
+        result_ += each_si;
+        now_xi = now_xi * x;
+    }
+    return  result_;
+}
+int main()
+{
+    double result_;
+    double modulus_array[4][5] = {{1.0, 2.0, 3.0, 4.0, 5.0},
+                                {6.0, 7.0, 8.0, 9.0, 10.0},
+                                {11.0, 12.0, 13.0, 14.0, 15.0},
+                                {16.0, 17.0, 18.0, 19.0, 20.0}};
+    
+    result_ = polynome_two(modulus_array, 4, 5, 0.6, -1.3);
+    printf(&quot;p(0.6, -1.3) = %13.7e\n&quot;, result_);
+    
+}
+
+//注：%e 是表示输出的数字以科学计数显示      如：7.234568e+003(即 7.234568*10^(+003) )
+
+/* 
+ ****************结果*******************
+<p style="margin-top: 0px; margin-bottom: 0px; ">  p(0.6, -1.3) = 3.9665544e+01</p>*/</pre>
+<p></p>
+<p><br>
+</p>
+<p><br>
+</p>
+<h2><span style="color:#3366ff">3.复数多项式</span></h2>
+<p>问题描述：计算形如<img src="http://img.blog.csdn.net/20130902211609187?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaGl0d2h5bHo=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""></p>
+<p>的复数多项式在给定复数z时的&#20540;。</p>
+<p><br>
+</p>
+<p>问题分析：和上面的多项式分析一样，嵌套进行，就不多重复了。关键在于cmul对每组复数相乘的计算过程。</p>
+<p><br>
+</p>
+<p>下面通过代码，计算<img src="http://img.blog.csdn.net/20130902211735656?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaGl0d2h5bHo=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""></p>
+<p>在z＝1&#43;j时的函数&#20540;</p>
+<p></p>
+<pre name="code" class="cpp">#include &lt;stdio.h&gt;
+
+/*  cuml函数介绍
+ 功能：计算两个复数乘积   即(a+bj)*(c+dj) = e+fj
+ 参数: 对应复数中的各个值
+ 结果: 对e，f分别计算求得值
+*/
+
+void cmul(double a, double b, double c, double d, double *e, double *f)
+{
+    double p, q, s;
+    p = a * c;
+    q = b * d;
+    s = (a+b) * (c+d);
+    
+    *e = p - q;
+    *f = s - p - q;
+}
+
+/*  polynome_z函数介绍
+ 功能：计算复数多项式在给定复数z(x+yj)时的函数值
+ 参数: double *modulus_r: 存放多项式的实部
+      double *modulus_r: 存放多项式的虚部
+               double x: 给定复数z的实部
+               double y: 给定复数z的虚部
+              double *u: 返回多项式值的实部
+              double *v: 返回多项式值的虚部
+ */
+void polynome_z(double *modulus_r, double *modulus_i, int n, double x, double y, double *u, double *v)
+{
+    int i;
+    double now_r, now_i;
+    double p, q;
+    now_r = modulus_r[n-1];
+    now_i = modulus_i[n-1];
+    for (i=n-2; i&gt;=0; i--)
+    {
+        cmul(now_r, now_i, x, y, &amp;p, &amp;q);
+        now_r = p + modulus_r[i];
+        now_i = q +  modulus_i[i];
+    }
+    
+    *u = now_r;
+    *v = now_i;
+}
+
+
+int main()
+{
+    double x, y, u, v;
+    double modulus_r[4] = {2.0, 2.0, 1.0, 2.0};
+    double modulus_i[4] = {1.0, 1.0, 1.0, 2.0};
+    
+    x = 1.0;
+    y = 1.0;
+    polynome_z(modulus_r, modulus_i, 4, x, y, &amp;u, &amp;v);
+    printf(&quot;p(1.0+j) = %10.7lf+%10.7lfj&quot;, u, v);
+    
+}
+
+//注：%e 是表示输出的数字以科学计数显示      如：7.234568e+003(即 7.234568*10^(+003) )
+
+//计算结果：  p(1.0+j) = -7.0000000+ 6.0000000j</pre><br>
+<br>
+<p></p>
+<p><br>
+</p>
+<h1><span style="color:#ff0000">二。多项式乘法</span></h1>
+<p><br>
+</p>
+<h2><span style="color:#3366ff">1.多项式相乘（实数）</span></h2>
+<p><br>
+</p>
+<p>算法本身没什么难度，两个循环，遍历p，q两个多项式各个项的系数相乘，所得结果加到对应结果项上。</p>
+<p>下面通过代码计算</p>
+<p><img src="http://img.blog.csdn.net/20130905212239250?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaGl0d2h5bHo=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""><img src="http://img.blog.csdn.net/20130905212251109?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaGl0d2h5bHo=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""></p>
+<p><img src="http://img.blog.csdn.net/20130905212154546?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaGl0d2h5bHo=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""><br>
+</p>
+<p><br>
+</p>
+<p><pre name="code" class="cpp">#include &lt;stdio.h&gt;
+
+/* ***********polynome_mul函数功能介绍*************/
+/* 函数功能：计算两个多项式相乘                      */
+/* 参数说明：*polynome_first,第一个多项式系数数组     */
+/*         *polynome_second,第二个多项式系数数组    */
+/*         *polynome_result,相乘结果多项式系数数组   */
+/* num_first,num_second,num_result分别对应多项式项数*/
+/* ******************************************** */
+void polynome_mul(double *polynome_first, double *polynome_second, double *polynome_result, int num_first, int num_second, int num_result)
+{
+    int i, j;
+    
+    for (i=0; i&lt;num_result; i++)  //先初始化为0，（下面加法要用到，不初始化出错）
+    {
+        polynome_result[i] = 0.0;
+    }
+    for (i=0; i&lt;num_first; i++)
+    {
+        for (j=0; j&lt;num_second; j++)   //S(i+j) = S(i+j) + P(i)*p(j) 算法核心
+        {
+            polynome_result[i+j] = polynome_result[i+j] + polynome_first[i] * polynome_second[j];
+        }
+    }
+}
+
+int main()
+{
+    int i;
+    double polynome_first[6] = {4.0, -6.0, 5.0, 2.0, -1.0, 3.0};
+    double polynome_second[4] = {2.0, 3.0, -6.0, 2.0};
+    
+    double polynome_result[9];  // 6+4-1
+    polynome_mul(polynome_first, polynome_second, polynome_result, 6, 4, 9);
+
+    for (i=0; i&lt;9; i++)
+    {
+        printf(&quot;S(%d) = %13.7e\n&quot;, i, polynome_result[i]); //打印结果为各个项的系数
+    }
+}
+
+//注：%e 是表示输出的数字以科学计数显示      如：7.234568e+003(即 7.234568*10^(+003) )
+
+/*计算结果：
+ S(0) = 8.0000000e+00
+ S(1) = 0.0000000e+00
+ S(2) = -3.2000000e+01
+ S(3) = 6.3000000e+01
+ S(4) = -3.8000000e+01
+ S(5) = 1.0000000e+00
+ S(6) = 1.9000000e+01
+ S(7) = -2.0000000e+01
+ S(8) = 6.0000000e+00
+ */
+</pre><br>
+<br>
+</p>
+<p><br>
+</p>
+</div>
+
+
+
+
+<!-- Baidu Button BEGIN -->
+
+<div class="bdsharebuttonbox" style="float: right;">
+<a href="#" class="bds_more" data-cmd="more" style="background-position:0 0 !important; background-image: url(http://bdimg.share.baidu.com/static/api/img/share/icons_0_16.png?v=d754dcc0.png) !important"></a>
+<a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"  style="background-position:0 -52px !important"></a>
+<a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"style="background-position:0 -104px !important"></a>
+<a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"style="background-position:0 -260px !important"></a>
+<a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"style="background-position:0 -208px !important"></a>
+<a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"style="background-position:0 -1612px !important" ></a>
+</div>
+<script>window._bd_share_config = { "common": { "bdSnsKey": {}, "bdText": "", "bdMini": "1", "bdMiniList": false, "bdPic": "", "bdStyle": "0", "bdSize": "16" }, "share": {} }; with (document) 0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion=' + ~(-new Date() / 36e5)];</script>
+<!-- Baidu Button END -->
+
+<!--192.168.100.36-->
+<ul 

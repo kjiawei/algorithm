@@ -1,0 +1,75 @@
+<html><head><meta http-equiv="Content-Type" content="text/html;	charset=gb2312"><style type=text/css>body {	font-size:13px;	padding:10 20px 10 10px;	background:#e0e0f0;	line-height:24px;}a:link    { color: #53A6b0; } </style><html><head><meta http-equiv="Content-Type" content="text/html; charset=gb2312"><title>一道有趣的GOOGLE算法题</title>
+<BODY bgcolor=e5e5f0  leftMargin=20  rightMargin=20><font color=#339933 size=5>一道有趣的GOOGLE算法题</font><br><font color=#993333 size=3>分类: 未分类<br>日期: 2012-12-01 23:01</font><br>原文地址: <a target=_blank href=http://blog.csdn.net/typename/article/details/8247570>http://blog.csdn.net/typename/article/details/8247570</a><hr size=1 color=#C0C0C0>
+<p><span style="font-size:18px">问题描述：</span></p><p><span style="color:rgb(51,51,51); font-family:'Microsoft YaHei'; line-height:26px"><span style="font-size:14px">一个大小为n的数组，里面的数都属于范围[0, n-1]，有不确定的重复元素，找到至少一个重复元素，要求O(1)空间和O(n)时间。</span></span><br /></p><p><span style="font-family:Microsoft YaHei; font-size:14px; color:#333333"><span style="line-height:26px">如果没有时间，空间的要求，那解法会相当的多，hash table，STL当中的set等都可以很方便的解决。网上大多的解法是基于基数排序，还有标记法。本人由于兴趣，采用交换标记法，代码如下：</span></span></p><p><pre code_snippet_id="508885" snippet_file_name="blog_20150114_1_9898396"  name="code" class="java">#include&lt;iostream&gt;
+#include&lt;math.h&gt;
+bool Repeat(int array[], int n) {
+	for (int i = 0; i &lt; n; i++) {
+		int currentNumber = array[i];
+		if (fabs(currentNumber)
+				== (-array[currentNumber &gt; 0 ? currentNumber : -currentNumber])) {
+			if (currentNumber == 0 &amp;&amp; i == 0)
+				continue;
+			return true;
+		} else if (currentNumber == array[currentNumber]) {
+			array[currentNumber] = -currentNumber;
+		} else {
+			array[i] = array[currentNumber];
+			array[currentNumber] = currentNumber;
+		}
+
+	}
+	return false;
+}
+void print(bool repeat, int caseNumber) {
+	if (repeat)
+		std::cout &lt;&lt; &quot;case :&quot; &lt;&lt; caseNumber &lt;&lt; &quot; repeat&quot; &lt;&lt; std::endl;
+	else
+		std::cout &lt;&lt; &quot;case :&quot; &lt;&lt; caseNumber &lt;&lt; &quot; non repeat&quot; &lt;&lt; std::endl;
+}
+int main() {
+	bool isReapt = false;
+	//test case 1
+	int array1[] = { 1, 4, 2, 3, 1 };
+	isReapt = Repeat(array1, 5);
+	print(isReapt, 1);
+	//test case 2
+	int array2[] = { 0, 4, 2, 3, 1 };
+	isReapt = Repeat(array2, 5);
+	print(isReapt, 2);
+	//test case 3
+	int array3[] = { 0, 0, 0, 0, 0 };
+	isReapt = Repeat(array3, 5);
+	print(isReapt, 3);
+	return 0;
+}
+</pre><br /><br /></p><p>实现方式2： 只用一个中间变量，原地检测</p><pre code_snippet_id="508885" snippet_file_name="blog_20141105_2_8066464"  code_snippet_id="508885" snippet_file_name="blog_20141105_2_8066464" name="code" class="java">	public static boolean duplicateElements(int array[], int n) {
+		int temp = 0;
+		for (int i = 0; i &lt; n; i++) {
+			if (array[i] != array[array[i]]) {
+				temp = array[array[i]];
+				array[array[i]] = array[i];
+				array[i] = temp;
+			} else if(array[i] != i)
+				return true;
+		}
+		return false;
+	}</pre><br /><br /><p></p><p></p>转载请注明出处<a target=_blank target="_blank" href="http://blog.csdn.net/typename/article/details/8247570">http://blog.csdn.net/typename/article/details/8247570</a><p></p><p><span style="font-family:Microsoft YaHei; font-size:14px; color:#333333"><span style="line-height:26px">仅供交流.</span></span></p><p><span style="font-family:Microsoft YaHei; font-size:14px; color:#333333"><span style="line-height:26px"><br /></span></span></p></div>
+
+
+
+
+<!-- Baidu Button BEGIN -->
+
+<div class="bdsharebuttonbox" style="float: right;">
+<a href="#" class="bds_more" data-cmd="more" style="background-position:0 0 !important; background-image: url(http://bdimg.share.baidu.com/static/api/img/share/icons_0_16.png?v=d754dcc0.png) !important"></a>
+<a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"  style="background-position:0 -52px !important"></a>
+<a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"style="background-position:0 -104px !important"></a>
+<a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"style="background-position:0 -260px !important"></a>
+<a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"style="background-position:0 -208px !important"></a>
+<a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"style="background-position:0 -1612px !important" ></a>
+</div>
+<script>window._bd_share_config = { "common": { "bdSnsKey": {}, "bdText": "", "bdMini": "1", "bdMiniList": false, "bdPic": "", "bdStyle": "0", "bdSize": "16" }, "share": {} }; with (document) 0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion=' + ~(-new Date() / 36e5)];</script>
+<!-- Baidu Button END -->
+
+<!--192.168.100.35-->
+<ul 

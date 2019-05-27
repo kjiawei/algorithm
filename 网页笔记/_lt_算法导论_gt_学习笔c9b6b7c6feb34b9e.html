@@ -1,0 +1,92 @@
+<html><head><meta http-equiv="Content-Type" content="text/html;	charset=gb2312"><style type=text/css>body {	font-size:13px;	padding:10 20px 10 10px;	background:#e0e0f0;	line-height:24px;}a:link    { color: #53A6b0; } </style><html><head><meta http-equiv="Content-Type" content="text/html; charset=gb2312"><title>_lt_算法导论_gt_学习笔记(1)--第1章 算法在计算中的作用</title>
+<BODY bgcolor=e5e5f0  leftMargin=20  rightMargin=20><font color=#339933 size=5>_lt_算法导论_gt_学习笔记(1)--第1章 算法在计算中的作用</font><br><font color=#993333 size=3>分类: 未分类<br>日期: 2014-01-28 19:27</font><br>原文地址: <a target=_blank href=http://blog.csdn.net/hitwhylz/article/details/18845345>http://blog.csdn.net/hitwhylz/article/details/18845345</a><hr size=1 color=#C0C0C0>
+
+<div style="text-align:center"><span style="color:rgb(255,0,0)"><strong><span style="font-size:24px">&lt;算法导论&gt;学习笔记(1)--第1章 算法在计算中的作用</span></strong></span></div>
+<div style="text-align:center"><span style="color:rgb(255,0,0)"><span style="font-weight:bold"><span style="font-size:24px"></span></span></span>
+<p style="margin:10px auto; padding-top:0px; padding-bottom:0px; font-family:Verdana,Arial,Helvetica,sans-serif; font-size:14px; line-height:20px">
+<span style="margin:0px; padding:0px"><span style="margin:0px; padding:0px; color:rgb(255,0,255)">Having a solid base of algorithm knowledge and technique is one characteristic that separates the truly skilled programmers from the novices.</span></span></p>
+<p style="margin:10px auto; padding-top:0px; padding-bottom:0px; font-family:Verdana,Arial,Helvetica,sans-serif; font-size:14px; line-height:20px">
+　　<span style="margin:0px; padding:0px"><span style="margin:0px; padding:0px; color:rgb(255,0,255)">是否具有扎实的算法知识和技术基础，是区分真正熟练的程序员与新手的一项重要特征。</span></span></p>
+</div>
+<div><br>
+</div>
+<div>
+<p align="left"><strong><span style="font-size:14px; color:#3366ff">1. 算法(algorithm)可以用英语、计算机程序甚至是硬件设计来表达，它是一系列的 计算步骤，用来将输入数据转换成输出结果。简单的说，算法是定义良好的计算过程。</span></strong></p>
+<p align="left"><strong><span style="font-size:14px; color:#3366ff">2. 算法有正确的，也有不正确的，如果不正确算法的错误率可以得到控制的话，它们有时也是有用的，但一般我们只关注正确的算法。</span></strong></p>
+<p align="left"><strong><span style="font-size:14px; color:#3366ff">3. 数据结构是存储和组织数据的一种方式，以便对数据迕行访问和修改。没有一种数据结构可以适用于所有用途和目的，因此了解数据结构的长处和局限性相当重要。</span></strong></p>
+<p align="left"><strong><span style="font-size:14px; color:#3366ff">4. 衡量算法效率的常用标准是速度。</span></strong></p>
+<p align="left"><strong><span style="font-size:14px; color:#3366ff">5. 算法即是一系列的计算步骤,用来将一个有效的输入转换成一个有效的输出。</span></strong></p>
+<p align="left"><strong><span style="font-size:14px; color:#3366ff">6. 计算机的有限的资源必须被有效的利用,算法就是来解决这些问题的方法。</span></strong><br>
+</p>
+<p align="left"><br>
+</p>
+<p align="left"><br>
+</p>
+<p align="left"><br>
+</p>
+<p align="left"></p>
+<p style="border-width:0px; padding-top:0px; padding-bottom:0px; margin-top:0px; margin-bottom:8px; list-style:none">
+练习</p>
+<p style="border-width:0px; padding-top:0px; padding-bottom:0px; margin-top:0px; margin-bottom:8px; list-style:none">
+1.1-1　给出现实生活中需要排序的一个例子或者现实生活中需要计算凸壳的一个例子。</p>
+<p style="border-width:0px; padding-top:0px; padding-bottom:0px; margin-top:0px; margin-bottom:8px; list-style:none">
+1.1-2　除速度外，在真实环境中还可能使用哪些其他有关效率的量度？</p>
+<p style="border-width:0px; padding-top:0px; padding-bottom:0px; margin-top:0px; margin-bottom:8px; list-style:none">
+1.1-3　选择一种你以前已知的数据结构，并讨论其优势和局限。</p>
+<p style="border-width:0px; padding-top:0px; padding-bottom:0px; margin-top:0px; margin-bottom:8px; list-style:none">
+1.1-4　前面给出的最短路径与旅行商问题有哪些相&#20284;之处？又有哪些不同？</p>
+<p style="border-width:0px; padding-top:0px; padding-bottom:0px; margin-top:0px; margin-bottom:8px; list-style:none">
+1.1-5　提供一个现实生活的问题，其中只有最佳解才行。然后提供一个问题，其中近&#20284;最佳的一个解也足够好。</p>
+<br>
+<p align="left"></p>
+<div class="page" title="Page 1">
+<div class="layoutArea">
+<div class="column">
+<p><span style="font-size:12.000000pt; color:rgb(0.000000%,69.000000%,31.400000%)">【练习答案】</span></p>
+<p><span style="font-size:12.000000pt">1.1-1</span><span style="font-size:12.000000pt">:给出现实生活中需要排序的一个例子</span></p>
+<p><span style="font-size:12.000000pt; color:rgb(29.400000%,67.500000%,77.600000%)">a)</span><span style="font-size:12.000000pt">排序:将一次考试中
+</span><span style="font-size:12.000000pt">500</span><span style="font-size:12.000000pt">名考生的成绩按分数从高到低迕行排名。<br>
+</span><span style="font-size:12.000000pt; color:rgb(29.400000%,67.500000%,77.600000%)">b)</span><span style="font-size:12.000000pt">确定多矩阵相乘的最佳顺序:某实验模型,需要计算 返
+</span><span style="font-size:12.000000pt">17</span><span style="font-size:12.000000pt">个矩阵的积,根据矩阵乘法的结合律确定计算顺序,以达到计算乘法次数最少的目的。</span><span style="font-size:12.000000pt; color:rgb(96.900000%,58.800000%,27.500000%)">※</span><span style="font-size:12.000000pt">矩阵乘法的结合律:<br>
+</span><span style="font-size:12.000000pt; color:rgb(29.400000%,67.500000%,77.600000%)">c)</span><span style="font-size:12.000000pt">找出凸壳:木板上钉了
+</span><span style="font-size:12.000000pt">21</span><span style="font-size:12.000000pt">个钉子,以其中一些钉子为顶点组成的凸多边形可以包含所有
+</span><span style="font-size:12.000000pt">21</span><span style="font-size:12.000000pt">个钉子,找出使凸多边形达到最小的所有钉子。</span></p>
+<p><span style="font-size:12.000000pt"><br>
+</span><span style="font-size:12.000000pt">1.1-2</span><span style="font-size:12.000000pt">:<br>
+</span><span style="font-size:12.000000pt">占用资源大小,问题的解决程度,答案精度等。</span></p>
+<p><span style="font-size:12.000000pt"><br>
+</span><span style="font-size:12.000000pt">1.1-3</span><span style="font-size:12.000000pt">:</span></p>
+<p><span style="font-size:12.000000pt">栈(</span><span style="font-size:12.000000pt">LIFO</span><span style="font-size:12.000000pt">):长处是可以严&#26684;按照后迕先出顺序,非常适合如保存程序调用的迒回地址之类的特殊应用,缺点是无法迕行随机读写。</span></p>
+<p><span style="font-size:12.000000pt"><br>
+</span><span style="font-size:12.000000pt">1.1-4</span><span style="font-size:12.000000pt">:<br>
+</span><span style="font-size:12.000000pt">相&#20284;之处:都是寻求最短的路线</span></p>
+<p><span style="font-size:12.000000pt">不同之处:最短路线问题是从若干条可选线路中选择一条线路使之在两个点之间达到&nbsp;</span></p>
+<p><span style="font-size:12.000000pt"><br>
+</span></p>
+<p style="text-align:center"><span style="font-size:48px; color:#ff0000"><strong>学习的路上，与君共勉。</strong></span></p>
+</div>
+</div>
+</div>
+<br>
+<p></p>
+</div>
+</div>
+
+
+
+
+<!-- Baidu Button BEGIN -->
+
+<div class="bdsharebuttonbox" style="float: right;">
+<a href="#" class="bds_more" data-cmd="more" style="background-position:0 0 !important; background-image: url(http://bdimg.share.baidu.com/static/api/img/share/icons_0_16.png?v=d754dcc0.png) !important"></a>
+<a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"  style="background-position:0 -52px !important"></a>
+<a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"style="background-position:0 -104px !important"></a>
+<a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"style="background-position:0 -260px !important"></a>
+<a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"style="background-position:0 -208px !important"></a>
+<a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"style="background-position:0 -1612px !important" ></a>
+</div>
+<script>window._bd_share_config = { "common": { "bdSnsKey": {}, "bdText": "", "bdMini": "1", "bdMiniList": false, "bdPic": "", "bdStyle": "0", "bdSize": "16" }, "share": {} }; with (document) 0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion=' + ~(-new Date() / 36e5)];</script>
+<!-- Baidu Button END -->
+
+<!--192.168.100.36-->
+<ul 

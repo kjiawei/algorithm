@@ -1,0 +1,131 @@
+<html><head><meta http-equiv="Content-Type" content="text/html;	charset=gb2312"><style type=text/css>body {	font-size:13px;	padding:10 20px 10 10px;	background:#e0e0f0;	line-height:24px;}a:link    { color: #53A6b0; } </style><html><head><meta http-equiv="Content-Type" content="text/html; charset=gb2312"><title>_lt_算法导论_gt_学习笔记(3)--递归树求递归算法时间复杂度</title>
+<BODY bgcolor=e5e5f0  leftMargin=20  rightMargin=20><font color=#339933 size=5>_lt_算法导论_gt_学习笔记(3)--递归树求递归算法时间复杂度</font><br><font color=#993333 size=3>分类: 未分类<br>日期: 2014-01-30 13:15</font><br>原文地址: <a target=_blank href=http://blog.csdn.net/hitwhylz/article/details/18882705>http://blog.csdn.net/hitwhylz/article/details/18882705</a><hr size=1 color=#C0C0C0>
+
+<p style="margin:10px auto; color:rgb(75,75,75); font-family:Verdana,Arial,Helvetica,sans-serif; font-size:13px; line-height:20px">
+</p>
+<div style="font-family:Arial; font-size:14px; line-height:26px; text-align:center">
+<span style="color:rgb(255,0,0)"><strong><span style="font-size:24px">&lt;算法导论&gt;学习笔记(3)--递归树求递归算法时间复杂度</span></strong></span></div>
+<div style="font-family:Arial; font-size:14px; line-height:26px; text-align:center">
+<span style="color:rgb(255,0,0)"><span style="font-weight:bold"><span style="font-size:24px"></span></span></span>
+<p style="margin:10px auto; padding-top:0px; padding-bottom:0px; font-family:Verdana,Arial,Helvetica,sans-serif; line-height:20px">
+<span style="margin:0px; padding:0px"><span style="margin:0px; padding:0px; color:rgb(255,0,255)">Having a solid base of algorithm knowledge and technique is one characteristic that separates the truly skilled programmers from the novices.</span></span></p>
+<p style="margin:10px auto; padding-top:0px; padding-bottom:0px; font-family:Verdana,Arial,Helvetica,sans-serif; line-height:20px">
+　　<span style="margin:0px; padding:0px"><span style="margin:0px; padding:0px; color:rgb(255,0,255)">是否具有扎实的算法知识和技术基础，是区分真正熟练的程序员与新手的一项重要特征。</span></span></p>
+</div>
+<br>
+<p></p>
+<p style="margin:10px auto; color:rgb(75,75,75); font-family:Verdana,Arial,Helvetica,sans-serif; font-size:13px; line-height:20px">
+递归算法时间复杂度的计算方程式一个递归方程：</p>
+<p style="margin:10px auto; color:rgb(75,75,75); font-family:Verdana,Arial,Helvetica,sans-serif; font-size:13px; line-height:20px">
+　　<img src="http://pic002.cnblogs.com/images/2010/226016/2010122110093855.jpg" alt="" style="border:0px"></p>
+<p style="margin:10px auto; color:rgb(75,75,75); font-family:Verdana,Arial,Helvetica,sans-serif; font-size:13px; line-height:20px">
+　　在引入递归树之前可以考虑一个例子：</p>
+<p style="margin:10px auto; color:rgb(75,75,75); font-family:Verdana,Arial,Helvetica,sans-serif; font-size:13px; line-height:20px">
+　　T(n) = 2T(n/2) &#43; n<sup style="">2</sup></p>
+<p style="margin:10px auto; color:rgb(75,75,75); font-family:Verdana,Arial,Helvetica,sans-serif; font-size:13px; line-height:20px">
+　　迭代2次可以得：</p>
+<p style="margin:10px auto; color:rgb(75,75,75); font-family:Verdana,Arial,Helvetica,sans-serif; font-size:13px; line-height:20px">
+　　T(n) = n<sup style="">2</sup>&nbsp;&#43; 2(2T(n/4) &#43; (n/2)<sup style="">&nbsp;2</sup>)</p>
+<p style="margin:10px auto; color:rgb(75,75,75); font-family:Verdana,Arial,Helvetica,sans-serif; font-size:13px; line-height:20px">
+　　还可以继续迭代，将其完全展开可得：</p>
+<p style="margin:10px auto; color:rgb(75,75,75); font-family:Verdana,Arial,Helvetica,sans-serif; font-size:13px; line-height:20px">
+　　T(n) = n<sup style="">2</sup>&nbsp;&#43; 2((n/2)<sup style="">&nbsp;2</sup>&nbsp;&#43; 2((n/2<sup style="">2</sup>)<sup style="">2</sup>&nbsp;&#43; 2((n/2<sup style="">3</sup>)<sup style="">&nbsp;2</sup>&nbsp;&#43; 2((n/2<sup style="">4</sup>)<sup style="">&nbsp;2&nbsp;</sup>&#43;…&#43;2((n/2<sup style="">i</sup>)<sup style="">&nbsp;2</sup>&nbsp;&#43;
+ 2T(n/2<sup style="">i &#43; 1</sup>)))…))))　　……(1)</p>
+<p style="margin:10px auto; color:rgb(75,75,75); font-family:Verdana,Arial,Helvetica,sans-serif; font-size:13px; line-height:20px">
+　　而当n/2<sup style="">i&#43;1</sup>&nbsp;== 1时，迭代结束。</p>
+<p style="margin:10px auto; color:rgb(75,75,75); font-family:Verdana,Arial,Helvetica,sans-serif; font-size:13px; line-height:20px">
+&nbsp;</p>
+<p style="margin:10px auto; color:rgb(75,75,75); font-family:Verdana,Arial,Helvetica,sans-serif; font-size:13px; line-height:20px">
+　　将(1)式小括号展开，可得：</p>
+<p style="margin:10px auto; color:rgb(75,75,75); font-family:Verdana,Arial,Helvetica,sans-serif; font-size:13px; line-height:20px">
+　　T(n) = n<sup style="">2</sup>&nbsp;&#43; 2(n/2)<sup style="">2</sup>&nbsp;&#43; 2<sup style="">2</sup>(n/2<sup style="">2</sup>)<sup style="">&nbsp;2</sup>&nbsp;&#43; … &#43; 2<sup style="">i</sup>(n/2<sup style="">i</sup>)<sup style="">2</sup>&nbsp;&#43; 2<sup style="">i&#43;1</sup>T(n/2<sup style="">i&#43;1</sup>)</p>
+<p style="margin:10px auto; color:rgb(75,75,75); font-family:Verdana,Arial,Helvetica,sans-serif; font-size:13px; line-height:20px">
+　　这恰好是一个树形结构，由此可引出递归树法。</p>
+<p style="margin:10px auto; color:rgb(75,75,75); font-family:Verdana,Arial,Helvetica,sans-serif; font-size:13px; line-height:20px">
+&nbsp;<img src="http://pic002.cnblogs.com/images/2010/226016/2010122110500693.gif" alt="" style="border:0px"></p>
+<p style="margin:10px auto; color:rgb(75,75,75); font-family:Verdana,Arial,Helvetica,sans-serif; font-size:13px; line-height:20px">
+　　图中的(a)(b)(c)(d)分别是递归树生成的第1,2,3,n步。每一节点中都将当前的自由项n<sup style="">2</sup>留在其中，而将两个递归项T(n/2) &#43; T(n/2)分别摊给了他的两个子节点，如此循环。</p>
+<p style="margin:10px auto; color:rgb(75,75,75); font-family:Verdana,Arial,Helvetica,sans-serif; font-size:13px; line-height:20px">
+　　图中所有节点之和为:</p>
+<p style="margin:10px auto; color:rgb(75,75,75); font-family:Verdana,Arial,Helvetica,sans-serif; font-size:13px; line-height:20px">
+　　[1 &#43; 1/2 &#43; (1/2)<sup style="">2</sup>&nbsp;&#43; (1/2)<sup style="">3</sup>&nbsp;&#43; … &#43; (1/2)<sup style="">i</sup>] n<sup style="">2</sup>&nbsp;= 2n<sup style="">2</sup></p>
+<p style="margin:10px auto; color:rgb(75,75,75); font-family:Verdana,Arial,Helvetica,sans-serif; font-size:13px; line-height:20px">
+　　可知其时间复杂度为O(n<sup style="">2</sup>)</p>
+<p style="margin:10px auto; color:rgb(75,75,75); font-family:Verdana,Arial,Helvetica,sans-serif; font-size:13px; line-height:20px">
+　　</p>
+<p style="margin:10px auto; color:rgb(75,75,75); font-family:Verdana,Arial,Helvetica,sans-serif; font-size:13px; line-height:20px">
+　　可以得到递归树的规则为：</p>
+<p style="margin:10px auto; color:rgb(75,75,75); font-family:Verdana,Arial,Helvetica,sans-serif; font-size:13px; line-height:20px">
+　　(1) 每层的节点为T(n) = kT(n / m) &#43; f(n)中的f(n)在当前的n/m下的&#20540;；</p>
+<p style="margin:10px auto; color:rgb(75,75,75); font-family:Verdana,Arial,Helvetica,sans-serif; font-size:13px; line-height:20px">
+　　(2) 每个节点的分支数为k；</p>
+<p style="margin:10px auto; color:rgb(75,75,75); font-family:Verdana,Arial,Helvetica,sans-serif; font-size:13px; line-height:20px">
+　　(3)每层的右侧标出当前层中所有节点的和。</p>
+<p style="margin:10px auto; color:rgb(75,75,75); font-family:Verdana,Arial,Helvetica,sans-serif; font-size:13px; line-height:20px">
+&nbsp;</p>
+<p style="margin:10px auto; color:rgb(75,75,75); font-family:Verdana,Arial,Helvetica,sans-serif; font-size:13px; line-height:20px">
+　　再举个例子：</p>
+<p style="margin:10px auto; color:rgb(75,75,75); font-family:Verdana,Arial,Helvetica,sans-serif; font-size:13px; line-height:20px">
+　　T(n) = T(n/3) &#43; T(2n/3) &#43; n</p>
+<p style="margin:10px auto; color:rgb(75,75,75); font-family:Verdana,Arial,Helvetica,sans-serif; font-size:13px; line-height:20px">
+　　其递归树如下图所示：</p>
+<p style="margin:10px auto; color:rgb(75,75,75); font-family:Verdana,Arial,Helvetica,sans-serif; font-size:13px; line-height:20px">
+　　<img src="http://pic002.cnblogs.com/images/2010/226016/2010122111092387.gif" alt="" style="border:0px"></p>
+<p style="margin:10px auto; color:rgb(75,75,75); font-family:Verdana,Arial,Helvetica,sans-serif; font-size:13px; line-height:20px">
+　　可见每层的&#20540;都为n，从根到叶节点的最长路径是：</p>
+<p style="margin:10px auto; color:rgb(75,75,75); font-family:Verdana,Arial,Helvetica,sans-serif; font-size:13px; line-height:20px">
+　　<img src="http://pic002.cnblogs.com/images/2010/226016/2010122111104433.gif" alt="" width="165" height="31" style="border:0px"></p>
+<p style="margin:10px auto; color:rgb(75,75,75); font-family:Verdana,Arial,Helvetica,sans-serif; font-size:13px; line-height:20px">
+　　因为最后递归的停止是在(2/3)<sup style="">k</sup>n == 1.则</p>
+<p style="margin:10px auto; color:rgb(75,75,75); font-family:Verdana,Arial,Helvetica,sans-serif; font-size:13px; line-height:20px">
+　　<img src="http://pic002.cnblogs.com/images/2010/226016/2010122111430244.gif" alt="" style="border:0px">　　<span style="widows:2; border-collapse:separate; font-size:14px; line-height:normal; font-family:Simsun; orphans:2; color:rgb(0,0,0)">　　</span></p>
+<p style="margin:10px auto; color:rgb(75,75,75); font-family:Verdana,Arial,Helvetica,sans-serif; font-size:13px; line-height:20px">
+<span style="widows:2; border-collapse:separate; font-size:14px; line-height:normal; font-family:Simsun; orphans:2; color:rgb(0,0,0)">　　于是</span></p>
+<p style="margin:10px auto; color:rgb(75,75,75); font-family:Verdana,Arial,Helvetica,sans-serif; font-size:13px; line-height:20px">
+<span style="widows:2; border-collapse:separate; font-size:14px; line-height:normal; font-family:Simsun; orphans:2; color:rgb(0,0,0)">　　<img src="http://pic002.cnblogs.com/images/2010/226016/2010122111434841.gif" alt="" style="border:0px">　　</span></p>
+<p style="margin:10px auto; color:rgb(75,75,75); font-family:Verdana,Arial,Helvetica,sans-serif; font-size:13px; line-height:20px">
+<span style="widows:2; border-collapse:separate; font-size:14px; line-height:normal; font-family:Simsun; orphans:2; color:rgb(0,0,0)">　　即T(n) = O(nlogn)　</span></p>
+<p style="margin:10px auto; color:rgb(75,75,75); font-family:Verdana,Arial,Helvetica,sans-serif; font-size:13px; line-height:20px">
+&nbsp;</p>
+<p style="margin:10px auto; color:rgb(75,75,75); font-family:Verdana,Arial,Helvetica,sans-serif; font-size:13px; line-height:20px">
+<span style="widows:2; border-collapse:separate; font-size:14px; line-height:normal; font-family:Simsun; orphans:2; color:rgb(0,0,0)">　　<span style="color:rgb(255,0,0)">总结</span>，利用此方法解递归算法复杂度：</span></p>
+<p style="margin:10px auto; color:rgb(75,75,75); font-family:Verdana,Arial,Helvetica,sans-serif; font-size:13px; line-height:20px">
+<span style="widows:2; border-collapse:separate; font-size:14px; line-height:normal; font-family:Simsun; orphans:2; color:rgb(0,0,0)">　　f(n) = af(n/b) &#43; d(n)</span></p>
+<p style="margin:10px auto; color:rgb(75,75,75); font-family:Verdana,Arial,Helvetica,sans-serif; font-size:13px; line-height:20px">
+<span style="widows:2; border-collapse:separate; font-size:14px; line-height:normal; font-family:Simsun; orphans:2; color:rgb(0,0,0)">　　1.当d(n)为常数时：</span></p>
+<p style="margin:10px auto; color:rgb(75,75,75); font-family:Verdana,Arial,Helvetica,sans-serif; font-size:13px; line-height:20px">
+<span style="widows:2; border-collapse:separate; font-size:14px; line-height:normal; font-family:Simsun; orphans:2; color:rgb(0,0,0)">　　<img src="http://pic002.cnblogs.com/images/2010/226016/2010122111483652.jpg" alt="" style="border:0px"></span></p>
+<p style="margin:10px auto; color:rgb(75,75,75); font-family:Verdana,Arial,Helvetica,sans-serif; font-size:13px; line-height:20px">
+<span style="widows:2; border-collapse:separate; font-size:14px; line-height:normal; font-family:Simsun; orphans:2; color:rgb(0,0,0)">　　2.当d(n) = cn 时：</span></p>
+<p style="margin:10px auto; color:rgb(75,75,75); font-family:Verdana,Arial,Helvetica,sans-serif; font-size:13px; line-height:20px">
+&nbsp;　　<img src="http://pic002.cnblogs.com/images/2010/226016/2010122111491222.jpg" alt="" style="border:0px"></p>
+<p style="margin:10px auto; color:rgb(75,75,75); font-family:Verdana,Arial,Helvetica,sans-serif; font-size:13px; line-height:20px">
+　　3.当d(n)为其他情况时可用递归树进行分析。</p>
+<p style="margin:10px auto; color:rgb(75,75,75); font-family:Verdana,Arial,Helvetica,sans-serif; font-size:13px; line-height:20px">
+<span style="widows:2; border-collapse:separate; font-size:14px; line-height:normal; font-family:Simsun; orphans:2; color:rgb(0,0,0)">　　</span></p>
+<p style="margin:10px auto; color:rgb(75,75,75); font-family:Verdana,Arial,Helvetica,sans-serif; font-size:13px; line-height:20px">
+<span style="widows:2; border-collapse:separate; font-size:14px; line-height:normal; font-family:Simsun; orphans:2; color:rgb(0,0,0)">　　由第二种情况知，<span style="background-color:rgb(255,204,0)">若采用分治法对原算法进行改进，则着重点是采用新的计算方法缩小a&#20540;。</span></span></p>
+<p style="margin:10px auto; color:rgb(75,75,75); font-family:Verdana,Arial,Helvetica,sans-serif; font-size:13px; line-height:20px">
+<span style="widows:2; border-collapse:separate; font-size:14px; line-height:normal; font-family:Simsun; orphans:2; color:rgb(0,0,0)"><span style="background-color:rgb(255,204,0)"><br>
+</span></span></p>
+<p style="text-align:center; margin:10px auto"><span style="font-size:48px; color:#ff0000"><strong>学习的路上,与君共勉。</strong></span></p>
+</div>
+
+
+
+
+<!-- Baidu Button BEGIN -->
+
+<div class="bdsharebuttonbox" style="float: right;">
+<a href="#" class="bds_more" data-cmd="more" style="background-position:0 0 !important; background-image: url(http://bdimg.share.baidu.com/static/api/img/share/icons_0_16.png?v=d754dcc0.png) !important"></a>
+<a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"  style="background-position:0 -52px !important"></a>
+<a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"style="background-position:0 -104px !important"></a>
+<a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"style="background-position:0 -260px !important"></a>
+<a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"style="background-position:0 -208px !important"></a>
+<a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"style="background-position:0 -1612px !important" ></a>
+</div>
+<script>window._bd_share_config = { "common": { "bdSnsKey": {}, "bdText": "", "bdMini": "1", "bdMiniList": false, "bdPic": "", "bdStyle": "0", "bdSize": "16" }, "share": {} }; with (document) 0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion=' + ~(-new Date() / 36e5)];</script>
+<!-- Baidu Button END -->
+
+<!--192.168.100.35-->
+<ul 

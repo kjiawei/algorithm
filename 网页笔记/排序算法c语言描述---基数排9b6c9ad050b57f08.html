@@ -1,0 +1,217 @@
+<html><head><meta http-equiv="Content-Type" content="text/html;	charset=gb2312"><style type=text/css>body {	font-size:13px;	padding:10 20px 10 10px;	background:#e0e0f0;	line-height:24px;}a:link    { color: #53A6b0; } </style><html><head><meta http-equiv="Content-Type" content="text/html; charset=gb2312"><title>排序算法c语言描述---基数排序</title>
+<BODY bgcolor=e5e5f0  leftMargin=20  rightMargin=20><font color=#339933 size=5>排序算法c语言描述---基数排序</font><br><font color=#993333 size=3>分类: 未分类<br>日期: 2013-08-14 20:25</font><br>原文地址: <a target=_blank href=http://blog.csdn.net/hitwhylz/article/details/9970451>http://blog.csdn.net/hitwhylz/article/details/9970451</a><hr size=1 color=#C0C0C0>
+
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; font-family:Arial; font-size:14px; line-height:26px; text-align:left">
+<span style="color:rgb(102,51,255)"><strong>排序算法系列学习，主要描述冒泡排序，选择排序，直接插入排序，希尔排序，堆排序，归并排序，快速排序等排序进行分析。</strong></span></p>
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; font-family:Arial; font-size:14px; line-height:26px; text-align:left">
+<span style="color:rgb(102,51,255)"><strong>文章规划：</strong></span></p>
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; font-family:Arial; font-size:14px; line-height:26px; text-align:left">
+<span style="color:rgb(102,51,255)"><strong>一。通过自己对排序算法本身的理解，对每个方法写个小测试程序。 具体思路分析不展开描述。</strong></span></p>
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; font-family:Arial; font-size:14px; line-height:26px; text-align:left">
+<span style="color:rgb(102,51,255)"><strong>二。通过《大话数据结构》一书的截图，详细分析该算法&nbsp;。&nbsp;</strong></span></p>
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; font-family:Arial; font-size:14px; line-height:26px; text-align:left">
+<span style="color:rgb(102,51,255)"><strong>在此，推荐下程杰老师的《大话数据结构》一书，当然不是打广告，只是以一名读者的身份来客观的看待这本书，确实是通俗易懂，&#20540;得一看。</strong></span></p>
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; font-family:Arial; font-size:14px; line-height:26px; text-align:left">
+<span style="color:rgb(102,51,255)"><strong><span style="color:rgb(0,153,0)"><strong>ps：一个较为详细的学习链接&nbsp;&nbsp;&nbsp;</strong></span><span style="color:rgb(0,153,0)"><strong><a target="_blank" target="_blank" href="http://blog.csdn.net/MoreWindows/article/category/859207" style="color:rgb(202,0,0); text-decoration:none">http://blog.csdn.net/MoreWindows/article/category/859207</a></strong></span></strong></span></p>
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; font-family:Arial; font-size:14px; line-height:26px; text-align:left">
+<span style="color:rgb(102,51,255)"><strong><span style="color:rgb(0,153,0)"><br>
+</span></strong></span></p>
+<h1><span style="color:#6633ff"><strong>九。基数排序</strong></span></h1>
+<h2><strong><span style="color:#ff0000">一。个人理解</span></strong></h2>
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<span style="background-color:rgb(255,255,255)">必须说明下，在《大话数据结构》一书中并没有基数排序这算法，而我对该算法的学习也是来自网上一些教程。</span></p>
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<span style="background-color:rgb(255,255,255)">所以可能描述的不够详细，还望见谅。</span></p>
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<span style="background-color:rgb(255,255,255)"><br>
+</span></p>
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<span style="background-color:rgb(255,255,255)">首先，不得不说，基数排序这算法的排序过程算是比较好玩的，比较特别，为那些大胡子致敬。</span></p>
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<span style="background-color:rgb(255,255,255)"><span style="text-align:left"><span style="font-size:18px; color:#ff0000"><strong>编程论到极致，核心非代码，即思想。</strong></span> &nbsp;一点不假</span></span></p>
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<span style="background-color:rgb(255,255,255)"><span style="text-align:left"><br>
+</span></span></p>
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+</p>
+<div><span style="background-color:rgb(255,255,255)"><span style="font-size:18px; color:#ff0000"><strong>基数排序（以整形为例），将整形10进制按每位拆分，然后从低位到高位依次比较各个位。每次比较完进行排序，直到整个数组有序</strong></span></span></div>
+<div><span style="background-color:rgb(255,255,255)"><span style="font-size:18px; color:#ff0000"><strong>主要分为两个过程：</strong></span></span></div>
+<div><span style="background-color:rgb(255,255,255)"><span style="font-size:18px; color:#ff0000"><strong>(1)分配，先从个位开始，根据位&#20540;(0-9)分别放到0~9号桶中（比如53,个位为3，则放入3号桶中）</strong></span></span></div>
+<div><span style="background-color:rgb(255,255,255)"><span style="font-size:18px; color:#ff0000"><strong>(2)收集，再将放置在0~9号桶中的数据按顺序放到数组中</strong></span></span></div>
+<div><span style="background-color:rgb(255,255,255)"><span style="font-size:18px; color:#ff0000"><strong>重复(1)(2)过程，从个位到最高位，直到排好序为止（比如32位无符号整形最大数4294967296，最高位10位）</strong></span></span></div>
+<div><span style="background-color:rgb(255,255,255)"><span style="font-size:18px; color:#ff0000"><strong><br>
+</strong></span></span></div>
+<div><span style="background-color:rgb(255,255,255)"><span style="font-size:18px; color:#ff0000"><strong><br>
+</strong></span></span></div>
+<div><span style="background-color:rgb(255,255,255)"><span style="font-size:14px; color:#3366ff"><strong>下面举例说明：</strong></span></span></div>
+<div>
+<p style="margin:10px auto; padding-top:0px; padding-bottom:0px"><span style="margin:0px; padding:0px; background-color:rgb(255,255,255)">（1）假设有欲排数据序列如下所示：</span></p>
+<p style="margin:10px auto; padding-top:0px; padding-bottom:0px"><span style="margin:0px; padding:0px; background-color:rgb(255,255,255)">73&nbsp; 22&nbsp; 93&nbsp; 43&nbsp; 55&nbsp; 14&nbsp; 28&nbsp; 65&nbsp; 39&nbsp; 81</span></p>
+<p style="margin:10px auto; padding-top:0px; padding-bottom:0px"><span style="margin:0px; padding:0px; background-color:rgb(255,255,255)">首先根据个位数的数&#20540;，在遍历数据时将它们各自分配到编号0至9的桶（个位数&#20540;与桶号一一对应）中。</span></p>
+<span style="text-align:left; background-color:rgb(255,255,255)">分配结果（逻辑想象）如下图所示：</span><span style="font-family:SimSun"><br>
+</span></div>
+<div style="color:rgb(51,51,51); font-size:14px; line-height:26px; text-align:left">
+<span style="font-family:SimSun"><span style="color:rgb(57,57,57); font-family:Verdana,Arial,Helvetica,sans-serif; font-size:15px; line-height:22px; text-align:left; background-color:rgb(250,247,239)"><br>
+</span></span></div>
+<img src="http://img.blog.csdn.net/20130814200314703?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaGl0d2h5bHo=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""><br>
+<p></p>
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+</p>
+<p style="margin:10px auto; padding-top:0px; padding-bottom:0px"><span style="margin:0px; padding:0px; background-color:rgb(255,255,255)">分配结束后。接下来将所有桶中所盛数据按照桶号由小到大（桶中由顶至底）依次重新收集串起来，得到如下仍然无序的数据序列：</span></p>
+<p style="margin:10px auto; padding-top:0px; padding-bottom:0px"><span style="margin:0px; padding:0px; background-color:rgb(255,255,255)">81&nbsp; 22&nbsp; 73&nbsp; 93&nbsp; 43&nbsp; 14&nbsp; 55&nbsp; 65&nbsp; 28&nbsp; 39</span></p>
+<p style="margin:10px auto; padding-top:0px; padding-bottom:0px"><span style="margin:0px; padding:0px; background-color:rgb(255,255,255)">接着，再进行一次分配，这次根据十位数&#20540;来分配（原理同上），分配结果（逻辑想象）如下图所示：</span></p>
+<img src="http://img.blog.csdn.net/20130814200327812?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaGl0d2h5bHo=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""><br>
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+</p>
+<p style="margin:10px auto; padding-top:0px; padding-bottom:0px"><span style="margin:0px; padding:0px; background-color:rgb(255,255,255)">分配结束后。接下来再将所有桶中所盛的数据（原理同上）依次重新收集串接起来，得到如下的数据序列：</span></p>
+<p style="margin:10px auto; padding-top:0px; padding-bottom:0px"><span style="margin:0px; padding:0px; background-color:rgb(255,255,255)">14&nbsp; 22&nbsp; 28&nbsp; 39&nbsp; 43&nbsp; 55&nbsp; 65&nbsp; 73&nbsp; 81&nbsp; 93</span></p>
+<span style="background-color:rgb(255,255,255)"><span style="text-align:left">观察可以看到，此时原无序数据序列已经排序完毕。如果排序的数据序列有三位数以上的数据，则重复进行以上的动作直至最高位数为止。</span><br>
+</span>
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<span style="background-color:rgb(255,255,255)"><span style="text-align:left"><br>
+</span></span></p>
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<span style="text-align:left; background-color:rgb(255,255,255)"><br>
+</span></p>
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<span style="background-color:rgb(255,255,255)"><strong><span style="font-size:14px; color:#3366ff">现在如果还不理解的话，再看下面一个例子：</span></strong></span></p>
+<p style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<span style="font-family:Verdana,Arial,Helvetica,sans-serif; color:#393939"><span style="font-size:15px; line-height:22px"><br>
+</span></span></p>
+<p style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<span style="font-family:Verdana,Arial,Helvetica,sans-serif; color:#393939"><span style="font-size:15px; line-height:22px"><span style="color:rgb(51,51,51); font-family:SimSun; font-size:14px; line-height:26px; text-align:left">以【521 310 72 373 15 546 385 856
+ 187 147】序列为例，具体细节如下图所示：</span><br>
+</span></span></p>
+<p style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<span style="font-family:Verdana,Arial,Helvetica,sans-serif; color:#393939"><span style="font-size:15px; line-height:22px"><span style="color:rgb(51,51,51); font-family:SimSun; font-size:14px; line-height:26px; text-align:left"><img src="http://img.blog.csdn.net/20130814200745281?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaGl0d2h5bHo=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""><br>
+</span></span></span></p>
+<p style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<span style="font-family:Verdana,Arial,Helvetica,sans-serif; color:#393939"><span style="font-size:15px; line-height:22px"><span style="color:rgb(51,51,51); font-family:SimSun; font-size:14px; line-height:26px; text-align:left"><span style="color:rgb(51,51,51); font-family:Arial; font-size:14px; line-height:26px; text-align:left">在数据中最高位为3，进行了三次分配、收集过程后，变成有序数组。</span><br>
+</span></span></span></p>
+<p style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<span style="font-family:Verdana,Arial,Helvetica,sans-serif; color:#393939"><span style="font-size:15px; line-height:22px"><span style="color:rgb(51,51,51); font-family:SimSun; font-size:14px; line-height:26px; text-align:left"><span style="color:rgb(51,51,51); font-family:Arial; font-size:14px; line-height:26px; text-align:left"><br>
+</span></span></span></span></p>
+<p style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<span style="font-family:Verdana,Arial,Helvetica,sans-serif; color:#393939"><span style="font-size:15px; line-height:22px"><span style="color:rgb(51,51,51); font-family:SimSun; font-size:14px; line-height:26px; text-align:left"><span style="color:rgb(51,51,51); font-family:Arial; font-size:14px; line-height:26px; text-align:left">讲到这里，想必大家对基数排序的思想已经了解了。下面具体看代码。</span></span></span></span></p>
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<pre name="code" class="cpp">#include&lt;stdio.h&gt;
+
+#define Max_ 10      //数组个数
+#define RADIX_10 10    //整形排序
+#define KEYNUM_31 10     //关键字个数，这里为整形位数
+
+// 打印结果
+void Show(int  arr[], int n)
+{
+    int i;
+    for ( i=0; i&lt;n; i++ )
+        printf(&quot;%d  &quot;, arr[i]);
+    printf(&quot;\n&quot;);
+}
+
+// 找到num的从低到高的第pos位的数据
+int GetNumInPos(int num,int pos)
+{
+	int temp = 1;
+	for (int i = 0; i &lt; pos - 1; i++)
+		temp *= 10;
+    
+	return (num / temp) % 10;
+}
+
+
+//基数排序  pDataArray 无序数组；iDataNum为无序数据个数
+void RadixSort(int* pDataArray, int iDataNum)
+{
+	int *radixArrays[RADIX_10];    //分别为0~9的序列空间
+	for (int i = 0; i &lt; 10; i++)
+	{
+		radixArrays[i] = (int *)malloc(sizeof(int) * (iDataNum + 1));
+		radixArrays[i][0] = 0;    //index为0处记录这组数据的个数
+	}
+	
+	for (int pos = 1; pos &lt;= KEYNUM_31; pos++)    //从个位开始到31位
+	{
+		for (int i = 0; i &lt; iDataNum; i++)    //分配过程
+		{
+			int num = GetNumInPos(pDataArray[i], pos);
+			int index = ++radixArrays[num][0];
+			radixArrays[num][index] = pDataArray[i];
+		}
+        
+		for (int i = 0, j =0; i &lt; RADIX_10; i++)    //收集
+		{
+			for (int k = 1; k &lt;= radixArrays[i][0]; k++)
+				pDataArray[j++] = radixArrays[i][k];
+			radixArrays[i][0] = 0;    //复位
+		}
+	}
+}
+
+int main()
+{   //测试数据
+    int arr_test[Max_] = { 8, 4, 2, 3, 5, 1, 6, 9, 0, 7 };
+    //排序前数组序列
+    Show( arr_test, Max_ );
+    RadixSort( arr_test, Max_);
+    //排序后数组序列
+    Show( arr_test, Max_ );
+    return 0;
+}</pre><br>
+<br>
+</p>
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+注：这个算法也是今天才学的。 &nbsp; 一些见解和例子来自一些大牛的博客，具体参见下面我给的链接。</p>
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<br>
+</p>
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+这里，因为《大话数据》结构一书中没有介绍基数排序这个算法，如果我描述的不够详细，具体可以看下面我给出的这些链接，都是不错的学习资料。</p>
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<br>
+</p>
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<span style="font-size:14px; color:#009900"><strong>太阳落雨 &nbsp;csdn博客 ：http://blog.csdn.net/cjf_iceking/article/details/7943609</strong></span></p>
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<span style="font-size:14px; color:#009900"><strong>云卷云舒 博客园： &nbsp; &nbsp; &nbsp;&nbsp;http://www.cnblogs.com/Braveliu/archive/2013/01/21/2870201.html</strong></span></p>
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<span style="font-size:14px; color:#009900"><strong>算法与数据结构 &nbsp; &nbsp;http://iprai.hust.edu.cn/icl2002/algorithm/algorithm/commonalg/sort/internal_sorting/radix_sort/radix_sort.htm</strong></span></p>
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<span style="font-size:14px; color:#009900"><strong>维基百科 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;http://zh.wikipedia.org/wiki/基数排序</strong></span></p>
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<span style="font-size:14px; color:#009900"><strong>平凡的程序员 &nbsp;csdn博客 ： &nbsp;http://blog.csdn.net/feixiaoxing/article/details/6876831</strong></span></p>
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<br>
+</p>
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<br>
+</p>
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+自己先标注下，便于以后复习。</p>
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<br>
+</p>
+<p style="text-align:left; margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<span style="text-align:left"><span style="text-align:left"><span style="font-family:Verdana,Arial,Helvetica,sans-serif; color:#393939"><br>
+<br>
+</span></span></span></p>
+</div>
+
+
+
+
+<!-- Baidu Button BEGIN -->
+
+<div class="bdsharebuttonbox" style="float: right;">
+<a href="#" class="bds_more" data-cmd="more" style="background-position:0 0 !important; background-image: url(http://bdimg.share.baidu.com/static/api/img/share/icons_0_16.png?v=d754dcc0.png) !important"></a>
+<a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"  style="background-position:0 -52px !important"></a>
+<a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"style="background-position:0 -104px !important"></a>
+<a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"style="background-position:0 -260px !important"></a>
+<a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"style="background-position:0 -208px !important"></a>
+<a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"style="background-position:0 -1612px !important" ></a>
+</div>
+<script>window._bd_share_config = { "common": { "bdSnsKey": {}, "bdText": "", "bdMini": "1", "bdMiniList": false, "bdPic": "", "bdStyle": "0", "bdSize": "16" }, "share": {} }; with (document) 0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion=' + ~(-new Date() / 36e5)];</script>
+<!-- Baidu Button END -->
+
+<!--192.168.100.36-->
+<ul 

@@ -1,0 +1,101 @@
+<html><head><meta http-equiv="Content-Type" content="text/html;	charset=gb2312"><style type=text/css>body {	font-size:13px;	padding:10 20px 10 10px;	background:#e0e0f0;	line-height:24px;}a:link    { color: #53A6b0; } </style><html><head><meta http-equiv="Content-Type" content="text/html; charset=gb2312"><title>排序算法-选择排序</title>
+<BODY bgcolor=e5e5f0  leftMargin=20  rightMargin=20><font color=#339933 size=5>排序算法-选择排序</font><br><font color=#993333 size=3>分类: 未分类<br>日期: 2010-08-23 21:49</font><br>原文地址: <a target=_blank href=http://blog.csdn.net/m_changgong/article/details/5833071>http://blog.csdn.net/m_changgong/article/details/5833071</a><hr size=1 color=#C0C0C0>
+<p>java实现，见代码：</p>
+<p>&nbsp;</p>
+<p><textarea cols="50" rows="15" name="code" class="java">package com.zyg.test.sort;
+
+public class SelectSort {
+	public static void main(String[] args) {
+		int[] array = {23,10,7,12,5,1};
+		System.out.print("排序前；");
+		printArray(array);
+
+		selectAscSort(array);
+		selectDescSort(array);
+	}
+	
+	/**
+	 * 选择升序排序
+	 * @param array
+	 */
+	public static void selectAscSort(int[] array){
+		int length = array.length;
+		int min = array[0];
+		int minIdx = 0;
+		for(int i=0;i&lt;length-1;i++){
+			for(int j=i+1;j&lt;length;j++){
+				if(array[j]&lt;min){//将比较符号改为&gt;即是降序排序算法
+					min = array[j];
+					minIdx = j;
+				}
+			}
+			array[minIdx]= array[i];
+			array[i] = min;
+			//重置min、minIdx值
+			min = array[i+1];
+			minIdx = i+1;
+		}
+		
+		System.out.println();
+		System.out.print("升序排序后；");
+		printArray(array);
+	}
+	
+	/**
+	 * 选择降序排序
+	 * @param array
+	 */
+	public static void selectDescSort(int[] array){
+		int length = array.length;
+		int max = array[0];
+		int maxIdx = 0;
+		for(int i=0;i&lt;length-1;i++){
+			for(int j=i;j&lt;length;j++){
+				if(array[j]&gt;max){//将比较符号改为&lt;即是升序排序算法
+					max = array[j];
+					maxIdx = j;
+				}
+			}
+			array[maxIdx]= array[i];
+			array[i] = max;
+			//重置max、maxIdx值
+			max = array[i+1];
+			maxIdx = i+1;
+		}
+		
+		System.out.println();
+		System.out.print("降序排序后；");
+		printArray(array);
+	}
+	
+	public static void printArray(int[] array){
+		int length = array.length;
+		for(int i=0;i&lt;length;i++){
+			System.out.print(array[i]);
+			if(i!=length-1){
+				System.out.print(",");
+			}
+		}
+	}
+}
+</textarea> </p>
+<p>&nbsp;</p></div>
+
+
+
+
+<!-- Baidu Button BEGIN -->
+
+<div class="bdsharebuttonbox" style="float: right;">
+<a href="#" class="bds_more" data-cmd="more" style="background-position:0 0 !important; background-image: url(http://bdimg.share.baidu.com/static/api/img/share/icons_0_16.png?v=d754dcc0.png) !important"></a>
+<a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"  style="background-position:0 -52px !important"></a>
+<a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"style="background-position:0 -104px !important"></a>
+<a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"style="background-position:0 -260px !important"></a>
+<a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"style="background-position:0 -208px !important"></a>
+<a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"style="background-position:0 -1612px !important" ></a>
+</div>
+<script>window._bd_share_config = { "common": { "bdSnsKey": {}, "bdText": "", "bdMini": "1", "bdMiniList": false, "bdPic": "", "bdStyle": "0", "bdSize": "16" }, "share": {} }; with (document) 0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion=' + ~(-new Date() / 36e5)];</script>
+<!-- Baidu Button END -->
+
+<!--192.168.100.36-->
+<ul 

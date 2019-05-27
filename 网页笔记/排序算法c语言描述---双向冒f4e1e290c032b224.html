@@ -1,0 +1,154 @@
+<html><head><meta http-equiv="Content-Type" content="text/html;	charset=gb2312"><style type=text/css>body {	font-size:13px;	padding:10 20px 10 10px;	background:#e0e0f0;	line-height:24px;}a:link    { color: #53A6b0; } </style><html><head><meta http-equiv="Content-Type" content="text/html; charset=gb2312"><title>排序算法c语言描述---双向冒泡排序</title>
+<BODY bgcolor=e5e5f0  leftMargin=20  rightMargin=20><font color=#339933 size=5>排序算法c语言描述---双向冒泡排序</font><br><font color=#993333 size=3>分类: 未分类<br>日期: 2013-08-14 19:13</font><br>原文地址: <a target=_blank href=http://blog.csdn.net/hitwhylz/article/details/9969459>http://blog.csdn.net/hitwhylz/article/details/9969459</a><hr size=1 color=#C0C0C0>
+
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; font-family:Arial; font-size:14px; line-height:26px; text-align:left">
+<span style="color:rgb(102,51,255)"><strong>排序算法系列学习，主要描述冒泡排序，选择排序，直接插入排序，希尔排序，堆排序，归并排序，快速排序等排序进行分析。</strong></span></p>
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; font-family:Arial; font-size:14px; line-height:26px; text-align:left">
+<span style="color:rgb(102,51,255)"><strong>文章规划：</strong></span></p>
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; font-family:Arial; font-size:14px; line-height:26px; text-align:left">
+<span style="color:rgb(102,51,255)"><strong>一。通过自己对排序算法本身的理解，对每个方法写个小测试程序。 具体思路分析不展开描述。</strong></span></p>
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; font-family:Arial; font-size:14px; line-height:26px; text-align:left">
+<span style="color:rgb(102,51,255)"><strong>二。通过《大话数据结构》一书的截图，详细分析该算法&nbsp;。&nbsp;</strong></span></p>
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; font-family:Arial; font-size:14px; line-height:26px; text-align:left">
+<span style="color:rgb(102,51,255)"><strong>在此，推荐下程杰老师的《大话数据结构》一书，当然不是打广告，只是以一名读者的身份来客观的看待这本书，确实是通俗易懂，&#20540;得一看。</strong></span></p>
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; font-family:Arial; font-size:14px; line-height:26px; text-align:left">
+<span style="color:rgb(0,153,0)"><strong>ps：一个较为详细的学习链接&nbsp;&nbsp;&nbsp;</strong></span><span style="color:rgb(0,153,0); text-decoration:none"><strong><a target="_blank" target="_blank" href="http://blog.csdn.net/MoreWindows/article/category/859207" style="color:rgb(202,0,0); text-decoration:none">http://blog.csdn.net/MoreWindows/article/category/859207</a></strong></span></p>
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; font-family:Arial; font-size:14px; line-height:26px; text-align:left">
+<span style="color:rgb(0,153,0); text-decoration:none"><br>
+</span></p>
+<h1><span style="text-decoration:none"><span style="color:#cc33cc">八。双向冒泡排序。</span></span></h1>
+<h2><span style="text-decoration:none"><span style="color:#ff0000">一。个人理解</span></span></h2>
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+首先，这篇文章是建立在已经了解了冒泡排序的基础上写的。 如果对普通冒泡排序还有什么不懂的，可以看看我之前的一篇博客。</p>
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<span style="color:#009900"><a target="_blank" target="_blank" href="http://blog.csdn.net/hitwhylz/article/details/9773589" style="text-decoration:none; font-family:'Microsoft YaHei'; line-height:30px; text-align:left"><span style="font-size:18px"><strong>排序算法c语言描述---冒泡排序</strong></span></a>&nbsp;&nbsp;http://blog.csdn.net/hitwhylz/article/details/9773589</span><br>
+</p>
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<br>
+</p>
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+下面简单谈谈双向冒泡。</p>
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<span style="color:#ff0000"><strong><span style="text-align:left; text-indent:28px">双向冒泡排序是在冒泡排序的基础上改进而来的，其基本思想跟最原始的冒泡排序是一样的，只不过排序过程稍微优化了一点。</span><br>
+</strong></span></p>
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<span style="text-align:left; text-indent:28px"><span style="text-align:left; text-indent:28px"><span style="color:#ff0000"><strong>我们还是以整数升序排序为例来简单说说这种排序的过程：首先从前往后把最大数移到最后，然后反过来从后往前把最小的一个数移动到数组最前面，这一过程就是第一轮，然后重复这一过程，最终就会把整个数组从小到大排列好。双向冒泡排序要稍微优于传统的冒泡排序，因为双向排序时数组的两头都排序好了，我们只需要处理数组的中间部分即可，而单向即传统的冒泡排序只有尾部的元素是排好序的，这时每轮处理都需要从头一直处理到已经排好序元素的前面一个元素。虽然它在效率上有了点改进，但它也不能大幅度提高其排序的效率，这是由冒泡排序的基本过程所决定了的。</strong></span></span></span></p>
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+所以就本质来说，算法上也没什么优化，只是双向调整而已。下面具体看代码。</p>
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+</p>
+<pre name="code" class="cpp">#include&lt;stdio.h&gt;
+
+#define Max_ 10
+
+// 打印结果
+void Show(int  arr[], int n)
+{
+    int i;
+    for ( i=0; i&lt;n; i++ )
+        printf(&quot;%d  &quot;, arr[i]);
+    printf(&quot;\n&quot;);
+}
+
+// 交换数组元素位置
+void Swap( int *num_a, int *num_b )
+{
+    int temp = *num_b;
+    *num_b = *num_a;
+    *num_a = temp;
+}
+
+//改进版的冒泡排序(双向冒泡)
+void BidBubbleSort(int array[], int n)
+{
+    int low, high, flag, i;
+    low = 0;
+    high = n - 1;
+    while(low &lt; high)
+    {
+        flag=0;
+        for(i=low; i&lt;high; i++)  //正向冒泡
+        {
+            if(array[i] &gt; array[i+1]) //找到剩下中最大的
+            {
+                Swap(&amp;array[i], &amp;array[i+1]);
+                flag = 1;    //标志， 有数据交换
+            }
+        }
+        if( !flag )
+            break;
+        high--;
+        for( i=high; i&gt;low; i-- ) //反向冒泡
+        {
+            if(array[i] &lt; array[i-1])   //找到剩下中最小的
+                Swap(&amp;array[i], &amp;array[i-1]);
+        }
+        low++;
+    }
+}
+
+int main()
+{   //测试数据
+    int arr_test[Max_] = { 8, 4, 2, 3, 5, 1, 6, 9, 0, 7 };
+    //排序前数组序列
+    Show( arr_test, Max_ );
+    BidBubbleSort( arr_test, Max_);
+    //排序后数组序列
+    Show( arr_test, Max_ );
+    return 0;
+}</pre><br>
+总的来说，代码也没什么难度，思路也简单，就不多做描述了。
+<p></p>
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<br>
+</p>
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+按以往的行文风&#26684;，下面应该是《大话数据结构》一书的截图了。</p>
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+不过，双向冒泡也不算一种全新的算法，顶多是冒泡排序的优化，并且书中也没有相关的知识，就不多做介绍了。</p>
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+简单的用测试程序中的排序过程来做个总结吧</p>
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<br>
+</p>
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+</p>
+<p style="margin-top:0px; margin-bottom:0px; font-size:11px; font-family:Menlo"><strong>双向冒泡前数组 8&nbsp; 4&nbsp; 2&nbsp; 3&nbsp; 5&nbsp; 1&nbsp; 6&nbsp; 9&nbsp; 0&nbsp; 7 &nbsp;&nbsp;</strong></p>
+<p style="margin-top:0px; margin-bottom:0px; font-size:11px; font-family:Menlo"><span style="font-family:'Heiti SC Light'"><strong>第</strong></span><strong>1</strong><span style="font-family:'Heiti SC Light'"><strong>次排序－－</strong></span><strong>&gt;4&nbsp; 2&nbsp; 3&nbsp; 5&nbsp;
+ 1&nbsp; 6&nbsp; 8&nbsp; 0&nbsp; 7&nbsp; <span style="color:#ff0000">9</span>&nbsp; &nbsp; //第一次正向排序，得到未排序数组中最大的数 &nbsp;9</strong></p>
+<p style="margin-top:0px; margin-bottom:0px; font-size:11px; font-family:Menlo"><span style="font-family:'Heiti SC Light'"><strong>第</strong></span><strong>1</strong><span style="font-family:'Heiti SC Light'"><strong>次排序</strong></span><strong>&lt;</strong><span style="font-family:'Heiti SC Light'"><strong>－－</strong></span><strong><span style="color:#ff0000">0</span>&nbsp;
+ 4&nbsp; 2&nbsp; 3&nbsp; 5&nbsp; 1&nbsp; 6&nbsp; 8&nbsp; 7&nbsp; 9 &nbsp; &nbsp;<span style="font-family:Menlo; font-size:11px"><strong>//第一次反向排序，得到未排序数组中最小的数 &nbsp;0</strong></span></strong></p>
+<p style="margin-top:0px; margin-bottom:0px; font-size:11px; font-family:Menlo"><span style="font-family:'Heiti SC Light'"><strong>第</strong></span><strong>2</strong><span style="font-family:'Heiti SC Light'"><strong>次排序－－</strong></span><strong>&gt;0&nbsp; 2&nbsp; 3&nbsp; 4&nbsp;
+ 1&nbsp; 5&nbsp; 6&nbsp; 7&nbsp; <span style="color:#ff0000">8</span>&nbsp; 9 &nbsp; &nbsp;<span style="font-family:Menlo; font-size:11px"><strong>//第二次正向排序，得到未排序数组中最大的数 &nbsp;8</strong></span></strong></p>
+<p style="margin-top:0px; margin-bottom:0px; font-size:11px; font-family:Menlo"><span style="font-family:'Heiti SC Light'"><strong>第</strong></span><strong>2</strong><span style="font-family:'Heiti SC Light'"><strong>次排序</strong></span><strong>&lt;</strong><span style="font-family:'Heiti SC Light'"><strong>－－</strong></span><strong>0&nbsp;
+<span style="color:#ff0000">1</span>&nbsp; 2&nbsp; 3&nbsp; 4&nbsp; 5&nbsp; 6&nbsp; 7&nbsp; 8&nbsp; 9 &nbsp; &nbsp;<span style="font-family:Menlo; font-size:11px"><strong>//第一次反向排序，得到未排序数组中最大的数 &nbsp;1</strong></span></strong></p>
+<p style="margin-top:0px; margin-bottom:0px; font-size:11px; font-family:Menlo"><span style="font-family:'Heiti SC Light'"><strong>第</strong></span><strong>3</strong><span style="font-family:'Heiti SC Light'"><strong>次排序－－</strong></span><strong>&gt;0&nbsp; 1&nbsp; 2&nbsp; 3&nbsp;
+ 4&nbsp; 5&nbsp; 6&nbsp; 7&nbsp; 8&nbsp; 9 &nbsp; &nbsp;<span style="font-family:Menlo; font-size:11px"><strong>//运气比较好，前两次已经排好序了，flag ＝ 0，不进行第三次排序</strong></span></strong></p>
+<p style="margin-top:0px; margin-bottom:0px; font-size:11px; font-family:Menlo"><strong><span style="font-family:Menlo; font-size:11px"><strong>双向冒泡后数组&nbsp;</strong></span>0&nbsp; 1&nbsp; 2&nbsp; 3&nbsp; 4&nbsp; 5&nbsp; 6&nbsp; 7&nbsp; 8&nbsp; 9 &nbsp;</strong></p>
+<br>
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<br>
+</p>
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; font-family:Arial; font-size:14px; line-height:26px; text-align:left">
+<br>
+</p>
+</div>
+
+
+
+
+<!-- Baidu Button BEGIN -->
+
+<div class="bdsharebuttonbox" style="float: right;">
+<a href="#" class="bds_more" data-cmd="more" style="background-position:0 0 !important; background-image: url(http://bdimg.share.baidu.com/static/api/img/share/icons_0_16.png?v=d754dcc0.png) !important"></a>
+<a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"  style="background-position:0 -52px !important"></a>
+<a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"style="background-position:0 -104px !important"></a>
+<a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"style="background-position:0 -260px !important"></a>
+<a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"style="background-position:0 -208px !important"></a>
+<a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"style="background-position:0 -1612px !important" ></a>
+</div>
+<script>window._bd_share_config = { "common": { "bdSnsKey": {}, "bdText": "", "bdMini": "1", "bdMiniList": false, "bdPic": "", "bdStyle": "0", "bdSize": "16" }, "share": {} }; with (document) 0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion=' + ~(-new Date() / 36e5)];</script>
+<!-- Baidu Button END -->
+
+<!--192.168.100.35-->
+<ul 

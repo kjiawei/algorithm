@@ -1,0 +1,139 @@
+<html><head><meta http-equiv="Content-Type" content="text/html;	charset=gb2312"><style type=text/css>body {	font-size:13px;	padding:10 20px 10 10px;	background:#e0e0f0;	line-height:24px;}a:link    { color: #53A6b0; } </style><html><head><meta http-equiv="Content-Type" content="text/html; charset=gb2312"><title>排序算法c语言描述-快速排序随机化</title>
+<BODY bgcolor=e5e5f0  leftMargin=20  rightMargin=20><font color=#339933 size=5>排序算法c语言描述-快速排序随机化</font><br><font color=#993333 size=3>分类: 未分类<br>日期: 2013-11-23 19:35</font><br>原文地址: <a target=_blank href=http://blog.csdn.net/hitwhylz/article/details/16905097>http://blog.csdn.net/hitwhylz/article/details/16905097</a><hr size=1 color=#C0C0C0>
+
+<p><span style="font-size:14px; color:#009900"><strong>今天在做数据结构排序实验的时候，使用的快速排序。按理，我印象中快排是很高效的，不过，这次400w的数据，排了2659秒，有点意想不到，让我一度怀疑了算法是否写错了。</strong></span></p>
+<p><span style="font-size:14px; color:#009900"><strong>不过，认真分析，认真想想后， 也就释然了。</strong></span></p>
+<p><span style="font-size:14px; color:#009900"><strong><br>
+</strong></span></p>
+<p><span style="font-size:14px; color:#009900"><strong>快排其实就是冒泡的升级版。</strong></span></p>
+<p><span style="font-size:14px; color:#009900"><strong>每次递归，把当前序列分成两部分，一个比枢纽元素大，一个比枢纽元素小。具体思想可以参见的之前写的一篇博客。</strong></span></p>
+<p><span style="font-size:24px; color:#996633"><strong>http://blog.csdn.net/hitwhylz/article/details/9968639<br>
+</strong></span></p>
+<p><br>
+</p>
+<p><span style="font-size:14px; color:#3366ff"><strong>至于这次实验的低效，我看了下所给的数据，发现序列基本有序，从20-------3999997 &nbsp; &nbsp;</strong></span></p>
+<p><span style="font-size:14px; color:#3366ff"><strong>排列的很有规则，就移动了些许位置， 但是保持递增趋势。</strong></span></p>
+<p><span style="font-size:14px; color:#3366ff"><strong>这样的序列使用常规快排，那就体现不出快排的优势了。 因为每次选取的时候都是&nbsp;采用子序列的第一个元素为枢纽元素 &nbsp;int pivot = array[low];
+<br>
+</strong></span></p>
+<p><span style="font-size:14px; color:#3366ff"><strong>这样导致每次比较，分出的序列差别都很大，以至于需要递归很多次。</strong></span></p>
+<p><span style="font-size:14px; color:#3366ff"><strong><br>
+</strong></span></p>
+<p><span style="font-size:14px; color:#3366ff"><strong>为解决这问题，采用了快速排序随机化方法，即每次确定的枢纽元素都是随机找出的。</strong></span></p>
+<p><span style="font-size:14px; color:#3366ff"><strong>一般来说随机选取枢纽元这种策略非常安全，除非随机数生成器有问题（这不像你所想象的那么罕见），因为随机的枢纽元不可能总在接连不断地产生劣质的分割。</strong></span></p>
+<p><br>
+</p>
+<p><span style="font-size:24px; color:#ff0000"><strong>下面具体看代码了。</strong></span></p>
+<p><br>
+<pre code_snippet_id="78936" snippet_file_name="blog_20131123_1_1503318"  name="code" class="cpp">#include &quot;stdio.h&quot;
+#include &quot;math.h&quot;
+#include &quot;stdlib.h&quot;
+
+int num = 10;
+
+void swap(int *a,int *b)
+{
+    int tmp;
+    tmp = *a;
+    *a = *b;
+    *b = tmp;
+}
+
+void PrintArray(int arr[])
+{
+    int i;
+	for(i=0; i &lt; num; ++i)
+	{
+	    printf(&quot;%d &quot;, arr[i]);
+	}
+}
+
+int Partition(int *arr, int beg, int end)
+{
+    int j;
+	int sentinel = arr[end];
+	int i = beg-1;
+	for(j=beg; j &lt;= end-1; ++j)
+	{
+		if(arr[j] &lt;= sentinel)
+		{
+			i++;
+			swap(&amp;arr[i], &amp;arr[j]);
+		}
+	}
+	swap(&amp;arr[i+1], &amp;arr[end]);
+
+	printf(&quot;\n排序过程:&quot;);
+	PrintArray(arr);
+	return i+1;
+}
+
+int RandomPartition(int *arr, int beg, int end)
+{
+	int i = beg + rand() % (end-beg+1);
+	swap(&amp;arr[i], &amp;arr[end]);
+	return Partition(arr, beg, end);
+}
+
+void RandomQuickSort(int *arr, int beg, int end)
+{
+	if(beg &lt; end)
+	{
+		int pivot = RandomPartition(arr, beg, end);
+		printf(&quot;\n随机选择 arr[%d](%d)&quot;, pivot, arr[pivot]);
+		RandomQuickSort(arr, beg, pivot-1);
+		printf(&quot;\n随机选择 arr[%d](%d)&quot;, pivot, arr[pivot]);
+		RandomQuickSort(arr, pivot+1, end);
+	}
+}
+
+int main()
+{
+	int i;
+	int arr[10];
+
+	srand(time(0));
+    for(i=0; i &lt; 10; i++)
+    {
+        arr[i] = rand()%100+1;
+        //printf(&quot;%d &quot;, rand()%100+1);
+    }
+
+    printf(&quot;初始数组:&quot;);
+    PrintArray(arr);
+
+	RandomQuickSort(arr, 0, num-1);
+
+	printf(&quot;\n最后结果:&quot;);
+	PrintArray(arr);
+
+	return 0;
+}</pre></p>
+<p><br>
+</p>
+<p><br>
+</p>
+<strong></strong>
+<div style="text-align:center"><strong><span style="font-size:48px; color:#ff0000">学习的路上，与君共勉。</span></strong></div>
+<div style="text-align:center"><br>
+</div>
+</div>
+
+
+
+
+<!-- Baidu Button BEGIN -->
+
+<div class="bdsharebuttonbox" style="float: right;">
+<a href="#" class="bds_more" data-cmd="more" style="background-position:0 0 !important; background-image: url(http://bdimg.share.baidu.com/static/api/img/share/icons_0_16.png?v=d754dcc0.png) !important"></a>
+<a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"  style="background-position:0 -52px !important"></a>
+<a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"style="background-position:0 -104px !important"></a>
+<a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"style="background-position:0 -260px !important"></a>
+<a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"style="background-position:0 -208px !important"></a>
+<a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"style="background-position:0 -1612px !important" ></a>
+</div>
+<script>window._bd_share_config = { "common": { "bdSnsKey": {}, "bdText": "", "bdMini": "1", "bdMiniList": false, "bdPic": "", "bdStyle": "0", "bdSize": "16" }, "share": {} }; with (document) 0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion=' + ~(-new Date() / 36e5)];</script>
+<!-- Baidu Button END -->
+
+<!--192.168.100.34-->
+<ul 

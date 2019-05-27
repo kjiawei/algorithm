@@ -1,0 +1,161 @@
+<html><head><meta http-equiv="Content-Type" content="text/html;	charset=gb2312"><style type=text/css>body {	font-size:13px;	padding:10 20px 10 10px;	background:#e0e0f0;	line-height:24px;}a:link    { color: #53A6b0; } </style><html><head><meta http-equiv="Content-Type" content="text/html; charset=gb2312"><title>排序算法c语言描述---快速排序</title>
+<BODY bgcolor=e5e5f0  leftMargin=20  rightMargin=20><font color=#339933 size=5>排序算法c语言描述---快速排序</font><br><font color=#993333 size=3>分类: 未分类<br>日期: 2013-08-14 18:15</font><br>原文地址: <a target=_blank href=http://blog.csdn.net/hitwhylz/article/details/9968639>http://blog.csdn.net/hitwhylz/article/details/9968639</a><hr size=1 color=#C0C0C0>
+
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; font-family:Arial; font-size:14px; line-height:26px; text-align:left">
+<strong><span style="color:rgb(204,51,204)">排序算法系列学习，主要描述冒泡排序，选择排序，直接插入排序，希尔排序，堆排序，归并排序，快速排序等排序进行分析。</span></strong></p>
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; font-family:Arial; font-size:14px; line-height:26px; text-align:left">
+<strong><span style="color:rgb(204,51,204)">文章规划：</span></strong></p>
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; font-family:Arial; font-size:14px; line-height:26px; text-align:left">
+<strong><span style="color:rgb(204,51,204)">一。通过自己对排序算法本身的理解，对每个方法写个小测试程序。 具体思路分析不展开描述。</span></strong></p>
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; font-family:Arial; font-size:14px; line-height:26px; text-align:left">
+<strong><span style="color:rgb(204,51,204)">二。通过《大话数据结构》一书的截图，详细分析该算法 。</span></strong></p>
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; font-family:Arial; font-size:14px; line-height:26px; text-align:left">
+<strong><span style="color:rgb(204,51,204)">&nbsp;在此，推荐下程杰老师的《大话数据结构》一书，当然不是打广告，只是以一名读者的身份来客观的看待这本书，确实是通俗易懂，&#20540;得一看。</span></strong></p>
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; font-family:Arial; font-size:14px; line-height:26px; text-align:left">
+<strong><span style="color:rgb(0,153,0)">ps：一个较为详细的学习链接 http://blog.csdn.net/MoreWindows/article/category/859207</span></strong></p>
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; font-family:Arial; font-size:14px; line-height:26px; text-align:left">
+<strong><span style="color:rgb(0,153,0)"><br>
+</span></strong></p>
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; text-align:left">
+</p>
+<h1 style="font-family:Arial; font-size:14px; font-weight:bold; line-height:26px; color:rgb(0,153,0); margin:0px; padding:0px; text-align:left">
+<span style="color:rgb(255,0,0)"></span></h1>
+<h1 style="margin:0px; padding:0px; font-family:Arial; line-height:26px; text-align:left">
+<span style="color:#cc33cc">七。快速排序</span></h1>
+<h2><span style="color:#ff0000">一。个人理解</span></h2>
+<div style="font-family:Arial; font-size:14px; font-weight:bold; line-height:26px; color:rgb(0,153,0)">
+<span style="color:rgb(255,0,0)"><span style="color:rgb(51,51,51); font-family:Arial; font-size:14px; line-height:26px; text-align:left">快速排序是对冒泡排序的一种改进。<span style="font-family:Times; line-height:18px; background-color:rgb(255,255,255)">是C.R.A.Hoare于1962年提出的一种划分交换排序。它采用了一种分治的策略，通常称其为分治法(Divide-and-ConquerMethod)。</span></span></span></div>
+<div style="font-family:Arial; font-size:14px; font-weight:bold; line-height:26px; color:rgb(0,153,0)">
+<span style="color:rgb(255,0,0)"><span style="color:rgb(51,51,51); font-family:Arial; font-size:14px; line-height:26px; text-align:left"><span style="font-family:Times; line-height:18px; background-color:rgb(255,255,255)"><span style="color:rgb(0,0,255); font-family:Times; line-height:18px">（1）
+ 分治法的基本思想</span><br style="font-family:Times; line-height:18px">
+<span style="font-family:Times; line-height:18px">&nbsp;&nbsp;&nbsp; 　分治法的基本思想是：将原问题分解为若干个规模更小但结构与原问题相&#20284;的子问题。递归地解这些子问题，然后将这些子问题的解组合为原问题的解。</span><br>
+</span></span></span></div>
+<div style="font-family:Arial; font-size:14px; font-weight:bold; line-height:26px; color:rgb(0,153,0)">
+<span style="color:rgb(255,0,0)"><span style="color:rgb(51,51,51); font-family:Arial; font-size:14px; line-height:26px; text-align:left; background-color:rgb(255,255,255)"><span style="color:rgb(0,0,255); font-family:Times; line-height:18px">（2）快速排序的基本思想</span></span></span></div>
+<div style="font-family:Arial; font-size:14px; font-weight:bold; line-height:26px; color:rgb(0,153,0)">
+<span style="color:rgb(255,0,0)"><span style="color:rgb(51,51,51); font-family:Arial; font-size:14px; line-height:26px; text-align:left"><span style="white-space:pre"></span>通过一躺排序将要排序的数据分割成独立的两部分，其中一部分的所有数据都比另外一部分的所有数据都要小，然后再按次方法对这两部分数据分别进行快速排序（再次分割成独立两部分），整个排序过程可以递归进行，直到每个部分只有一个数据为止，以此达到整个数据变成有序序列。</span><br>
+</span></div>
+<div style="font-family:Arial; font-size:14px; font-weight:bold; line-height:26px">
+<span style="color:#333333">简单来说，可以分成以下三个过程：</span></div>
+<div style="font-family:Arial; font-size:14px; line-height:26px">
+<p><span style="color:#ff0000"><strong><span face="Times New Roman">1．</span>先从数列中取出一个数作为基准数。</strong></span></p>
+<p><span style="color:#ff0000"><strong><span face="Times New Roman">2．</span>分区过程，将比这个数大的数全放到它的右边，小于或等于它的数全放到它的左边。</strong></span></p>
+<p><span style="color:#ff0000"><strong><span face="Times New Roman">3．</span>再对左右区间重复第二步，直到各区间只有一个数。</strong></span></p>
+</div>
+<div style="font-family:Arial; font-size:14px; font-weight:bold; line-height:26px">
+<span style="color:#333333">思路也比较简单，下面写了个测试程序，可以对照着理解下。</span></div>
+<div style="font-family:Arial; font-size:14px; font-weight:bold; line-height:26px">
+<span style="color:#333333">如果还有什么不懂的，可以看下第二部分，《大话数据结构》书中相关截图，挺详细的。</span></div>
+<div style="font-family:Arial; font-size:14px; font-weight:bold; line-height:26px">
+<br>
+</div>
+<div><span style="color:#333333"></span>
+<div><span style="color:#333333"></span><pre name="code" class="cpp">#include&lt;stdio.h&gt;
+
+#define Max_ 10
+
+// 打印结果
+void Show(int  arr[], int n)
+{
+    int i;
+    for ( i=0; i&lt;n; i++ )
+        printf(&quot;%d  &quot;, arr[i]);
+    printf(&quot;\n&quot;);
+}
+
+// 交换数组元素位置
+void Swap( int *num_a, int *num_b )
+{
+    int temp = *num_b;
+    *num_b = *num_a;
+    *num_a = temp;
+}
+
+// 对一个给定范围的子序列选定一个枢纽元素,执行完函数之后返回分割元素所在的位置,
+// 在分割元素之前的元素都小于枢纽元素,在它后面的元素都大于这个元素
+int Partition(int array[], int low, int high)
+{
+    // 采用子序列的第一个元素为枢纽元素
+    int pivot = array[low];
+    while (low &lt; high)
+    {
+        // 从后往前在后半部分中寻找第一个小于枢纽元素的元素
+        while (low &lt; high &amp;&amp; array[high] &gt;= pivot)
+        {
+            --high;
+        }
+        // 将这个比枢纽元素小的元素交换到前半部分
+        Swap(&amp;array[low], &amp;array[high]);
+        // 从前往后在前半部分中寻找第一个大于枢纽元素的元素
+        while (low &lt; high &amp;&amp; array[low] &lt;= pivot)
+        {
+            ++low;
+        }
+        // 将这个比枢纽元素大的元素交换到后半部分
+        Swap(&amp;array[low], &amp;array[high]);
+    }
+    // 返回枢纽元素所在的位置
+    return low;
+}
+
+// 快速排序
+void QuickSort(int array[], int low, int high)
+{
+    if (low &lt; high)
+    {
+        int n = Partition(array, low, high);
+        QuickSort(array, low, n);
+        QuickSort(array, n + 1, high);
+    }
+}
+
+int main()
+{   //测试数据
+    int arr_test[Max_] = { 8, 4, 2, 3, 5, 1, 6, 9, 0, 7 };
+    //排序前数组序列
+    Show( arr_test, Max_ );
+    QuickSort( arr_test, 0, Max_-1 );
+    //排序后数组序列
+    Show( arr_test, Max_ );
+    return 0;
+}</pre><br>
+<br>
+</div>
+<div><span style="color:#333333"><br>
+</span></div>
+<h1><span style="color:rgb(255,0,0)">二。 《大话数据结构》一书截图分析</span></h1>
+<span style="font-family:Arial; font-size:14px; line-height:26px; text-align:left; color:rgb(255,0,0)"></span><span style="font-family:Arial; font-size:14px; line-height:26px; text-align:left"></span>
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; font-family:Arial; font-size:14px; line-height:26px; text-align:left">
+</p>
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; font-family:Arial; font-size:14px; line-height:26px; text-align:left">
+<span style="font-size:24px; color:rgb(153,0,0)"><strong>注：本文仅为分享知识，绝无商业用途。</strong></span></p>
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; font-family:Arial; font-size:14px; line-height:26px; text-align:left">
+<span style="font-size:24px; color:rgb(153,0,0)"><strong>如果以该种形式分享知识造成不必要的纠纷，还请第一时间告知。</strong></span></p>
+<br>
+<br>
+</div>
+<div style="font-family:Arial; font-size:14px; font-weight:bold; line-height:26px; color:rgb(0,153,0)">
+<span style="color:rgb(255,0,0)"><span style="color:rgb(51,51,51); font-family:Arial; font-size:14px; line-height:26px; text-align:left"><img src="http://img.blog.csdn.net/20130814181023765?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaGl0d2h5bHo=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""><img src="http://img.blog.csdn.net/20130814181034250?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaGl0d2h5bHo=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""><img src="http://img.blog.csdn.net/20130814181044125?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaGl0d2h5bHo=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""><img src="http://img.blog.csdn.net/20130814181051125?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaGl0d2h5bHo=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""><img src="http://img.blog.csdn.net/20130814181100234?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaGl0d2h5bHo=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""><img src="http://img.blog.csdn.net/20130814181107234?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaGl0d2h5bHo=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""><img src="http://img.blog.csdn.net/20130814181116406?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaGl0d2h5bHo=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""><img src="http://img.blog.csdn.net/20130814181124359?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaGl0d2h5bHo=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""><img src="http://img.blog.csdn.net/20130814181131296?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaGl0d2h5bHo=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""><img src="http://img.blog.csdn.net/20130814181140281?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaGl0d2h5bHo=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""><img src="http://img.blog.csdn.net/20130814181150390?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaGl0d2h5bHo=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""><img src="http://img.blog.csdn.net/20130814181158515?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaGl0d2h5bHo=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""><img src="http://img.blog.csdn.net/20130814181206609?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaGl0d2h5bHo=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""><img src="http://img.blog.csdn.net/20130814181214656?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaGl0d2h5bHo=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""><img src="http://img.blog.csdn.net/20130814181221843?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaGl0d2h5bHo=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""><img src="http://img.blog.csdn.net/20130814181229406?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaGl0d2h5bHo=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""><img src="http://img.blog.csdn.net/20130814181237515?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaGl0d2h5bHo=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""><img src="http://img.blog.csdn.net/20130814181247343?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaGl0d2h5bHo=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""><br>
+</span></span></div>
+<br>
+<p></p>
+</div>
+
+
+
+
+<!-- Baidu Button BEGIN -->
+
+<div class="bdsharebuttonbox" style="float: right;">
+<a href="#" class="bds_more" data-cmd="more" style="background-position:0 0 !important; background-image: url(http://bdimg.share.baidu.com/static/api/img/share/icons_0_16.png?v=d754dcc0.png) !important"></a>
+<a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"  style="background-position:0 -52px !important"></a>
+<a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"style="background-position:0 -104px !important"></a>
+<a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"style="background-position:0 -260px !important"></a>
+<a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"style="background-position:0 -208px !important"></a>
+<a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"style="background-position:0 -1612px !important" ></a>
+</div>
+<script>window._bd_share_config = { "common": { "bdSnsKey": {}, "bdText": "", "bdMini": "1", "bdMiniList": false, "bdPic": "", "bdStyle": "0", "bdSize": "16" }, "share": {} }; with (document) 0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion=' + ~(-new Date() / 36e5)];</script>
+<!-- Baidu Button END -->
+
+<!--192.168.100.35-->
+<ul 

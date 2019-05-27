@@ -1,0 +1,93 @@
+<html><head><meta http-equiv="Content-Type" content="text/html;	charset=gb2312"><style type=text/css>body {	font-size:13px;	padding:10 20px 10 10px;	background:#e0e0f0;	line-height:24px;}a:link    { color: #53A6b0; } </style><html><head><meta http-equiv="Content-Type" content="text/html; charset=gb2312"><title>排序算法-插入排序</title>
+<BODY bgcolor=e5e5f0  leftMargin=20  rightMargin=20><font color=#339933 size=5>排序算法-插入排序</font><br><font color=#993333 size=3>分类: 未分类<br>日期: 2010-08-24 21:30</font><br>原文地址: <a target=_blank href=http://blog.csdn.net/m_changgong/article/details/5835834>http://blog.csdn.net/m_changgong/article/details/5835834</a><hr size=1 color=#C0C0C0>
+<p><span style="font-size: 12pt; line-height: 150%; mso-bidi-font-size: 11.0pt;" lang="EN-US">
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; text-indent: 10pt; line-height: 150%; text-align: left; mso-pagination: widow-orphan;" align="left"><strong style="mso-bidi-font-weight: normal;"><span style="font-size: 12pt; line-height: 150%; font-family: 宋体; mso-bidi-font-size: 11.0pt; mso-ascii-font-family: Calibri; mso-hansi-font-family: Calibri; mso-bidi-font-family: 宋体; mso-font-kerning: 0pt;">插入排序算法思想：</span></strong><strong style="mso-bidi-font-weight: normal;"><span style="font-size: 12pt; line-height: 150%; font-family: Calibri; mso-bidi-font-size: 11.0pt; mso-bidi-font-family: 宋体; mso-font-kerning: 0pt;" lang="EN-US"></span></strong></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt 10pt; text-indent: 21pt; line-height: 150%; text-align: left; mso-pagination: widow-orphan;" align="left"><span style="font-size: 12pt; line-height: 150%; font-family: 宋体; mso-bidi-font-size: 11.0pt; mso-ascii-font-family: Calibri; mso-hansi-font-family: Calibri; mso-bidi-font-family: 宋体; mso-font-kerning: 0pt;">插入排序是在部分数据有序的情况下，使用</span><span style="font-size: 12pt; line-height: 150%; font-family: Calibri; mso-bidi-font-size: 11.0pt; mso-bidi-font-family: 宋体; mso-font-kerning: 0pt;" lang="EN-US">OUT</span><span style="font-size: 12pt; line-height: 150%; font-family: 宋体; mso-bidi-font-size: 11.0pt; mso-ascii-font-family: Calibri; mso-hansi-font-family: Calibri; mso-bidi-font-family: 宋体; mso-font-kerning: 0pt;">标记第一个无序的数据，将其提取保存到一个中间变量</span><span style="font-size: 12pt; line-height: 150%; font-family: Calibri; mso-bidi-font-size: 11.0pt; mso-bidi-font-family: 宋体; mso-font-kerning: 0pt;" lang="EN-US">temp</span><span style="font-size: 12pt; line-height: 150%; font-family: 宋体; mso-bidi-font-size: 11.0pt; mso-ascii-font-family: Calibri; mso-hansi-font-family: Calibri; mso-bidi-font-family: 宋体; mso-font-kerning: 0pt;">中去，使用</span><span style="font-size: 12pt; line-height: 150%; font-family: Calibri; mso-bidi-font-size: 11.0pt; mso-bidi-font-family: 宋体; mso-font-kerning: 0pt;" lang="EN-US">IN</span><span style="font-size: 12pt; line-height: 150%; font-family: 宋体; mso-bidi-font-size: 11.0pt; mso-ascii-font-family: Calibri; mso-hansi-font-family: Calibri; mso-bidi-font-family: 宋体; mso-font-kerning: 0pt;">标记空位置，依次比较</span><span style="font-size: 12pt; line-height: 150%; font-family: Calibri; mso-bidi-font-size: 11.0pt; mso-bidi-font-family: 宋体; mso-font-kerning: 0pt;" lang="EN-US">temp</span><span style="font-size: 12pt; line-height: 150%; font-family: 宋体; mso-bidi-font-size: 11.0pt; mso-ascii-font-family: Calibri; mso-hansi-font-family: Calibri; mso-bidi-font-family: 宋体; mso-font-kerning: 0pt;">中的值与</span><span style="font-size: 12pt; line-height: 150%; font-family: Calibri; mso-bidi-font-size: 11.0pt; mso-bidi-font-family: 宋体; mso-font-kerning: 0pt;" lang="EN-US">IN-1</span><span style="font-size: 12pt; line-height: 150%; font-family: 宋体; mso-bidi-font-size: 11.0pt; mso-ascii-font-family: Calibri; mso-hansi-font-family: Calibri; mso-bidi-font-family: 宋体; mso-font-kerning: 0pt;">的值，如果</span><span style="font-size: 12pt; line-height: 150%; font-family: Calibri; mso-bidi-font-size: 11.0pt; mso-bidi-font-family: 宋体; mso-font-kerning: 0pt;" lang="EN-US">IN-</span><span style="font-size: 12pt; line-height: 150%; font-family: 宋体; mso-bidi-font-size: 11.0pt; mso-ascii-font-family: Calibri; mso-hansi-font-family: Calibri; mso-bidi-font-family: 宋体; mso-font-kerning: 0pt;">值大于</span><span style="font-size: 12pt; line-height: 150%; font-family: Calibri; mso-bidi-font-size: 11.0pt; mso-bidi-font-family: 宋体; mso-font-kerning: 0pt;" lang="EN-US">temp</span><span style="font-size: 12pt; line-height: 150%; font-family: 宋体; mso-bidi-font-size: 11.0pt; mso-ascii-font-family: Calibri; mso-hansi-font-family: Calibri; mso-bidi-font-family: 宋体; mso-font-kerning: 0pt;">的值，则后移，直到遇到第一个比</span><span style="font-size: 12pt; line-height: 150%; font-family: Calibri; mso-bidi-font-size: 11.0pt; mso-bidi-font-family: 宋体; mso-font-kerning: 0pt;" lang="EN-US">temp</span><span style="font-size: 12pt; line-height: 150%; font-family: 宋体; mso-bidi-font-size: 11.0pt; mso-ascii-font-family: Calibri; mso-hansi-font-family: Calibri; mso-bidi-font-family: 宋体; mso-font-kerning: 0pt;">小的值，在其下一个位置插入。</span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt 10pt; text-indent: 21pt; line-height: 150%; text-align: left; mso-pagination: widow-orphan;" align="left">&nbsp;</p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt 10pt; text-indent: 21pt; line-height: 150%; text-align: left; mso-pagination: widow-orphan;" align="left"><span style="font-size: 12pt; line-height: 150%; font-family: 宋体; mso-bidi-font-size: 11.0pt; mso-ascii-font-family: Calibri; mso-hansi-font-family: Calibri; mso-bidi-font-family: 宋体; mso-font-kerning: 0pt;">java实现，见代码：</span></p>
+</span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt 10pt; text-indent: 21pt; line-height: 150%; text-align: left; mso-pagination: widow-orphan;" align="left"><textarea cols="50" rows="15" name="code" class="java">package com.zyg.test.sort;
+
+public class InsertSort {
+	public static void main(String[] args) {
+		int[] array = {2,3,1,8,6};
+		System.out.print("排序前；");
+		printArray(array);
+
+		insertAscSort(array);
+		insertDescSort(array);
+	}
+	
+	/**
+	 * 插入升序排序
+	 * @param array
+	 */
+	public static void insertAscSort(int[] array){
+		int length = array.length;
+		for(int out = 1;out&lt;length;out++){
+			int temp = array[out];
+			int in = out;
+			while(in&gt;0 &amp;&amp; array[in-1]&gt;temp){
+				array[in] = array[in-1];
+				--in;
+			}
+			array[in]=temp;
+		}
+		
+		System.out.println();
+		System.out.print("升序排序后；");
+		printArray(array);
+	}
+	
+	/**
+	 * 插入降序排序
+	 * @param array
+	 */
+	public static void insertDescSort(int[] array){
+		int length = array.length;
+		for(int out = 1;out&lt;length;out++){
+			int temp = array[out];
+			int in = out;
+			while(in&gt;0 &amp;&amp; array[in-1]&lt;temp){
+				array[in] = array[in-1];
+				--in;
+			}
+			array[in]=temp;
+		}
+		
+		System.out.println();
+		System.out.print("升序排序后；");
+		printArray(array);
+	}
+	
+	public static void printArray(int[] array){
+		int length = array.length;
+		for(int i=0;i&lt;length;i++){
+			System.out.print(array[i]);
+			if(i!=length-1){
+				System.out.print(",");
+			}
+		}
+	}
+}
+</textarea>&nbsp;&nbsp; </p>
+<p>&nbsp;</p></div>
+
+
+
+
+<!-- Baidu Button BEGIN -->
+
+<div class="bdsharebuttonbox" style="float: right;">
+<a href="#" class="bds_more" data-cmd="more" style="background-position:0 0 !important; background-image: url(http://bdimg.share.baidu.com/static/api/img/share/icons_0_16.png?v=d754dcc0.png) !important"></a>
+<a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"  style="background-position:0 -52px !important"></a>
+<a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"style="background-position:0 -104px !important"></a>
+<a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"style="background-position:0 -260px !important"></a>
+<a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"style="background-position:0 -208px !important"></a>
+<a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"style="background-position:0 -1612px !important" ></a>
+</div>
+<script>window._bd_share_config = { "common": { "bdSnsKey": {}, "bdText": "", "bdMini": "1", "bdMiniList": false, "bdPic": "", "bdStyle": "0", "bdSize": "16" }, "share": {} }; with (document) 0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion=' + ~(-new Date() / 36e5)];</script>
+<!-- Baidu Button END -->
+
+<!--192.168.100.36-->
+<ul 

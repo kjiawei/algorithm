@@ -1,0 +1,294 @@
+<html><head><meta http-equiv="Content-Type" content="text/html;	charset=gb2312"><style type=text/css>body {	font-size:13px;	padding:10 20px 10 10px;	background:#e0e0f0;	line-height:24px;}a:link    { color: #53A6b0; } </style><html><head><meta http-equiv="Content-Type" content="text/html; charset=gb2312"><title>数据结构-算法-时间复杂度计算</title>
+<BODY bgcolor=e5e5f0  leftMargin=20  rightMargin=20><font color=#339933 size=5>数据结构-算法-时间复杂度计算</font><br><font color=#993333 size=3>分类: 未分类<br>日期: 2013-10-07 12:50</font><br>原文地址: <a target=_blank href=http://blog.csdn.net/hitwhylz/article/details/12374407>http://blog.csdn.net/hitwhylz/article/details/12374407</a><hr size=1 color=#C0C0C0>
+
+<p><span style="font-size:14px; color:#3333ff"><strong>算法的时间复杂度定义为：</strong></span></p>
+<p><span style="font-size:18px; color:#ff0000"><strong>在进行算法分析时，语句总的执行次数T(n)是关于问题规模n的函数，进而分析T(n)随n的变化情况并确定T(n)的数量级。算法的时间复杂度，也就是算法的时间量度，记作：T(n}=0(f(n))。它表示随问题规模n的增大，算法执行时间的埔长率和 f(n)的埔长率相同，称作算法的渐近时间复杂度，简称为时间复杂度。其中f( n)是问题规横n的某个函数。<br>
+</strong></span></p>
+<p><span style="font-size:14px; color:#3333ff"><strong>根据定义，求解算法的时间复杂度的具体步骤是：</strong></span></p>
+<p>　　<span style="font-size:18px; color:#ff0000"><strong>⑴ 找出算法中的基本语句；<br>
+　　算法中执行次数最多的那条语句就是基本语句，通常是最内层循环的循环体。<br>
+　　⑵ 计算基本语句的执行次数的数量级；<br>
+　　只需计算基本语句执行次数的数量级，这就意味着只要保证基本语句执行次数的函数中的最高次幂正确即可，可以忽略所有低次幂和最高次幂的系数。这样能够简化算法分析，并且使注意力集中在最重要的一点上：增长率。<br>
+　　⑶ 用大Ο记号表示算法的时间性能。<br>
+　　将基本语句执行次数的数量级放入大Ο记号中。</strong></span><br>
+</p>
+<p><br>
+</p>
+<p><span style="font-size:14px; color:#009900"><strong>如何推导大o阶呢？我们给出了下面 的推导方法：<br>
+<br>
+1.用常数1取代运行时间中的所有加法常数。<br>
+2.在修改后的运行次数函数中，只保留最髙阶项。<br>
+3.如果最高阶项存在且不是1,则去除与这个项相乘的常数。<br>
+</strong></span></p>
+<p><span style="font-size:14px; color:#009900"><strong>简单的说，就是保留求出次数的最高次幂，并且把系数去掉。 &nbsp;如T(n)=2n^2&#43;n&#43;1 =O(n^2)</strong></span></p>
+<p><strong><span style="font-size:18px">举个例子。</span></strong></p>
+<p></p>
+<pre name="code" class="cpp">#include &quot;stdio.h&quot;
+
+int main()
+{
+    int i, j, x = 0, sum = 0, n = 100;  /* 执行1次 */
+    for( i = 1; i &lt;= n; i&#43;&#43;)    /* 执行n&#43;1次 */
+    {
+        sum = sum &#43; i;               /* 执行n次 */   
+        for( j = 1; j &lt;= n; j&#43;&#43;)    /* 执行n*(n&#43;1)次 */
+        {
+            x&#43;&#43;;                /* 执行n*n次 */
+            sum = sum &#43; x;      /* 执行n*n次 */
+        }
+    }
+    printf(&quot;%d&quot;, sum);          /* 执行1次 */
+}</pre>
+<br>
+<br>
+<p></p>
+<p><strong><span style="font-size:14px">按照上面推导“大O阶”的步骤，我们来看</span></strong></p>
+<p><strong><span style="font-size:14px">第一步：“用常数 1 取代运行时间中的所有加法常数”，</span></strong></p>
+<p><strong><span style="font-size:14px">则上面的算式变为：执行总次数 =3n^2 &#43; 3n &#43; 1</span></strong></p>
+<p><strong><span style="color:#3333ff">（直接相加的话,应该是T(n) = 1 &#43; n&#43;1 &#43; n &#43; n*(n&#43;1) &#43; n*n &#43; n*n &#43; 1 = 3n^2 &#43; 3n &#43; 3。现在用常数 1 取代运行时间中的所有加法常数，就是把T(n) = 3n^2 &#43; 3n &#43; 3中的最后一个3改为1. 就得到了 T(n) = 3n^2 &#43; 3n &#43; 1）</span></strong><br>
+</p>
+<strong><span style="font-size:14px"><br>
+</span></strong>
+<p><strong><span style="font-size:14px">第二步：“在修改后的运行次数函数中，只保留最高阶项”。</span></strong></p>
+<p><strong><span style="font-size:14px">这里的最高阶是 n 的二次方，所以算式变为：执行总次数 = 3n^2</span></strong></p>
+<strong><span style="font-size:14px"><br>
+</span></strong>
+<p><strong><span style="font-size:14px">第三步：“如果最高阶项存在且不是 1 ，则去除与这个项相乘的常数”。</span></strong></p>
+<p><strong><span style="font-size:14px">这里 n 的二次方不是 1 所以要去除这个项的相乘常数，算式变为：执行总次数 = n^2</span></strong></p>
+<strong><span style="font-size:14px"><br>
+因此最后我们得到上面那段代码的算法时间复杂度表示为： O( n^2 )<br>
+</span></strong>
+<p></p>
+<p><br>
+</p>
+<p><span style="font-size:14px; color:#3333ff"><strong>下面我把常见的算法时间复杂度以及他们在效率上的高低顺序记录在这里，使大家对算法的效率有个直观的认识。</strong></span></p>
+<p><span style="font-size:14px; color:#3333ff"><strong>O(1) 常数阶 &lt; O(logn) 对数阶 &lt; O(n) 线性阶 &lt; O(nlogn) &lt; O(n^2) 平方阶 &lt; O(n^3) &lt; { O(2^n) &lt; O(n!) &lt; O(n^n) }<br>
+</strong></span></p>
+<p><span style="font-size:14px; color:#3333ff"><strong>最后三项用大括号把他们括起来是想要告诉大家，如果日后大家设计的算法推导出的“大O阶”是大括号中的这几位，那么趁早放弃这个算法，在去研究新的算法出来吧。因为大括号中的这几位即便是在 n 的规模比较小的情况下仍然要耗费大量的时间，算法的时间复杂度大的离谱，基本上就是“不可用状态”。<br>
+</strong></span></p>
+<p><br>
+</p>
+<p><br>
+</p>
+<p><strong><span style="font-size:14px">好了，原理就介绍到这里了。下面通过几个例子具体分析下时间复杂度计算过程。</span></strong></p>
+<h1><span style="color:#3333ff">一。计算 1 &#43; 2 &#43; 3 &#43; 4 &#43; ...... &#43; 100。</span></h1>
+<p>常规算法，代码如下：</p>
+<p></p>
+<pre name="code" class="cpp">#include &quot;stdio.h&quot;
+
+int main()
+{
+    int i, sum = 0, n = 100;	/* 执行1次 */
+    for( i = 1; i &lt;= n; i&#43;&#43;)	/* 执行 n&#43;1 次 */
+    {
+        sum = sum &#43; i;			/* 执行n次 */
+        //printf(&quot;%d \n&quot;, sum);
+    }
+    printf(&quot;%d&quot;, sum);			/* 执行1次 */
+}</pre>
+<br>
+<strong><span style="font-size:14px">从代码附加的注释可以看到所有代码都执行了多少次。那么这写代码语句执行次数的总和就可以理解为是该算法计算出结果所需要的时间。该算法所用的时间（算法语句执行的总次数）为： 1 &#43; ( n &#43; 1 ) &#43; n &#43; 1 = 2n &#43; 3<br>
+<br>
+而当 n 不断增大，比如我们这次所要计算的不是 1 &#43; 2 &#43; 3 &#43; 4 &#43; ...... &#43; 100 = ？ 而是 1 &#43; 2 &#43; 3 &#43; 4 &#43; ...... &#43; n = ？其中 n 是一个十分大的数字，那么由此可见，上述算法的执行总次数（所需时间）会随着 n 的增大而增加，但是在 for 循环以外的语句并不受 n 的规模影响（永远都只执行一次）。所以我们可以将上述算法的执行总次数简单的记做： 2n 或者简记 n<br>
+<br>
+这样我们就得到了我们设计的算法的时间复杂度，我们把它记作： O(n)<br>
+</span></strong>
+<p></p>
+<p><strong><span style="font-size:14px"><br>
+</span></strong></p>
+<p><strong><span style="font-size:14px">再来看看高斯的算法，代码如下：</span></strong><br>
+</p>
+<p></p>
+<pre name="code" class="cpp">#include &quot;stdio.h&quot;
+
+int main()
+{
+    int sum = 0, n = 100;	/* 执行1次 */
+    sum = (1 &#43; n) * n/2;	/* 执行1次 */
+
+    printf(&quot;%d&quot;, sum);		/* 执行1次 */
+}</pre>
+<br>
+<strong><span style="font-size:14px">这个算法的时间复杂度： O(3)，但一般记作 O(1)。<br>
+<br>
+从感官上我们就不难看出，从算法的效率上看，O(1) &lt; O(n) 的，所以高斯的算法更快，更优秀。<br>
+</span></strong>
+<p></p>
+<p><strong><span style="font-size:14px">这也就难怪为什么每本算法书开篇都是拿高斯的这个例子来举例了（至少我看的都是）...人家也确实有那个资本。</span></strong></p>
+<p><br>
+</p>
+<p><br>
+</p>
+<h1><span style="color:#3333ff">二。求两个n阶方阵C=A*B的乘积其算法如下:</span></h1>
+<p></p>
+<pre name="code" class="cpp">   //右边列为语句执行的频度
+
+      void MatrixMultiply(int A[n][n]，int B [n][n]，int C[n][n])
+
+      {
+
+   (1) for(int i=0; i &lt;n; i&#43;&#43;)                       //n&#43;1
+
+         {
+
+   (2)      for (j=0;j &lt; n; j&#43;&#43;)                       //n*(n&#43;1)
+
+              {
+
+   (3)           C[i][j]=0;                                  //n^2
+
+   (4)           for (k=0; k&lt;n; k&#43;&#43;)                 //n^2*(n&#43;1)
+
+                  {
+
+   (5)              C[i][j]=C[i][j]&#43;A[i][k]*B[k][j]; //n^3
+
+                 }
+
+             }
+
+         }
+
+     }
+</pre>
+<strong><span style="font-size:14px">则该算法所有语句的频度之和为:<br>
+<br>
+T(n) = 2n^3&#43;3n^2&#43;2n&#43;1; &nbsp;利用大O表示法,该算法的时间复杂度为O(n^3)。</span></strong>
+<p></p>
+<p><br>
+</p>
+<h1><span style="color:#3333ff">三。分析下列时间复杂度</span></h1>
+<p></p>
+<pre name="code" class="cpp">void test_(int n)
+{
+    i = 1, k = 100;
+    while (i&lt;n)
+    {
+        k = k &#43; 1;
+        i &#43;= 2;
+    }
+}</pre>
+<br>
+<strong><span style="font-size:18px">设for循环语句执行次数为T(n),则 i = 2T(n) &#43; 1 &lt;= n - 1, &nbsp;即T(n) &lt;= n/2 - 1 = O(n)</span></strong>
+<p></p>
+<p><br>
+</p>
+<h1><span style="color:#3333ff">四。分析下列时间复杂度</span></h1>
+<p></p>
+<pre name="code" class="cpp">void test_2(int b[]， int n)
+{
+    int i, j, k;
+    for (i=0; i&lt;n-1; i&#43;&#43;)
+    {
+        k = i;
+        for (j=i&#43;1; j&lt;n; j&#43;&#43;)
+        {
+            if (b[k] &gt; b[j])
+            {
+                k = j;
+            }
+        }
+        x = b[i];
+        b[i] = b[k];
+        b[k] = x;
+    }
+}</pre>
+<br>
+<strong><span style="font-size:14px">其中，算法的基本运算语句是</span></strong>
+<p></p>
+<p style="margin-top:0px; margin-bottom:0px; font-family:Menlo"><span style="color:rgb(187,44,162)"><strong><span style="font-size:14px"></span></strong></span></p>
+<p style="margin-top:0px; margin-bottom:0px; font-family:Menlo"><strong><span style="font-size:14px"><span style="color:#bb2ca2">if</span> (b[k] &gt; b[j])</span></strong></p>
+<p style="margin-top:0px; margin-bottom:0px; font-family:Menlo"><strong><span style="font-size:14px">{</span></strong></p>
+<p style="margin-top:0px; margin-bottom:0px; font-family:Menlo"><strong><span style="font-size:14px">&nbsp; &nbsp;k = j;</span></strong></p>
+<p style="margin-top:0px; margin-bottom:0px; font-family:Menlo"><strong><span style="font-size:14px">}</span></strong></p>
+<p style="margin-top:0px; margin-bottom:0px; font-family:Menlo"><strong><span style="font-size:14px">其执行次数T(n)为：</span></strong></p>
+<p style="font-size:11px; margin-top:0px; margin-bottom:0px; font-family:Menlo"><img src="http://img.blog.csdn.net/20131007121208812" alt=""><br>
+</p>
+<p style="font-size:11px; margin-top:0px; margin-bottom:0px; font-family:Menlo"><br>
+</p>
+<h1><span style="color:#3333ff">五。分析下列时间复杂度</span></h1>
+<p style="font-size:11px; margin-top:0px; margin-bottom:0px; font-family:Menlo"></p>
+<pre name="code" class="cpp">void test_3(int n)
+{
+    int i = 0, s = 0;
+    while (s&lt;n)
+    {
+        i&#43;&#43;;
+        s = s &#43; i;
+    }
+}</pre>
+<br>
+<br>
+<p></p>
+<p><strong><span style="font-size:14px">其中，算法的基本运算语句即while循环内部分，</span></strong></p>
+<p><strong><span style="font-size:14px">设while循环语句执行次数为T(n),则</span></strong></p>
+<p><img src="http://img.blog.csdn.net/20131007121809062" alt=""></p>
+<p><br>
+<br>
+</p>
+<h1><span style="color:#3333ff">六。Hanoi(递归算法)时间复杂度分析</span></h1>
+<p></p>
+<pre name="code" class="cpp">void hanoi(int n, char a, char b, char c)
+{
+    if (n==1)
+    {
+        printf(&quot;move %d disk from %c to %c \n&quot;, n, a, c);  //执行一次
+    }
+    else
+    {
+        hanoi(n-1, a, c, b);    //递归n-1次
+        printf(&quot;move %d disk from %c to %c \n&quot;, n, a, c);  //执行一次
+        hanoi(n-1, b, a, c);    //递归n-1次
+    }
+}</pre>
+<br>
+<strong><span style="font-size:14px">对于递归函数的分析,跟设计递归函数一样，要先考虑基情况(比如hanoi中n==1时候),这样把一个大问题划分为多个子问题的求解。</span></strong>
+<p></p>
+<p><strong><span style="font-size:14px">故此上述算法的时间复杂度的递归关系如下:</span></strong></p>
+<p><img src="http://img.blog.csdn.net/20131007123520500" alt=""><br>
+</p>
+<p><br>
+</p>
+<p><img src="http://img.blog.csdn.net/20131007124204750" alt=""><br>
+</p>
+<p><img src="http://img.blog.csdn.net/20131007124139468" alt=""><br>
+</p>
+<p><img src="http://img.blog.csdn.net/20131007124213953" alt=""><br>
+</p>
+<p><img src="http://img.blog.csdn.net/20131007124310203" alt=""></p>
+<p><img src="http://img.blog.csdn.net/20131007124415265" alt=""><br>
+</p>
+<p><br>
+</p>
+<p><br>
+</p>
+<p><br>
+</p>
+<p><br>
+</p>
+<p>好吧,对于算法的时间复杂度分析就讲到这里了..</p>
+<p>今天是10月7号了。 &nbsp; 马上又要开课了, &nbsp; 大二学习真苦&#36924;阿。</p>
+<p>就扯到这里，希望对大家有所帮助。</p>
+<p><br>
+</p>
+<p style="text-align:center"><span style="font-family:Microsoft YaHei; font-size:32px; color:#ff0000"><strong>学习的路上,与君共勉。</strong></span></p>
+</div>
+
+
+
+
+<!-- Baidu Button BEGIN -->
+
+<div class="bdsharebuttonbox" style="float: right;">
+<a href="#" class="bds_more" data-cmd="more" style="background-position:0 0 !important; background-image: url(http://bdimg.share.baidu.com/static/api/img/share/icons_0_16.png?v=d754dcc0.png) !important"></a>
+<a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"  style="background-position:0 -52px !important"></a>
+<a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"style="background-position:0 -104px !important"></a>
+<a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"style="background-position:0 -260px !important"></a>
+<a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"style="background-position:0 -208px !important"></a>
+<a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"style="background-position:0 -1612px !important" ></a>
+</div>
+<script>window._bd_share_config = { "common": { "bdSnsKey": {}, "bdText": "", "bdMini": "1", "bdMiniList": false, "bdPic": "", "bdStyle": "0", "bdSize": "16" }, "share": {} }; with (document) 0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion=' + ~(-new Date() / 36e5)];</script>
+<!-- Baidu Button END -->
+
+<!--192.168.100.35-->
+<ul 

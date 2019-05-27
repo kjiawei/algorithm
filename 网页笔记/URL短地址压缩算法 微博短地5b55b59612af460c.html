@@ -1,0 +1,117 @@
+<html><head><meta http-equiv="Content-Type" content="text/html;	charset=gb2312"><style type=text/css>body {	font-size:13px;	padding:10 20px 10 10px;	background:#e0e0f0;	line-height:24px;}a:link    { color: #53A6b0; } </style><html><head><meta http-equiv="Content-Type" content="text/html; charset=gb2312"><title>URL短地址压缩算法 微博短地址原理解析(再转与Java实现)</title>
+<BODY bgcolor=e5e5f0  leftMargin=20  rightMargin=20><font color=#339933 size=5>URL短地址压缩算法 微博短地址原理解析(再转与Java实现)</font><br><font color=#993333 size=3>分类: 未分类<br>日期: 2013-09-01 23:53</font><br>原文地址: <a target=_blank href=http://blog.csdn.net/xiaoyao3857/article/details/10867581>http://blog.csdn.net/xiaoyao3857/article/details/10867581</a><hr size=1 color=#C0C0C0>
+
+<p>主要是一次发新浪微博，发网址时看到网址被压缩了，才对这个有兴趣，于是查了查，查到这些</p>
+<p><a target="_blank" target="_blank" href="http://blog.csdn.net/lile269/article/details/6378408">URL短地址压缩算法 微博短地址原理解析</a><br>
+</p>
+<p>和其Java实现的博文</p>
+<p><a target="_blank" target="_blank" href="http://blog.csdn.net/pi9nc/article/details/9187439">URL短地址压缩算法 微博短地址原理解析 （Java实现）</a><br>
+</p>
+<p>对第一篇博文，留了疑问，主要是觉得于四个得到的压缩地址中取一个，那之前循环计算不是有些浪费计算能力吗？</p>
+<p>不多说废话，这里就贴下自己的Java验证实现代码：</p>
+<p></p>
+<pre name="code" class="java">import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.io.*;
+
+public class ShortUrl{
+	public static void main(String[] args){
+		String url = &quot;http://www.sunchis.com&quot;;
+		for(String string:ShortText(url)){
+			print(string);
+		}
+	}
+	public static String[] ShortText(String string){
+		String key = &quot;XuLiang&quot;;			//自定义生成MD5加密字符串的混合KEY
+		String[] chars = new String[]{		//要使用生成URL的字符
+			&quot;a&quot;,&quot;b&quot;,&quot;c&quot;,&quot;d&quot;,&quot;e&quot;,&quot;f&quot;,&quot;g&quot;,&quot;h&quot;,
+			&quot;i&quot;,&quot;j&quot;,&quot;k&quot;,&quot;l&quot;,&quot;m&quot;,&quot;n&quot;,&quot;o&quot;,&quot;p&quot;,
+			&quot;q&quot;,&quot;r&quot;,&quot;s&quot;,&quot;t&quot;,&quot;u&quot;,&quot;v&quot;,&quot;w&quot;,&quot;x&quot;,
+			&quot;y&quot;,&quot;z&quot;, &quot;0&quot;,&quot;1&quot;,&quot;2&quot;,&quot;3&quot;,&quot;4&quot;,&quot;5&quot;,
+			&quot;6&quot;,&quot;7&quot;,&quot;8&quot;,&quot;9&quot;,&quot;A&quot;,&quot;B&quot;,&quot;C&quot;,&quot;D&quot;,
+			&quot;E&quot;,&quot;F&quot;,&quot;G&quot;,&quot;H&quot;,&quot;I&quot;,&quot;J&quot;,&quot;K&quot;,&quot;L&quot;,
+			&quot;M&quot;,&quot;N&quot;,&quot;O&quot;,&quot;P&quot;,&quot;Q&quot;,&quot;R&quot;,&quot;S&quot;,&quot;T&quot;,
+			&quot;U&quot;,&quot;V&quot;, &quot;W&quot;,&quot;X&quot;,&quot;Y&quot;,&quot;Z&quot;
+		};
+		String hex = MD5Encode(key + string);
+		int hexLen = hex.length();
+		int subHexLen = hexLen/8;
+		String[] ShortStr = new String[4];
+
+		for(int i = 0;i &lt; subHexLen;i++){
+			String outChars = &quot;&quot;;
+			int j = i+1;
+			String subHex = hex.substring(i*8,j*8);
+			long idx = Long.valueOf(&quot;3FFFFFFF&quot;,16) &amp; Long.valueOf(subHex,16);
+			
+			for(int k = 0;k &lt; 6;k++){
+				int index = (int)(Long.valueOf(&quot;0000003D&quot;,16) &amp; idx);//这里取5位没有要求吗？不是取连续的5位
+				outChars += chars[index];
+				idx = idx &gt;&gt; 5;
+			}
+			ShortStr[i] = outChars;
+		}
+		return ShortStr;
+	}
+
+	private final static String[] hexDigits = {
+		&quot;0&quot;,&quot;1&quot;,&quot;2&quot;,&quot;3&quot;,&quot;4&quot;,&quot;5&quot;,&quot;6&quot;,&quot;7&quot;,
+		&quot;8&quot;,&quot;9&quot;,&quot;a&quot;,&quot;b&quot;,&quot;c&quot;,&quot;d&quot;,&quot;e&quot;,&quot;f&quot;
+	};
+	public static String byteArrayToHexString(byte[] b){
+		StringBuffer resultSb = new StringBuffer();
+		for(int i = 0;i &lt; b.length;i++){
+			resultSb.append(byteToHexString(b[i]));
+		}
+		return resultSb.toString();
+	}
+	
+	private static String byteToHexString(byte b){
+		int n = b;
+		if(n &lt; 0)
+			n = 256 + n;
+		int d1 = n / 16;
+		int d2 = n % 16;
+		return hexDigits[d1] + hexDigits[d2];
+	}
+
+	public static String MD5Encode(String origin){
+		String resultString = null;
+		try{
+			resultString = new String(origin);
+			MessageDigest md = MessageDigest.getInstance(&quot;MD5&quot;);
+
+			resultString.trim();
+
+			resultString = byteArrayToHexString(md.digest(resultString.getBytes(&quot;UTF-8&quot;)));
+		}catch(Exception ex){}
+		return resultString;
+	}
+
+	private static void print(Object messagr){
+		System.out.println(messagr);
+	}
+}
+</pre><br>
+<br>
+<p></p>
+</div>
+
+
+
+
+<!-- Baidu Button BEGIN -->
+
+<div class="bdsharebuttonbox" style="float: right;">
+<a href="#" class="bds_more" data-cmd="more" style="background-position:0 0 !important; background-image: url(http://bdimg.share.baidu.com/static/api/img/share/icons_0_16.png?v=d754dcc0.png) !important"></a>
+<a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"  style="background-position:0 -52px !important"></a>
+<a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"style="background-position:0 -104px !important"></a>
+<a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"style="background-position:0 -260px !important"></a>
+<a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"style="background-position:0 -208px !important"></a>
+<a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"style="background-position:0 -1612px !important" ></a>
+</div>
+<script>window._bd_share_config = { "common": { "bdSnsKey": {}, "bdText": "", "bdMini": "1", "bdMiniList": false, "bdPic": "", "bdStyle": "0", "bdSize": "16" }, "share": {} }; with (document) 0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion=' + ~(-new Date() / 36e5)];</script>
+<!-- Baidu Button END -->
+
+<!--192.168.100.36-->
+<ul 
