@@ -1,0 +1,268 @@
+结构体
+初始化写法:    tnode(){}
+	tnode(int item,tnode *p,tnode *q):data(item),left(p),right(q){}
+成员为自己类型时加struct的区别:纯C要加struct
+
+树的使用注意事项:
+创建树和插入树的返回类型都是树的类型;
+
+
+//以下为课堂笔记
+	struct info     (名字：自定义)
+	{
+		char name[10];
+		char number[15];
+		char QQ[20];
+		int  heigh;	
+	};
+
+	struct info lisi;  //定义一个结构体变量（lisi）
+	struct info *p;    //定义一个结构体指针
+
+	结构体指针引用至少要满足条件：
+	（1）指针相关联
+	struct info lisi;
+	struct info *p;
+
+	p = &lisi;//指针相关关联
+	
+	（2）为指针指向的地方开辟空间
+	struct info *piont;    //定义一个结构体指针
+	piont = (struct info *)malloc(sizeof(struct info)); //开辟空间
+
+	point->name; //通过指针引用成员
+
+
+
+结构体指针函数
+
+	struct info *fun(void)
+	{
+		struct info *p;		
+
+		p = (struct info *)malloc(sizeof(struct info));
+
+		return p;
+	}
+
+
+
+数据之间的关系
+ 
+	逻辑关系：集合（同属于一个集合） 线性关系（一对一） 树状（一对多） 图形（多对多）
+
+	存储结构
+		顺序  链式  索引  散列 
+
+		针对线性表
+			顺序存储
+				数据存储的地址是紧挨着的
+				需要预知空间大小（过少的话，数据不够存储，过多造成浪费）
+				查找数据方便；插入数据，删除数据不方便
+				 
+			
+			链式存储
+				数据是分开存储，不一定紧挨着，随系统分配，应用比较灵活
+
+
+
+		数据运算
+			增删查改
+
+		增加数据  删除数据 查找数据  修改数据
+
+		数据：存储信息
+
+链式链表：单向链表 单向循环链表 双向链表  双向循环链表  内核链表（双向循环链表）
+
+
+
+单向链表：
+
+1、节点设计
+
+struct node
+{
+	int data;
+	struct node *next;
+
+};	
+
+2、节点生成及初始化
+
+struct node *List_Init(void)
+{
+	struct node *p;
+
+	p = (struct node *)malloc(sizeof(struct node));//给结构体开辟开个空间
+	if(p == NULL)      //判断是否malloc失败
+		return NULL;
+	
+
+	p->next = NULL;   //结构体里成员next指针指向NULL;
+
+	return p;
+} 
+
+
+3、节点插入
+
+int Insert_node(struct node *p,struct node *new)
+{
+	if(p == NULL || new == NULL) //判断传过来的p与new是否为空
+		return -1;
+	
+	new->next = p->next;
+	p->next   = new;
+}
+
+4、遍历显示指针地址
+
+//4、显示链表
+
+void Display_list(struct node *head)
+{
+	int i=0;
+	struct node *P;
+	if(head->next == NULL)  //判断有无后继节点，无则返回
+		return;
+		
+	P = head->next; //指向第一个有数据的节点
+	
+	for(; P != NULL ; P=P->next) //判断退出条件及P移向下一个节点
+	{
+		printf("%d node address = %p\n",i,P);
+		i++;
+	}
+	
+}
+
+练习：遍历显示链表当中的数据
+
+5、查找数据
+
+//查找数据
+struct node * Find_node(struct node *head,int find_data)
+{
+	int i=0;
+	struct node *P;
+	if(head->next == NULL)  //判断有无后继节点，无则返回
+		return NULL;
+		
+	P = head->next; //指向第一个有数据的节点
+	
+	for(; P != NULL ; P=P->next) //判断退出条件及P移向下一个节点
+	{
+		if(P->data == find_data)  //判断节点里面的数据是否是查找的数据
+			return P;      
+	}
+
+	
+	return NULL;   //如果遍历整个链表都找不到数据，返回一个NULL
+}
+
+6、删除操作
+
+//删除操作
+int Del_node(struct node *head,struct node *del)
+{
+	struct node *P;
+	
+	if(head == NULL || del == NULL)
+		return -1;
+
+	P = head;  //P指向头节点
+	
+	for(; P != NULL; P=P->next)
+	{
+		if(P->next == del)  //判断是否找到del的前驱节点
+		{
+			P->next   = del->next;  //删除操作，结合图解来理解
+			del->next = NULL;
+			return 0;
+		}
+	}
+	
+	return -1;
+}
+
+//移动操作
+
+删除操作+插入操作
+
+void Move_node(struct node *base,struct node *move)
+{
+	Del_node(move);  //将要移动的节点解下来
+	Insert_node(base,move); //move插入到base后面
+}
+
+
+
+
+练习：使用单向链表保存以下数据25 68 45 87 98 33，然后将45移动到98后面，得到最终
+	链表结果：25 68 87 98 45 33
+
+
+
+
+练习：
+1、编写一个程序实现链表后面插入节点。
+2、使用单向链表操作实现冒泡算法（3.5星）
+3、使用单向链表实现学生信息管理系统（使用单向链表）
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,90 @@
+==============================内核链表==========================
+内核链表位置：/home/gec/Download/linux-2.6.35.7-gec/include/linux/list.h
+
+内核链表：一个双向循环链表
+
+内核链表的小结构体：
+
+struct list_head 
+{
+	
+	struct list_head *next, *prev;
+//*next用于保存下一个小结构的地址，*prev用于保存上一个小结构的地址
+};
+
+------------------------内核函数分析---------------------------
+static inline void INIT_LIST_HEAD(struct list_head *list)
+
+{
+	
+	list->next = list;
+	//指向自己
+	list->prev = list;
+      //指向自己
+} //对小结构初始化
+
+#define LIST_HEAD_INIT(name) { &(name), &(name) }
+LIST_HEAD_INIT(list) { &(list), &(list) } //对小结构体初始化
+
+static inline void list_add(struct list_head *new, struct list_head *head)//增加节点，前面插入
+
+static inline void list_add_tail(struct list_head *new, struct list_head *head) //增加节点（链表最后插入节点）
+
+list_for_each(pos, head)//小结构体遍历
+
+list_entry(ptr, type, member)//从小结构体得大结构体的指针的宏
+
+list_for_each_entry(pos, head, member)//直接遍历得到大结构体
+
+list_for_each_safe(pos, n, head)//安全遍历删除
+
+list_del(struct list_head *entry)//删除节点
+
+list_del_init(struct list_head *entry)//删除节点后并初始删除的节点
+
+list_move(struct list_head *list,
+struct list_head *head)//节点移动，list插入head后面
+
+list_move_tail(struct list_head *list,
+struct list_head *head)//移动到链表后面，list插入到head前面
+
+
+1、节点设计
+struct kernel_list
+{
+	int data;	
+	struct list_head list; //内核链表
+};
+
+//节点初始化
+struct kernel_list *Kernel_list_Init(void)
+{	
+	struct kernel_list *P = (struct kernel_list *)malloc(sizeof(struct kernel_list));		
+	if(P == NULL )		
+		return NULL;			
+	INIT_LIST_HEAD(&P->list); //对小结构体初始化		
+	return P;
+}
+
+
+练习：
+      （1）结合内核链表，实现移动操作
+      （2）生成8节点并用内核链表连接，通过按n显示下一节点数据，按s显示上一个节点数据
+      （3）通过终端传参，选程序的功能模块（程序有自己加载几个节点）
+	./kernel_list d  //删除节点
+	同理：p（显示）m(移动) f(查找) a(增加)
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+

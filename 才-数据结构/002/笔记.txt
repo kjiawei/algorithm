@@ -1,0 +1,129 @@
+=============================双向循环链表=========================
+
+
+1、节点设计
+struct node
+{
+	int data;  //数据
+	struct node *prev; //用于指向前一个节点的指针
+	struct node *next; //用于指向后一个节点的指针
+};
+
+2、节点生成及初始化
+struct node *Double_Init(void)
+{
+	struct node *double_node; //定义一个结构体指针变量
+	
+	double_node = (struct node *)malloc(sizeof(struct node)); //为节点开辟空间
+	if(double_node == NULL)
+		return NULL;
+	
+	double_node->next = double_node;//指向自己
+	double_node->prev = double_node;//指向自己
+	
+	//double_node->next = double_node->prev = double_node;
+	
+	return double_node; //返回指针
+}
+
+3、节点插入,new插入到basic后面
+void Double_insert(struct node *basic,struct node *new)
+{
+	if(basic == NULL || new == NULL)
+		return ;
+
+	new->next 	= basic->next;  //结合图解（1）
+	new->prev 	= basic;	//结合图解（2）
+	basic->next->prev = new;	//结合图解（3）
+	basic->next	=new;		//结合图解（4）
+}
+
+练习：1、根据图示图解，编写遍历显示链表的代码
+
+
+4、显示链表
+//显示链表
+void Display_list(struct node *head)
+{
+	int i=0;
+	struct node *P;
+	
+	if(head->next == NULL)  //判断有无后继节点，无则返回
+		return;
+		
+	P = head->next; //指向第一个有数据的节点
+	printf("=======================数据显示=======================\n");
+	
+	for(; P != head ; P=P->next) //判断退出条件及P移向下一个节点
+	{
+		printf("%d node address = %p\n",i,P);
+		printf("P->data: %d\n",P->data);
+		i++;
+	}
+}
+
+
+5、查找数据节点
+
+struct node *Find_Data_Node(struct node *head,int Find_data)
+{
+	struct node *P;
+	
+	if(head->next == NULL)  //判断有无后继节点，无则返回
+		return;
+		
+	P = head->next; //指向第一个有数据的节点
+	
+	for(; P != head ; P=P->next) //判断退出条件及P移向下一个节点
+	{
+		if(P->data == Find_data)  //判断节点里面的数据是否等于查找的数据
+			return P;
+	}
+
+	return NULL;
+}
+
+
+6、删除节点（未free）
+
+
+	if(del == NULL)
+		return -1;
+
+	del->prev->next = del->next; //结合图解（1）
+	del->next->prev = del->prev; //结合图解（2）
+
+	del->next = del;	//结合图解（3），让del->next指向自己
+	del->prev = del;	//结合图解（4），让del->prev指向自己
+
+
+练习：结合图示，完成节点移动操作
+	（1）删除节点
+	（2）插入节点
+
+
+
+练习：（1）输入8个学生信息，信息包括（学号，姓名，身高，性别），通过双向循环链表将学生信息连接一起，通过学号查找学生信息，找到学生学号之后，将学生的信息全部打印出来
+      （2）通过在输入时遍历节点数据大小，实现输入的数据从小到大排序。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
